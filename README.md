@@ -1,5 +1,17 @@
 # Lginsweb
 
+
+need Node v8.11.2
+
+sudo npm install @angular/cli -g
+
+
+if angular.json error coming please use below code
+
+for updating Cli ----    ng update @angular/cli
+
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
 
 ## Development server
