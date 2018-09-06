@@ -1,0 +1,353 @@
+<div class="animated fadeIn">
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+
+    <p>A division of a large organization such as a government, university, or business, dealing with a specific area of
+        activity.Specialized functional area within an organization or a division, such as accounting, marketing,
+        planning. Generally every course has its own manager and chain of command.
+
+    </p>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Department / Course
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="studentListForm" class="form-horizontal">
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label">Select Department</label>
+
+                            <div class="col-md-6 input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-wallet"></i></span>
+                                </div>
+
+                                <select name="drwnDepartment" class="form-control form-control-sm"
+                                        (change)="getValueInDepartment($event.target.value)">
+                                    <option [ngValue]="null" disabled>Choose Department</option>
+                                    <option *ngFor="let department of departmentList">
+                                        {{ department.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label">Select Course</label>
+
+                            <div class="col-md-6 input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-badge"></i></span>
+                                </div>
+
+                                <select name="drwnCourse" class="form-control form-control-sm"
+                                        (change)="getValueInCourse($event.target.value)">
+                                    <option [ngValue]="null" disabled>Choose Course</option>
+                                    <option *ngFor="let course of courseList">
+                                        {{ course.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+            <!--- closing1st col-md-6-->
+        </div>
+
+        <!---opening 2nd col-md-6-->
+        <div class="col-md-6">
+
+        </div>
+
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Student List
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="progress-group">
+                                <div class="progress-group-header">
+                                    <i class="icon-user progress-group-icon"></i>
+
+                                    <div>Male ({{maleCount}})</div>
+                                    <div class="ml-auto font-weight-bold">{{malePercentage}}</div>
+                                </div>
+                                <div class="progress-group-bars">
+                                    <div class="progress progress-xs">
+                                        <div class="progress-bar bg-warning" role="progressbar"
+                                             [ngStyle]="{'width':getWidhSizeInMale()}" aria-valuenow="100"
+                                             aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--/.col-->
+                        <div class="col-sm-6">
+                            <div class="progress-group ">
+                                <div class="progress-group-header">
+                                    <i class="icon-user-female progress-group-icon"></i>
+
+                                    <div>Female ({{femaleCount}})</div>
+                                    <div class="ml-auto font-weight-bold">{{femalePercentage}}</div>
+                                </div>
+                                <div class="progress-group-bars">
+                                    <div class="progress progress-xs">
+                                        <div class="progress-bar bg-warning" role="progressbar"
+                                             [ngStyle]="{'width':getWidhSizeInFeMale()}" aria-valuenow="43"
+                                             aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--/.col-->
+                    </div>
+                    <!--/.row-->
+                    <br>
+
+
+                    <span style="float:right;margin-bottom:10px">
+                        <input type="search" [ngStyle]="{ 'background-image': 'url(' + backgroundImage + ')'}"
+                               [(ngModel)]="searchText" placeholder="search text goes here">
+                    </span>
+
+                    <table class="table table-responsive-sm table-hover table-outline mb-0">
+                        <thead class="thead-light">
+                        <tr>
+                            <th>S.NO</th>
+                            <th class="text-center"><i class="icon-people"></i></th>
+                            <th>User</th>
+                            <th class="text-center">Country</th>
+                            <th>Attendance</th>
+                            <th>
+                                Activity
+                            </th>
+                            <th>
+
+                                Actions
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngIf="desData!=''">
+                            <td colspan="7" class="txt-align-center">
+                                No User Found
+                            </td>
+
+                        </tr>
+                        <ng-template ngFor let-user [ngForOf]="userGetDataList | filter:searchText" let-name="$implicit"
+                                     let-i="index">
+
+                            <tr>
+                                <td class="text-center">
+                                    {{i+1}}
+                                </td>
+                                <td class="text-center">
+                                    <div class="avatar">
+                                        <img src="{{user.profileImage}}" class="img-avtar img-avatar-style"
+                                             onError="this.src='../assets/img/avatars/avatar-male.png';"
+                                             alt="{{user.emailId}}">
+                                        <span class="avatar-status badge-success"></span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>{{user.fName}} {{user.lName}}</div>
+                                    <div class="small text-muted">
+                                        <span>{{user.emailId}}</span><br>
+                                    </div>
+                                    <div class="small text-muted">
+                                        <span>User Name : {{user.userName}}</span> | User Id :{{user.userId}}<br>
+                                    </div>
+                                    <div class="small text-muted">
+                                        <span>New</span> | Registered : {{user.dateCreated | date:'dd MMM yyyy'}}
+                                    </div>
+                                </td>
+                                <td class="text-center">
+
+                                    <i class="flag-icon flag-icon-in h4 mb-0" title="in" id="in"></i>
+
+                                    <div class="small text-muted">
+                                        <span>PH : {{user.phone}}</span><br>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="clearfix">
+                                        <div class="float-left">
+                                            <strong>50%</strong>
+                                        </div>
+                                        <div class="float-right">
+                                            <small class="text-muted">Jun 11, 2018 - Jul 10, 2018</small>
+                                        </div>
+                                    </div>
+                                    <div class="progress progress-xs">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 50%"
+                                             aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="small text-muted">Last login</div>
+                                    <strong>10 sec ago</strong>
+                                </td>
+                                <td>
+                                     <span class="badge badge-success"
+                                           data-target="#viewModal"
+                                           (click)="goToViewUserPopUp(user)">&nbsp;View &nbsp; </span>
+
+
+                                    <span class="badge badge-danger"
+                                          (click)="goToEditUserNamePopUp(user)">&nbsp;Edit&nbsp;</span>
+                                <span id="openModalButton" class="badge badge-warning" data-toggle="modal"
+                                      data-target="#warningModal"
+                                      (click)="goToDeleteStudentPopUp(user)">Delete</span>
+
+                                </td>
+                            </tr>
+                        </ng-template>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+        <!--/.col-->
+    </div>
+    <!--/.row-->
+</div>
+
+
+
+<div bsModal #warningModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-warning" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Student List Delete </h4>
+                <button type="button" class="close" (click)="warningModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{msgInPopup}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="warningModal.hide()">No</button>
+                <button type="button" class="btn btn-warning" (click)=" goToConFirmDelete()">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div bsModal #viewModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">View Student</h4>
+                <button type="button" class="close" (click)="viewModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <strong>{{userData.fName}} {{userData.lName}}</strong>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="col-md-40">
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">UserId </label>
+
+                                        <div class="col-md-9 col-form-label">
+                                            {{userData.userId}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">Name </label>
+
+                                        <div class="col-md-9 col-form-label">
+                                            {{userData.fName}} {{userData.lName}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">EmailId </label>
+
+                                        <div class="col-md-9 col-form-label">
+                                            <span>{{userData.emailId}}</span><br>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">UserName </label>
+
+                                        <div class="col-md-9 col-form-label">
+                                            {{userData.userName}}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">Date </label>
+
+                                        <div class="col-md-9 col-form-label">
+                                            {{userData.dateCreated | date:'dd MMM yyyy'}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">Phone no </label>
+
+                                        <div class="col-md-9 col-form-label ">
+                                            <span> <i class="icon-phone"></i>
+                                            </span>
+                                            <span> {{userData.phone}}</span><br>
+                                        </div>
+                                    </div>
+
+
+                                    <!--istcol-md-6--closingtag-->
+                                </div>
+                                <!--second opening col-md-6-->
+
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <img [src]="url" onError="this.src='../assets/img/no_image.png';"
+                                                 height="120px" width="120px">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+
+
+

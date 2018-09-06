@@ -1,0 +1,188 @@
+
+<div class="animated fadeIn">
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+    <div class="row">
+
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <strong>FeesType Type Add</strong> Form
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="feeTypeForm" (ngSubmit)="onSubmit()">
+                        <div class=" row">
+                            <div class="lbl-heading">Fees Type :</div>
+                            <div class="col-md-12 input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-organization"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Enter the Fees Type "
+                                       formControlName="feesType"
+                                       onkeypress="return onlyAlphabetsAndSpace(event,this);"
+                                       class="form-control" [ngClass]="{ 'is-invalid': submitted && f.feesType.errors }">
+                                <div *ngIf="submitted && f.feesType.errors" class="invalid-feedback">
+                                    <div *ngIf="f.feesType.errors.required">FeesType Type is required</div>
+                                    <div *ngIf="f.feesType.errors.minlength">FeesType Type must be at least 3 characters
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div [ngClass]="{ 'invalid-feedback': submitted && f.feesType.errors }">
+                            Enter the FeesType Types like given format. For example Tution Fees,Exam Fees... .
+                        </div>
+
+                        <div class=" row">
+                            <div class="lbl-heading">Fees Amount :</div>
+                            <div class="col-md-12 input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-organization"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Enter the Fees Amount "
+                                       formControlName="feesAmount"
+                                       onkeypress="return  isNumberKey(event,this);"
+                                       class="form-control" [ngClass]="{ 'is-invalid': submitted && f.feesAmount.errors }">
+                                <div *ngIf="submitted && f.feesAmount.errors" class="invalid-feedback">
+                                    <div *ngIf="f.feesAmount.errors.required">Fees Amount  is required</div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row pad_left_15 no_margin_right float_rigt">
+                            <div class="form-group ">
+                                <button type="reset" class="btn px-4 btn-danger"><i class="fa fa-ban"></i> Reset
+                                </button>
+                                <button type="submit" class="btn px-4 btn-primary mar_right_10"><i
+                                        class="fa fa-dot-circle-o"></i> Submit
+                                </button>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-align-justify"></i>Fees Type All
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped table-sm">
+                        <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Fees Type</th>
+                            <th>Fees Amount</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngIf="desData!=''">
+                            <td colspan="4" class="txt-align-center">
+                                No Fees Type Found
+                            </td>
+                        </tr>
+
+                        <ng-template ngFor let-feesType [ngForOf]="feesTypeList" let-name="$implicit"
+                                     let-i="index">
+                            <tr>
+                                <td> {{i+1}}</td>
+                                <td> {{feesType.feeType}}</td>
+                                <td> {{feesType.amount}}</td>
+                                <td>
+                                    <span class="badge badge-danger"
+                                          (click)="goToEditFeesTypePopUp(feesType)">&nbsp;Edit&nbsp;</span>
+                                   <span id="openModalButton" class="badge badge-warning" data-toggle="modal"
+                                         data-target="#warningModal"
+                                         (click)="goToDeleteFeesTypePopUp(feesType)">Delete</span>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit FeesType Type</h4>
+                <button type="button" class="close" (click)="editModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <form [formGroup]="editFeeTypeForm" (ngSubmit)="onEditSubmit()">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-organization"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Enter the FeesType Type "
+                                       formControlName="editFeesTypeType"
+                                       onkeypress="return onlyAlphabetsAndSpace(event,this);"
+                                       [ngModel]="getFeesTypeTypeData.subjectType"
+                                       class="form-control"
+                                       [ngClass]="{ 'is-invalid': editSubmitted && e.editFeesTypeType.errors }">
+
+                                <div *ngIf="editSubmitted && e.editFeesTypeType.errors" class="invalid-feedback">
+                                    <div *ngIf="e.editFeesTypeType.errors.required">FeesType Type is required</div>
+                                    <div *ngIf="e.editFeesTypeType.errors.minlength">FeesType Type must be at least 3
+                                        characters
+                                    </div>
+                                </div>
+                                <div class="pad_top_10"
+                                     [ngClass]="{ 'invalid-feedback': submitted && e.editFeesTypeType.errors }">
+                                    Enter the FeesType Types like given format. For example Practical, Theory... .
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn px-4 btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                <button type="submit" class="btn btn-primary" (click)="onEditSubmit()">Save changes</button>
+            </div>
+        </div>
+        &lt;!&ndash; /.modal-content &ndash;&gt;
+    </div>
+    &lt;!&ndash; /.modal-dialog &ndash;&gt;
+</div>--><!-- /.modal -->
+
+
+<div bsModal #warningModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-warning" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">FeesType Delete</h4>
+                <button type="button" class="close" (click)="warningModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{msgInPopup}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="warningModal.hide()">No</button>
+                <button type="button" class="btn btn-warning" (click)=" goToConFirmDelete()">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->

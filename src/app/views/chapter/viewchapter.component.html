@@ -1,0 +1,486 @@
+<div class="animated fadeIn">
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+    <p>A division of a large organization such as a government, university, or business, dealing with a specific area of
+        activity.Specialized functional area within an organization or a division, such as accounting, marketing,
+        planning. Generally every course has its own manager and chain of command.
+
+    </p>
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>View Chapter</strong>form
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="chapterForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Department</label>
+
+                                <div class="col-md-9 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-wallet"></i></span>
+                                    </div>
+                                    <select name="drwnDepartment" class="form-control form-control-sm"
+                                            (change)="getValueInDepartment($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Department</option>
+                                        <option *ngFor="let department of departmentList">
+                                            {{ department.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Select Course</label>
+
+                                <div class="col-md-9 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-badge"></i></span>
+                                    </div>
+
+                                    <select name="drwnCourse" class="form-control form-control-sm"
+                                            (change)="getValueInCourse($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Course</option>
+                                        <option *ngFor="let course of courseList">
+                                            {{ course.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label"> Subject :</label>
+
+                                <div class="col-md-9 input-group mb-3 ">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-note"></i></span>
+                                    </div>
+
+                                    <select name="drwnCourse" class="form-control form-control-sm"
+                                            (change)="getValueInSubject($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Subject</option>
+                                        <option *ngFor="let subject of subjectList">
+                                            {{ subject.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i>Chapter
+
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <img src="../assets/administration.jpeg" alt="" height="180px" width="180px">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            View Chapter
+        </div>
+        <div class="card-body">
+                     <span style="float:right;margin-bottom:10px">
+                        <input type="search" [ngStyle]="{ 'background-image': 'url(' + backgroundImage + ')'}"
+                               [(ngModel)]="searchText" placeholder="search text goes here">
+                    </span>
+            <table class="table table-responsive-sm table-hover table-outline mb-0">
+                <thead class="thead-light">
+                <tr>
+                    <th class="text-center">Sl.No</th>
+                    <th class="text-center">Image</th>
+                    <th class="text-center">Chapter Title</th>
+                    <th class="text-center">Description</th>
+                    <th class="text-center">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngIf="desChapterData!=''">
+                    <td colspan="8" class="txt-align-center">
+                        No Chapters Found
+                    </td>
+
+                </tr>
+                <ng-template ngFor let-chapter [ngForOf]="chapterList | filter:searchText " let-name="$implicit"
+                             let-i="index">
+                    <tr>
+                        <td class="text-center" style="width:20px">
+                            {{i+1}}
+                        </td>
+                        <td class="text-center" style="width:50px">
+                            <div class="avatar">
+                                <img src="{{chapter.chapterImage}}" class="img-avatar-style no-border"
+                                     onError="this.src='assets/img/no_image.png';"
+                                     alt="{{chapter.chapterImage}}">
+                            </div>
+                        </td>
+                        <td class="text-center" style="width:200px">
+
+                            <div>{{chapter.chapterTitle}}</div>
+                        </td>
+                        <td class="text-center" style="width:400px">
+
+                            <div>{{chapter.description}}</div>
+                        </td>
+
+                        <td class="text-center" style="width:200px">
+                                    <span class="badge badge-success"
+                                          data-target="#viewModal"
+                                          (click)="goToViewChapterPopUp(chapter)">&nbsp;View &nbsp; </span>
+
+                                 <span class="badge badge-danger"
+                                       (click)="goToEditChapterPopUp(chapter)">&nbsp;Edit&nbsp;</span>
+                                <span id="openModalButton" class="badge badge-warning" data-toggle="modal"
+                                      data-target="#warningModal"
+                                      (click)="goToDeleteChapterPopUp(chapter)">Delete</span>
+
+                        </td>
+                    </tr>
+                </ng-template>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+<div bsModal #warningModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-warning" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Chapter</h4>
+                <button type="button" class="close" (click)="warningModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{msgInPopup}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="warningModal.hide()">No</button>
+                <button type="button" class="btn btn-warning" (click)=" goToConFirmDelete()">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div bsModal #viewModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">View Chapter</h4>
+                <button type="button" class="close" (click)="viewModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>{{chapterData.chapterTitle}}</strong>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="col-md-40">
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">Name </label>
+
+                                        <div class="col-md-9 col-form-label">
+                                            {{chapterData.chapterTitle}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3  col-form-label"
+                                               for="textarea-input">Description </label>
+
+                                        <div class="col-md-9 col-form-label ">
+                                            {{departmentData.description}}
+
+                                        </div>
+                                    </div>
+
+
+                                    <!--istcol-md-6--closingtag-->
+                                </div>
+                                <!--second opening col-md-6-->
+
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <img [src]="url" onError="this.src='../assets/img/no_image.png';"
+                                                 height="120px" width="120px">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+        <form [formGroup]="editChapterForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Chapter</h4>
+                    <button type="button" class="close" (click)="editModal.hide()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Chapter List</strong> Form
+                        </div>
+                        <div class="card-body">
+
+                            <div class="col-md-40">
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                        <div class="card-body">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label">Dept</label>
+
+                                                <div class="col-md-9 input-group mb-3">
+                                                   <span> {{chapDept}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label">Course</label>
+
+                                                <div class="col-md-9 input-group mb-3">
+                                                     <span>{{chapCourse}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label"> Subject :</label>
+
+                                                <div class="col-md-9 input-group mb-3 ">
+                                                    <span>{{chapSubject}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label">Name</label>
+
+                                                <div class="col-md-9 input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="icon-user"></i></span>
+                                                    </div>
+                                                    <input type="text" formControlName="chapterTitle" id="chapterTxt"
+                                                           name="chapterTxt"
+                                                           [ngModel]="chapterData.chapterTitle"
+                                                           class="form-control"
+                                                           [ngClass]="{ 'is-invalid': submitted && f.chapterTitle.errors }"
+                                                           placeholder="Enter Chapter Name">
+
+                                                    <div *ngIf="submitted && f.chapterTitle.errors"
+                                                         class="invalid-feedback">
+                                                        <div *ngIf="f.chapterTitle.errors.required">Chapter is
+                                                            required
+                                                        </div>
+                                                        <div *ngIf="f.chapterTitle.errors.minlength">Chapter must be at
+                                                            least 3
+                                                            characters
+                                                        </div>
+                                                        <div *ngIf="f.chapterTitle.errors.maxlength">Chapter Name must
+                                                            be 100
+                                                            characters
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-md-3  col-form-label"
+                                                       for="textarea-input">Description</label>
+
+                                                <div class="col-md-9 input-group mb-3 ">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i
+                                                                class="icon-speech"></i></span>
+                                                    </div>
+                                    <textarea id="textarea-input" formControlName="chapterDescription"
+                                              id="chapterDescriptionTxt"
+                                              name="chapterDescriptionTxt"
+                                              class="form-control"
+                                              rows="6"
+                                              [ngModel]="chapterData.description"
+                                              [ngClass]="{ 'is-invalid': submitted && f.chapterDescription.errors }"
+                                              placeholder="Enter Chapter Description"></textarea>
+
+                                                    <div *ngIf="submitted && f.chapterDescription.errors"
+                                                         class="invalid-feedback">
+                                                        <div *ngIf="f.chapterDescription.errors.required">Description is
+                                                            required
+                                                        </div>
+                                                        <div *ngIf="f.chapterDescription.errors.minlength">Description
+                                                            must be
+                                                            at least 5 characters
+                                                            <div *ngIf="f.chapterDescription.errors.maxlength">
+                                                                Description must
+                                                                be at maximum 500 characters
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <!--istcol-md-6--closingtag-->
+                                        </div>
+                                        <!--second opening col-md-6-->
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-12 text-center ">
+                                                    <img [src]="chapterData.chapterImage"  [ngModel]="chapterData.chapterImage" height="120px" width="120px">
+                                                </div>
+                                                <!--<div class="col-md-4 text-center img-div">
+                                                    <img [src]="chapterData.chapterImage"
+                                                         [ngModel]="chapterData.chapterImage"
+                                                         onError="this.src='../assets/img/no_image.png';"
+                                                         height="120px" width="120px">
+
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="form-group row">
+                                                        <label class="col-md-4 col-form-label">Name :</label>
+
+                                                        <div class="col-md-8 input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i
+                                                                    class="icon-doc"></i></span>
+                                                            </div>
+                                                            <input type="text" formControlName="chosenFileName"
+                                                                   name="fileNameTxt" id="fileNameTxt"
+                                                                   [(ngModel)]="chosenFileName"
+                                                                   class="form-control"
+                                                                   [ngClass]="{ 'is-invalid': submitted && f.chosenFileName.errors }"
+                                                                   class="form-control"
+                                                                   placeholder="File Name">
+
+                                                            <div *ngIf="submitted && f.chosenFileName.errors"
+                                                                 class="invalid-feedback">
+                                                                <div *ngIf="f.chosenFileName.errors.required">File Name
+                                                                    is
+                                                                    required
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-md-4 col-form-label">Type :</label>
+
+                                                        <div class="col-md-8 input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i
+                                                                    class="icon-docs"></i></span>
+                                                            </div>
+                                                            <input type="text" formControlName="chosenFileType"
+                                                                   [(ngModel)]="chosenFileType"
+                                                                   name="fileTypeTxt" id="fileTypeTxt"
+                                                                   class="form-control"
+                                                                   [ngClass]="{ 'is-invalid': submitted && f.chosenFileType.errors }"
+                                                                   class="form-control"
+                                                                   placeholder="File Type">
+
+                                                            <div *ngIf="submitted && f.chosenFileType.errors"
+                                                                 class="invalid-feedback">
+                                                                <div *ngIf="f.chosenFileType.errors.required">File Type
+                                                                    is
+                                                                    required
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-4 col-form-label">Size :</label>
+
+                                                        <div class="col-md-8 input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i
+                                                                    class="icon-drawer"></i></span>
+                                                            </div>
+                                                            <input type="text" formControlName="chosenFileSize"
+                                                                   name="fileSizeTxt" id="fileSizeTxt"
+                                                                   [(ngModel)]="chosenFileSize"
+                                                                   class="form-control"
+                                                                   [ngClass]="{ 'is-invalid': submitted && f.chosenFileSize.errors }"
+                                                                   class="form-control"
+                                                                   placeholder="File Size">
+
+                                                            <div *ngIf="submitted && f.chosenFileSize.errors"
+                                                                 class="invalid-feedback">
+                                                                <div *ngIf="f.chosenFileSize.errors.required">File Size
+                                                                    is
+                                                                    required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <label class="btn btn-default">
+                                                    <input type="file" accept=".png, .jpg, .jpeg"
+                                                           (change)="selectFile($event)">
+                                                </label>-->
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn px-4 btn-danger" (click)="goEditReset()"><i
+                                class="fa fa-ban"></i> Reset
+                        </button>
+                        <button type="button" class="btn btn-primary" (click)="onEditSubmit()">Save changes</button>
+                    </div>
+
+                </div>
+                <!-- /.modal-content -->
+            </div>
+        </form>
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

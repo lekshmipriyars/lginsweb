@@ -1,0 +1,331 @@
+<div class="animated fadeIn">
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+    <div class="col-md-12">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <b> Department List</b>
+                </div>
+                <div class="card-body">
+                    <div style="margin: auto; max-width: 1000px; margin-bottom: 50px;" >
+                        <data-table id="search-grid"
+                                    headerTitle="Department List"
+                                    [pagination_limit]="true"
+                                    [items]="items"
+                                    [itemCount]="itemCount"
+                                    (reload)="reloadItems($event)"
+                                    (rowClick)="rowClick($event)"
+                                    (rowDoubleClick)="rowDoubleClick($event)"
+                                    [rowTooltip]="rowTooltip">
+                            <data-table-column
+                                    [property]="'name'"
+                                    [header]="'Name'"
+                                    [sortable]="true"
+                                    [resizable]="true"
+                                    width="150px"
+                                    [searchable]="true">
+                            </data-table-column>
+
+                            <data-table-column
+                                    property="departmentImage"
+                                    header="Image"
+                                    [searchable]="false"
+                                    width="100px">
+                                <ng-template #dataTableCell let-item="item">
+                                    <img src="{{item.departmentImage}}" class="img-avatar-style no-border"
+                                         onError="this.src='../assets/img/no_image.png';"/>
+                                </ng-template>
+                            </data-table-column>
+                            <data-table-column
+                                    [property]="'description'"
+                                    [header]="'Description'"
+                                    width="150px"
+                                    [sortable]="true"
+                                    [visible]="true">
+                            </data-table-column>
+                            <data-table-column
+                                    [property]="'active'"
+                                    [header]="'Actions'"
+                                    [width]="150"
+                                    [resizable]="true"
+                                    [searchable]="false">
+                                <ng-template #dataTableHeader let-item="item">
+                                    <span style="color: rgb(232, 0, 0)">Actions</span>
+                                </ng-template>
+                                <ng-template #dataTableCell let-item="item">
+                                    <span class="badge badge-danger" (click)="goToEditNamePopUp(item)">&nbsp;Edit&nbsp;</span>
+                                <span id="openModalButton" class="badge badge-warning" data-toggle="modal"
+                                      data-target="#warningModal"
+                                      (click)="goToDeleteDepartmentPopUp(item)">Delete</span>
+
+                                </ng-template>
+                            </data-table-column>
+                        </data-table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+        <form [formGroup]="editDepartmentForm" (ngSubmit)="onEditSubmit()" class="form-horizontal"
+              class="form-horizontal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Department</h4>
+                    <button type="button" class="close" (click)="editModal.hide()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Department List</strong> Form
+                        </div>
+                        <div class="card-body">
+
+                            <div class="col-md-40">
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 col-form-label">Name :</label>
+
+                                            <div class="col-md-9 input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="icon-layers"></i></span>
+                                                </div>
+                                                <input type="text" formControlName="editDepartmentName" id="NameTxt"
+                                                       name="NameTxt"
+                                                       class="form-control"
+                                                       [ngModel]="editDepartmentData.name"
+                                                       [ngClass]="{ 'is-invalid': editSubmitted && e.editDepartmentName.errors }"
+                                                       placeholder="Enter Department Name">
+
+                                                <div *ngIf="editSubmitted && e.editDepartmentName.errors"
+                                                     class="invalid-feedback">
+                                                    <div *ngIf="e.editDepartmentName.errors.required">Department Name is
+                                                        required
+                                                    </div>
+                                                    <div *ngIf="e.editDepartmentName.errors.minlength">Department Name must be at least 3 characters</div>
+                                                    <div *ngIf="e.editDepartmentName.errors.maxlength">Department Name must be at least 30 characters</div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-3  col-form-label" for="textarea-input">Description
+                                                :</label>
+
+                                            <div class="col-md-9 input-group mb-3 ">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="icon-speech"></i></span>
+                                                </div>
+                                    <textarea id="textarea-input" formControlName="editDepartmentDescription"
+                                              id="descriptionTxt" name="descriptionTxt"
+                                              [ngModel]="editDepartmentData.description"
+                                              class="form-control"
+                                              rows="6"
+                                              [ngClass]="{ 'is-invalid': editSubmitted && e.editDepartmentDescription.errors }"
+                                              placeholder="Enter department Description"></textarea>
+
+                                                <div *ngIf="editSubmitted && e.editDepartmentDescription.errors"
+                                                     class="invalid-feedback">
+                                                    <div *ngIf="e.editDepartmentDescription.errors.required">Description is
+                                                        required
+                                                    </div>
+                                                    <div *ngIf="e.editDepartmentDescription.errors.minlength">Description
+                                                        must be at least 5 characters
+                                                    </div>
+                                                    <div *ngIf="e.departmentDescription.errors.maxlength">Description
+                                                        must be at least 500 characters
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!--istcol-md-6--closingtag-->
+                                    </div>
+                                    <!--second opening col-md-6-->
+
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-12 text-center ">
+                                                <img [src]="editDepartmentData.departmentImage"  [ngModel]="editDepartmentData.departmentImage" height="120px" width="120px">
+                                            </div>
+
+                                         <!--   <div class="col-md-8">
+                                                <div class="form-group row">
+                                                    <label class="col-md-4 col-form-label">Name :</label>
+
+                                                    <div class="col-md-8 input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i
+                                                                    class="icon-doc"></i></span>
+                                                        </div>
+                                                        <input type="text" formControlName="chosenFileName"
+                                                               name="fileNameTxt" id="fileNameTxt"
+                                                               [ngModel]="chosenFileName"
+                                                               class="form-control"
+                                                               class="form-control"
+                                                               placeholder="File Name">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-md-4 col-form-label">Type :</label>
+
+                                                    <div class="col-md-8 input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i
+                                                                    class="icon-docs"></i></span>
+                                                        </div>
+                                                        <input type="text"
+                                                               [ngModel]="chosenFileType"
+                                                               name="fileTypeTxt" id="fileTypeTxt"
+                                                               class="form-control"
+                                                               class="form-control"
+                                                               placeholder="File Type">
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-md-4 col-form-label">Size :</label>
+
+                                                    <div class="col-md-8 input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i
+                                                                    class="icon-drawer"></i></span>
+                                                        </div>
+                                                        <input type="text"
+                                                               name="fileSizeTxt" id="fileSizeTxt"
+                                                               [(ngModel)]="chosenFileSize"
+                                                               class="form-control"
+                                                               class="form-control"
+                                                               placeholder="File Size">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <label class="btn btn-default">
+                                                <input type="file" accept="image/*" (change)="selectFile($event)">
+                                            </label>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn px-4 btn-danger" (click)="goEditReset()"><i class="fa fa-ban"></i> Reset</button>
+                    <button type="button" class="btn btn-primary" (click)="onEditSubmit()">Save changes</button>
+                </div>
+
+            </div>
+            <!-- /.modal-content -->
+        </form>
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div bsModal #warningModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-warning" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Department</h4>
+                <button type="button" class="close" (click)="warningModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{msgInDeletePopup}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="warningModal.hide()">No</button>
+                <button type="button" class="btn btn-warning" (click)=" goToConFirmDelete()">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div bsModal #viewModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">View Department</h4>
+                <button type="button" class="close" (click)="viewModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>{{departmentData.name}}</strong>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="col-md-40">
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">Name </label>
+
+                                        <div class="col-md-9 col-form-label">
+                                           {{departmentData.name}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" *ngIf="departmentData.description!=null">
+                                        <label class="col-md-3  col-form-label" for="textarea-input">Description </label>
+
+                                        <div class="col-md-9 col-form-label ">
+                                            {{departmentData.description}}
+
+                                        </div>
+                                    </div>
+
+
+                                    <!--istcol-md-6--closingtag-->
+                                </div>
+                                <!--second opening col-md-6-->
+
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <img [src]="url" onError="this.src='../assets/img/no_image.png';"
+                                                 height="120px" width="120px">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

@@ -1,0 +1,189 @@
+<div class="animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+               View Question
+            </div>
+            <div class=" card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">
+                            <strong>Question Type</strong>
+                        </label>
+                        <label class="col-md-3 col-form-label" style="color: green">
+                            Multiple Choices
+                        </label>
+
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">
+                            <strong > Question </strong>
+                        </label>
+
+
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-8 col-form-label" [innerHTML]="assembleHTMLItem(test)">
+                        </label>
+
+
+                    </div>
+
+                    </div>
+                    <div class="col-md-8">
+                    <div class="col-md-12">
+                         <span class="sp-lbl" [ngStyle]="quesData.choiceA==quesData.answer?{'background':'lightgreen','color':'#333'}:{'background':'#20a8d8'}">
+                            Choice A
+                        </span>
+                        <div class=" card" [ngStyle]="quesData.choiceA==quesData.answer?{'background':'lightgreen'}:{'background':'white','border': '2px solid lightgrey'}">
+                            <div class=" card-body">
+                                <div id="divChoice">
+                                    <tr >
+                                        <td style="width:10%;">
+                                            <span class="span-choice">A</span>
+                                        </td>
+                                        <td>
+                                            <label class="col-md-8 col-form-label"[innerHTML]="assembleHTMLItem(quesData.choiceA)">
+                                            </label>
+                                        </td>
+                                    </tr>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <span class="sp-lbl" [ngStyle]="quesData.choiceB==quesData.answer?{'background':'lightgreen','color':'#333'}:{'background':'#20a8d8'}">
+                            Choice B
+                        </span>
+                        <div class=" card" [ngStyle]="quesData.choiceB==quesData.answer?{'background':'lightgreen'}:{'background':'white','border': '2px solid lightgrey'}">
+                            <div class=" card-body">
+                                <div>
+                                    <tr>
+                                        <td style="width:10%;">
+                                            <span class="span-choice">B</span>
+                                        </td>
+                                        <td>
+                                            <label class="col-md-8 col-form-label"[innerHTML]="assembleHTMLItem(quesData.choiceB)">
+                                            </label>
+                                        </td>
+                                    </tr>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                         <span class="sp-lbl" [ngStyle]="quesData.choicecC==quesData.answer?{'background':'lightgreen','color':'#333'}:{'background':'#20a8d8'}">
+                            Choice C
+                        </span>
+                        <div class=" card" [ngStyle]="quesData.choiceC==quesData.answer?{'background':'lightgreen'}:{'background':'white','border': '2px solid lightgrey'}">
+                            <div class=" card-body">
+                                <div>
+                                    <tr>
+                                        <td style="width:10%;">
+                                            <span class="span-choice">C</span>
+                                        </td>
+                                        <td>
+                                            <label class="col-md-8 col-form-label"[innerHTML]="assembleHTMLItem(quesData.choiceC)">
+                                            </label>
+                                        </td>
+                                    </tr>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                         <span class="sp-lbl" [ngStyle]="quesData.choiceD==quesData.answer?{'background':'lightgreen','color':'#333'}:{'background':'#20a8d8'}" >
+                            Choice D
+                        </span>
+                        <div class=" card" [ngStyle]="quesData.choiceD==quesData.answer?{'background':'lightgreen'}:{'background':'white','border': '2px solid lightgrey'}">
+                            <div class=" card-body">
+                                <div>
+                                    <tr>
+                                        <td style="width:10%;">
+                                            <span class="span-choice">D</span>
+                                        </td>
+                                        <td>
+                                            <label class="col-md-8 col-form-label"[innerHTML]="assembleHTMLItem(quesData.choiceD)">
+                                            </label>
+                                        </td>
+                                    </tr>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                         <span class="sp-lbl" [ngStyle]="quesData.choiceE==quesData.answer?{'background':'lightgreen','color':'#333'}:{'background':'#20a8d8'}">
+                            Choice E
+                        </span>
+                        <div class="card" [ngStyle]="quesData.choiceE==quesData.answer?{'background':'lightgreen'}:{'background':'white','border': '2px solid lightgrey'}">
+                            <div class=" card-body">
+                                <div>
+                                    <tr>
+                                        <td style="width:10%;">
+                                            <span class="span-choice">E</span>
+                                        </td>
+                                        <td>
+                                            <label class="col-md-8 col-form-label"[innerHTML]="assembleHTMLItem(quesData.choiceE)">
+                                            </label>
+                                        </td>
+                                    </tr>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="col-md-4">
+                    <div class="col-md-12">
+                         <span class="sp-lbl" [ngStyle]="quesData.choiceA==quesData.answer?{'background':'lightgreen','color':'#333'}:{'background':'#20a8d8'}">
+                            Explanation
+                        </span>
+                        <div class=" card" [ngStyle]="quesData.choiceA==quesData.answer?{'background':'lightgreen'}:{'background':'white','border': '2px solid lightgrey'}">
+                            <div class=" card-body">
+                                <div id="divChoice">
+                                    <tr >
+
+                                        <td>
+                                            <label *ngIf="quesData.explanation!=''" class="col-md-8 col-form-label"[innerHTML]="assembleHTMLItem(quesData.explanation)">
+                                            </label>
+                                            <label *ngIf="quesData.explanation==''" class="col-md-12 col-form-label">
+                                                No Explanation
+                                            </label>
+                                        </td>
+                                    </tr>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

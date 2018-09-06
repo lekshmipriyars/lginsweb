@@ -1,0 +1,231 @@
+<div class="app-body">
+    <main class="main d-flex align-items-center">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-6 mx-auto">
+                    <div class="card mx-4">
+                        <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+                            <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+                        </div>
+                        <div class="card-body p-4">
+                            <h1>Register</h1>
+
+                            <p class="text-muted">Create your account</p>
+
+                            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">@</span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Institute Email Id"
+                                           formControlName="insEmailId" class="form-control"
+                                           [ngClass]="{ 'is-invalid': submitted && f.insEmailId.errors }">
+
+                                    <div *ngIf="submitted && f.insEmailId.errors" class="invalid-feedback">
+                                        <div class="alert alert-danger"
+                                             [hidden]="registerForm.controls.email.untouched || registerForm.controls.email.valid">
+                                            A valid email address is required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-graduation"></i></span>
+                                    </div>
+                                    <input type="text" formControlName="instituteName" class="form-control"
+                                           [ngClass]="{ 'is-invalid': submitted && f.instituteName.errors }"
+                                           class="form-control" placeholder="Institute Name"><br/>
+
+                                    <div *ngIf="submitted && f.instituteName.errors" class="invalid-feedback">
+                                        <div class="alert alert-danger"
+                                             [hidden]="registerForm.controls.instituteName.untouched"
+                                             *ngIf="f.instituteName.errors.required">Institute name is required
+                                        </div>
+                                        <div class="alert alert-danger"
+                                             [hidden]="registerForm.controls.instituteName.untouched"
+                                             *ngIf="f.instituteName.errors.minlength">Institute name must be at least 3
+                                            characters
+                                        </div>
+                                        <div class="alert alert-danger"
+                                             [hidden]="registerForm.controls.instituteName.untouched"
+                                             *ngIf="f.instituteName.errors.maxlength">Institute name must be at maximum
+                                            30 characters
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-user"></i></span>
+                                    </div>
+                                    <input type="text" formControlName="userName" class="form-control"
+                                           [ngClass]="{ 'is-invalid': submitted && f.userName.errors }"
+                                           class="form-control" placeholder="User Name">
+
+                                    <div *ngIf="submitted && f.userName.errors" class="invalid-feedback">
+                                        <div class="alert alert-danger"
+                                             [hidden]="registerForm.controls.userName.untouched"
+                                             *ngIf="f.userName.errors.required">User Name is required
+                                        </div>
+                                        <div class="alert alert-danger"
+                                             [hidden]="registerForm.controls.userName.untouched"
+                                             *ngIf="f.userName.errors.minlength">User Name must be at least 3 characters
+                                        </div>
+                                        <div class="alert alert-danger"
+                                             [hidden]="registerForm.controls.userName.untouched"
+                                             *ngIf="f.userName.errors.maxlength">User Name must be at maximum 30
+                                            characters
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="input-group mb-3">
+                                    <show-hide-password size="m" icon="entypo">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon-lock"></i> </span>
+                                        </div>
+                                        <input type="password" class="form-control" placeholder="Password"
+                                               formControlName="insPassword" class="form-control"
+                                               [ngClass]="{ 'is-invalid': submitted && f.insPassword.errors}">
+                                    </show-hide-password>
+                                    <div *ngIf="submitted && f.insPassword.errors" class="invalid-feedback">
+                                        <div *ngIf="f.insPassword.errors.required">Password is required</div>
+                                        <div *ngIf="f.insPassword.errors.minlength"> Password is required (6 or more
+                                            characters with at least one number)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <show-hide-password size="m" icon="entypo">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon-lock"></i> </span>
+                                        </div>
+                                        <input type="password" class="form-control" placeholder="Retype Password"
+                                               formControlName="insRetypePassword" class="form-control"
+                                               [ngClass]="{ 'is-invalid': submitted && f.insRetypePassword.errors }">
+                                    </show-hide-password>
+                                    <div *ngIf="submitted && f.insRetypePassword.errors" class="invalid-feedback">
+                                        <div *ngIf="f.insRetypePassword.errors.required">Password is required</div>
+                                        <div *ngIf="f.insRetypePassword.errors.minlength"> Password is required (6 or
+                                            more characters with at least one number)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-location-pin"></i></span>
+                                    </div>
+                                    <input type="text" formControlName="instituteLocation" class="form-control"
+                                           [ngClass]="{ 'is-invalid': submitted && f.instituteLocation.errors }"
+                                           class="form-control" placeholder="Location">
+                                    <div *ngIf="submitted && f.instituteLocation.errors" class="invalid-feedback">
+                                        <div class="alert alert-danger"
+                                             [hidden]="registerForm.controls.instituteLocation.untouched"
+                                             *ngIf="f.instituteLocation.errors.required">Institute Location is required
+                                        </div>
+
+                                    </div>
+                                 <!--   <input type="text" [(ngModel)]="address"
+                                           class="form-control"
+                                           [options]='options'
+                                           (setAddress)="getAddress($event)"
+                                           (FormatAddress)="getFormattedAddress($event)"
+                                           (street_number)='street_number=$event'
+                                           (street)='street=$event'
+                                           (city)='city=$event'
+                                           (state)='state=$event'
+                                           (district)='district=$event'
+                                           (country)='country=$event'
+                                           (postal_code)='postal_code=$event'
+                                           (lat)='lat=$event'
+                                           (lng)='lng=$event'
+                                           (adr_address)='adr_address=$event'
+                                           (name)='name=$event'
+                                           (place_id)='place_id=$event'
+                                           (types)='types=$event'
+                                           (url)='url=$event'
+                                           (utc_offset)='utc_offset=$event'
+                                           (vicinity)='vicinity=$event'
+                                           (photos)='photos=$event'
+                                           (CountryCodes)='CountryCodes=$event'
+                                           id="autocomplete"
+                                           angularGooglePlace/>-->
+
+                                 <!--   <div *ngIf="submitted && f.instituteLocation.errors" class="invalid-feedback">
+                                        <div class="alert alert-danger"
+                                             [hidden]="registerForm.controls.instituteLocation.untouched"
+                                             *ngIf="f.instituteLocation.errors.required">Institute Location is required
+                                        </div>
+
+                                    </div>-->
+                                </div>
+
+                                <div class="input-group mb-3" fxlayout="row" fxLayoutAlign="start center"
+                                     [ngClass]="{ 'is-invalid': submitted && f.instituteCategory.errors }">
+                                    <span class="radio1">
+                                        <input type="radio" formControlName="instituteCategory"
+                                               (click)="instituteCategoryChange($event.target.value)"
+                                               id="one"
+                                               name="instituteCategory" value="1"/>
+                                        <label for="one" class="pad_left_5">School</label>
+                                    </span>
+                                    <span class="pad_left_15">
+                                    <input type="radio" formControlName="instituteCategory" id="two"
+                                           (click)="instituteCategoryChange($event.target.value)"
+                                           name="instituteCategory" value="2"/>
+                                    <label for="two" class="pad_left_5">college</label>
+                                    </span>
+
+
+                                    <div class="card-body" *ngIf="instituteCategoryList.length!=0">
+                                        <div class="btn-group" dropdown>
+                                            <select formControlName="instituteType"
+                                                    id="select3" name="select3"
+                                                    class="form-control form-control-sm"
+                                                    (change)="filterInstitute($event.target.value)">
+                                                <option [value]="instituteType"
+                                                        *ngFor="let instituteType of instituteCategoryList">
+                                                    {{instituteType.name|json}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div>
+                                    <span><input type="checkbox" name="agree" value="agree"
+                                                 formControlName="acceptTermsAndCon"></span>
+                                    <span class="agree1">I agreee to the Terms of Service and Privacy Policy</span><br>
+                                </div>
+
+
+                                <div class="row float_rigt">
+
+                                    <div class="form-group pad_right_5">
+                                        <button type="button" class="btn btn-danger px-4">Cancel</button>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary px-4">Register</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                    <p class="text_align_center">Already have a learnerguru account?
+                        <a href="loginForm.component.html" ng-click="goHomeLogin()" class="lastlogin" [routerLink]="['/login']">Login</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</div>

@@ -1,0 +1,171 @@
+<div class="animated fadeIn">
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+    <p>Here you can add Event types for comprehensive communication and learning platform for your school /
+        college.Event type should be entered in a alphanumeric.For example Meeting Hall, Prayer Hall....Enter the Event
+        type like given format.</p>
+
+</div>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-12">
+            <span style="float:right;margin-bottom:10px">
+                        <input type="search" [ngStyle]="{ 'background-image': 'url(' + backgroundImage + ')'}"
+                               [(ngModel)]="searchText" placeholder="search text goes here">
+                    </span>
+        </div>
+        <ng-template ngFor let-event [ngForOf]="eventList | filter:searchText" let-name="$implicit"
+                     [ngClass]="{hidecell:eventList.isVisible}"
+                     let-i="index">
+            <div class="col-sm-6 col-lg-3">
+                <div class="card text-white bg-primary">
+                    <mat-card class="example-card">
+                        <div class="text-center">
+                            <div class="e_name">{{event.eventName}}</div>
+                        </div>
+                        <img mat-card-image height="150px" onError="this.src='../assets/img/no_image.png';"
+                             src="{{event.eventBanner}}" alt="{{event.eventBanner}}">
+                        <mat-card-content>
+                            <p style="height: 20px;overflow: hidden" [innerHTML]="event.eventDescription">
+
+                            </p>
+                        </mat-card-content>
+                        <div class="small">
+                            <span>Start Date {{event.startDate | date:'dd MMM yyyy'}}</span> | {{event.startDate |
+                            date:'hh:mm:ss a'}}
+                        </div>
+                        <div class="small">
+                            <span>End&nbsp; Date {{event.endDate | date:'dd MMM yyyy'}}</span> | {{event.endDate |
+                            date:'hh:mm:ss a'}}
+                        </div>
+
+                        <mat-card-actions class="float_rigt">
+                                 <!--<span class="badge badge-success et-spn"
+                                       (click)="goToEditStaff()">&nbsp;View &nbsp; </span>
+
+                                    <span class="badge badge-danger et-spn"
+                                          (click)="goToEditUserNamePopUp()">&nbsp;Edit&nbsp;</span>-->
+                                <span id="openModalButton" class="badge badge-warning et-spn" data-toggle="modal"
+                                      data-target="#warningModal"
+                                      (click)="goToDeleteEventPopUp(event)">Delete</span>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+            </div>
+            <!--/.col-->
+        </ng-template>
+    </div>
+
+
+    <div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-primary" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Acadamic</h4>
+                    <button type="button" class="close" (click)="editModal.hide()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Acadamic Year Edit</strong> Form
+                        </div>
+                        <div class="card-body">
+                            <form [formGroup]="acadamicYearAdd" (ngSubmit)="onSubmit()">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-organization"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Enter the Acadamic Year "
+                                           formControlName="acadamicYearAdd" class="form-control"
+                                           [ngClass]="{ 'is-invalid': submitted && f.acadamicYearAdd.errors }">
+
+                                    <div *ngIf="submitted && f.acadamicYearAdd.errors" class="invalid-feedback">
+                                        <div *ngIf="f.acadamicYearAdd.errors.required">Acadamic year is required</div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn px-4 btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+
+    <div bsModal #acdamicModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-warning" role="document" style="background-color: #4dbd74; !important;">
+            <div class="modal-content" style="border-color: #4dbd74; !important;">
+                <div class="modal-header" style="background-color: #4dbd74; !important;">
+                    <h4 class="modal-title">Set Acadamic Year</h4>
+                    <button type="button" class="close" (click)="acdamicModal.hide()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Acdamic List :</label>
+
+                        <div class="col-md-9 input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="icon-wallet"></i></span>
+                            </div>
+
+                            <select name="drwnDepartment" class="form-control form-control-sm"
+                                    (change)="getValueInAcadamicYear($event.target.value)">
+                                <option [ngValue]="null" disabled>Choose Acadaic Year</option>
+                                <option *ngFor="let acadamicyear of acadamicYearList">
+                                    {{acadamicyear.academicYear}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="acdamicModal.hide()">No</button>
+                    <button type="button" class="btn btn-green " (click)=" goToConFirmSetAcadamicYear()">Set Acdamic
+                        Year
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+
+    <div bsModal #warningModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-warning" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Event Delete</h4>
+                    <button type="button" class="close" (click)="warningModal.hide()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>{{msgInPopup}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="warningModal.hide()">No</button>
+                    <button type="button" class="btn btn-warning" (click)=" goToConFirmDelete()">Yes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div></div>
+    <!-- /.modal -->

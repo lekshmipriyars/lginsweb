@@ -1,0 +1,379 @@
+<div class="animated fadeIn">
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Department / Course / Subject / Chapter / Question Type
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class=" row">
+                                <div class="lbl-heading">Department :</div>
+                                <div class="col-md-12 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-wallet"></i></span>
+                                    </div>
+                                    <select name="drwnDepartment" class="form-control form-control-sm"
+                                            (change)="getValueInDepartment($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Department</option>
+                                        <option *ngFor="let department of departmentList">
+                                            {{ department.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class=" row">
+                                <div class="lbl-heading">Course :</div>
+                                <div class="col-md-12 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-badge"></i></span>
+                                    </div>
+                                    <select name="drwnCourse" class="form-control form-control-sm"
+                                            (change)="getValueInCourse($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Course</option>
+                                        <option *ngFor="let course of courseList">
+                                            {{ course.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class=" row">
+                                <div class="lbl-heading">Subject :</div>
+                                <div class="col-md-12 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-note"></i></span>
+                                    </div>
+                                    <select name="drwnCourse" class="form-control form-control-sm"
+                                            (change)="getValueInSubject($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Subject</option>
+                                        <option *ngFor="let subject of subjectList">
+                                            {{ subject.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="lbl-heading">Chapter :</div>
+                                <div class="col-md-12 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-note"></i></span>
+                                    </div>
+
+                                    <select name="drwnCourse" class="form-control form-control-sm"
+                                            (change)="getValueInChapter($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Chapter</option>
+                                        <option *ngFor="let chapter of chapterList">
+                                            {{ chapter.chapterTitle }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="lbl-heading">Question Type:</div>
+
+                                <div class="col-md-12 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-wallet"></i></span>
+                                    </div>
+                                    <select  name="drwnDepartment"
+                                             [ngModel]="selectedQuestionType.name"
+                                             class="form-control form-control-sm"
+                                             (change)="getValueInQuestionType($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Question Type</option>
+                                        <option *ngFor="let qType of questionTypes" [value]=" qType.name">
+                                            {{ qType.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="lbl-heading">Usage Type :</div>
+                                <div class="col-md-12 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-note"></i></span>
+                                    </div>
+
+                                    <select name="drwnCourse" class="form-control form-control-sm"
+                                            [ngModel]="selectedUsageType.name"
+                                            (change)="getValueInQuestionUsage($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Usage</option>
+                                        <option *ngFor="let qUsage of questionUsage" [value]=" qUsage.name">
+                                            {{ qUsage.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="lbl-heading">Users :</div>
+                                <div class="col-md-12 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-wallet"></i></span>
+                                    </div>
+                                    <select name="drwnDepartment" class="form-control form-control-sm"
+                                            (change)="getValueInUser($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose User</option>
+                                        <option *ngFor="let user of userGetDataList">
+                                            {{ user.fName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="lbl-heading">Is Error :</div>
+
+                                <div class="col-md-12 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-wallet"></i></span>
+                                    </div>
+                                    <select name="drwnQError" class="form-control form-control-sm"
+                                            [ngModel]="selectedErrorType.name"
+                                            (change)="getValueInErrorType($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Error Type</option>
+                                        <option [ngValue]="0" disabled>Choose Error Type</option>
+                                        <option *ngFor="let qError of quesErrorType">
+                                            {{ qError.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class=" row">
+                                <div class="lbl-heading">Explanation :</div>
+                                <div class="col-md-12 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-wallet"></i></span>
+                                    </div>
+                                    <select name="drwnqExplanation" class="form-control form-control-sm"
+                                            [ngModel]="selectedExplanationType.name"
+                                            (change)="getValueInQExplanation($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Explanation</option>
+                                        <option *ngFor="let qExplanation of quesExplanationType"  [value]=" qExplanation.name">
+                                            {{ qExplanation.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        </div>
+                </div>
+            </div>
+            <!--- closing1st col-md-6-->
+        </div>
+
+
+    </div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header" matTooltip="Tooltip!">
+                <b> Question List</b>
+            </div>
+            <div class="card-body">
+                 <span style="float:right;margin-bottom:10px">
+                        <input type="search" [ngStyle]="{ 'background-image': 'url(' + backgroundImage + ')'}"
+                               [(ngModel)]="searchText" placeholder="search text goes here">
+                    </span>
+
+            <!--    <table class="table table-responsive-sm table-hover table-outline mb-0">
+                    <thead class="thead-light">
+                    <tr>
+                        <th class="text-center">Sl.No</th>
+                        <th class="text-center">Ques.Id</th>
+                        <th>Image</th>
+                        <th class="text-center">Question</th>
+                        <th class="text-center">Author</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="desData!=''">
+                        <td colspan="6" class="txt-align-center">
+                            No Question Found
+                        </td>
+                    </tr>
+                    <ng-template  ngFor let-question [ngForOf]="questionList | filter:searchText" let-name="$implicit"
+                                 let-i="index">
+
+                        <tr>
+
+                            <td style="width:5px">{{i+1}}</td>
+                            <td style="width:5px">
+                                <mat-icon  *ngIf="question.errorStatus==1" style="color:red;font-size:16px" [tooltip]="myTooltip">error</mat-icon>
+                                {{question.questionId}}
+                            </td>
+                            <td class="text-center" style="width:5px">
+                                <div class="avatar">
+                                    <img src="{{question.questionImageUrl}}" class="img-avatar-style no-border"
+                                         onError="this.src='../assets/img/no_image.png';"
+                                         alt="{{question.questionImageUrl}}">
+                                </div>
+                            </td>
+
+                            <td style="width:20px">
+                                <div style="width:200px" [innerHTML]="assembleHTMLItem(question.question) "></div>
+                            </td>
+                            <td style="width:20px">
+                                <div style="width:200px">Author</div>
+                            </td>
+                            <td>
+                                <span class="badge badge-success" (click)="goToViewQuesPopUp(question)">&nbsp;View &nbsp; </span>
+                                <span class="badge badge-danger"
+                                      (click)="goToEditQuestionPopUp(question)">&nbsp;Edit&nbsp;</span>
+                                <span id="openModalButton" class="badge badge-warning" data-toggle="modal"
+                                      data-target="#warningModal"
+                                      (click)="goToDeletequestionPopUp(question)">Delete</span>
+                            </td>
+                        </tr>
+
+                    </ng-template>
+
+                    </tbody>
+                </table>
+
+
+
+
+
+                &lt;!&ndash; pager &ndash;&gt;
+                <div class="col-xs-12 col-12 col-md-6" *ngIf="questionsCount>0">
+                    <pagination [totalItems]="questionsCount" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize" class="pagination-sm"
+                                previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"
+                                (click)="getAllQuestionInPagination()"
+                                (pageChanged)="pageChanged($event)"
+                                [boundaryLinks]="true" [rotate]="false" (numPages)="numPages = $event"></pagination>
+                </div>-->
+
+                <div style="margin: auto; margin-bottom: 50px;" >
+                    <data-table id="search-grid"
+                                headerTitle="Question List"
+                                [pagination_limit]="true"
+                                [items]="items"
+                                [itemCount]="itemCount"
+                                (reload)="reloadItems($event)"
+                                (rowClick)="rowClick($event)"
+                                (rowDoubleClick)="rowDoubleClick($event)"
+                                [rowTooltip]="rowTooltip">
+                        <data-table-column
+                                [property]="'items.questionId'"
+                                [header]="'Ques.Id'"
+                                [sortable]="true"
+                                [resizable]="true"
+                                width="100px"
+                                [searchable]="true">
+                            <ng-template #dataTableCell let-item="item">
+                                <div>{{item.questionId}}</div>
+                            </ng-template>
+                        </data-table-column>
+
+                        <data-table-column
+                                property="questionImageUrl"
+                                header="Image"
+                                [searchable]="false"
+                                width="75px">
+                            <ng-template #dataTableCell let-item="item">
+                                <img src="{{item.questionImageUrl}}" class="img-avatar-style no-border"
+                                     onError="this.src='../assets/img/no_image.png';"/>
+                            </ng-template>
+                        </data-table-column>
+
+                        <data-table-column
+                                [property]="'question'"
+                                [header]="'Question'"
+                                width="350px"
+                                [sortable]="true"
+                                [visible]="true">
+                            <ng-template #dataTableCell let-item="item">
+                                <div  [innerHTML]="assembleHTMLItem(item.question) "></div>
+                            </ng-template>
+                        </data-table-column>
+
+                        <data-table-column
+                                [property]="'active'"
+                                [header]="'Actions'"
+                                [width]="150"
+                                [resizable]="true"
+                                [searchable]="false">
+                            <ng-template #dataTableHeader let-item="item">
+                                <span style="color: rgb(232, 0, 0)">Actions</span>
+                            </ng-template>
+                            <ng-template #dataTableCell let-item="item">
+                                <span class="badge badge-danger" (click)="goToEditNamePopUp(item)">&nbsp;Edit&nbsp;</span>
+                                <span id="openModalButton" class="badge badge-warning" data-toggle="modal"
+                                      data-target="#warningModal"
+                                      (click)="goToDisableVocabularyPopUp(item)">Delete</span>
+                                <span id="openModalButton" class="badge badge-warning" data-toggle="modal"
+                                      data-target="#warningModal"
+                                      (click)="goToEnableVocabularyPopUp(item)">Delete</span>
+
+                            </ng-template>
+                        </data-table-column>
+                    </data-table>
+                    <pre class="card card-block card-header mb-3">The selected page no: {{currentPage}}/{{numPages}}</pre>
+                    <div class="col-xs-12 col-12 col-md-6">
+                        <pagination [totalItems]="questionsCount"  [(ngModel)]="currentPage" [maxSize]="maxSize" class="pagination-sm"
+                                    previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"
+                                    (pageChanged)="pageChanged($event)"
+                                    (click)="getAllQuestionInPagination()"
+                                    [boundaryLinks]="true" [rotate]="false" (numPages)="numPages = $event"></pagination>
+                    </div>
+
+                </div>
+
+
+
+</div>
+            </div>
+    </div>
+</div>
+<div bsModal #warningModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-warning" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Question</h4>
+                <button type="button" class="close" (click)="warningModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p >{{msgInDeletePopup}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="warningModal.hide()">No</button>
+                <button type="button" class="btn btn-warning" (click)=" goToConFirmDelete()">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+

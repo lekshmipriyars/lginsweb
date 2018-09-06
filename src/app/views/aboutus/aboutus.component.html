@@ -1,0 +1,96 @@
+<mat-toolbar color="primary" fxLayoutAlign="space-between center">
+
+    <div fxLayout="row" fxFlexAlign="center" fxLayoutAlign="space-between center" fxFlex="100">
+        <img src="assets/img/brand/BLUE-LINERGURU-FINAL.png"/>
+    </div>
+
+    <div id="topDiv" fxLayout="row" fxShow="true" fxHide.lt-md="true" fxLayout="row"
+         fxLayoutAlign="space-between center">
+
+        <!-- The following menu items will be hidden on both SM and XS screen sizes -->
+
+        <a href="#" mat-button class="home color-white" style="color: white" [ngClass]="{ 'is-page-style': isPage=='Home' }">Home</a>
+
+        <a href="#" mat-button style="color: white" [ngClass]="{ 'is-page-style': isPage=='Features' }">Features</a>
+
+        <a href="#" mat-button [routerLink]="['/aboutus']" style="color: white" [ngClass]="{ 'is-page-style': isPage=='AboutUs' }">About Us</a>
+
+        <a href="#" mat-button [routerLink]="['/contactus']" style="color: white"    [ngClass]="{ 'is-page-style': isPage=='Contact' }">Contact Us</a>
+
+        <a href="#" mat-button [routerLink]="['/login']" style="color: white" [ngClass]="{ 'is-page-style': isPage=='SignIn' }">  Sign In</a>
+
+        <a href="#" mat-button [routerLink]="['/register']" style="color: white" [ngClass]="{ 'is-page-style': isPage=='SignUp' }">Sign Up</a>
+
+    </div>
+
+    <div fxShow="true" fxHide.gt-sm="true">
+
+        <!--   <a href="#" (click)="sidenav.toggle()">Show Side Menu</a>-->
+
+    </div>
+
+</mat-toolbar>
+
+
+<div class="sitemap_header">
+    <span class="fig_data">
+        <a href="https://beta.learner.guru">
+            <img src="https://content.learner.guru/web/app_icon.png" style="width:130px" height="" alt=""
+            title=""></a></span>
+</div>
+
+
+<div class="site_map first_part">
+    <div class="container-box">
+        <h2 style="text-align: center">Company Overview</h2>
+        <div class="line">
+            <div class="underline"></div>
+        </div>
+    </div>
+</div>
+
+<div class="features-section deliver rows">
+    <div class="col-md-12">
+        <div id="col-manage-block-heights1" class="row">
+            <div class="col-md-4">
+                <div class="feature-block col-block-height transition solution_1" style="height: 380px;">
+                    <div class="img-block web"><i class="homepage_icon web transition">&nbsp;</i></div>
+                    <div class="content-part">
+                        <h3 class="c-w">Design &amp; Development</h3>
+                        <p class="c-w">To Building world class website and mobile app, We use our vast experience and expertise to give maximum benefit to our customer.</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+
+                <div class="feature-block col-block-height transition active solution_5" style="height: 380px;">
+                    <div class="img-block mobile"><i class="homepage_icon mobW transition">&nbsp;</i></div>
+                    <div class="content-part">
+                        <h3 class="c-w">Mobile &amp; Wearables </h3>
+                        <p class="c-w">Connecting people through real time possibilities using iOS and Android App. We promise to deliver a modern customer experience.</p>
+                    </div>
+                    <ul class="list">
+                        <li> <a href="https://betaweb.learner.guru/iphone-application-development.html" tabindex="-1">iPhone</a> </li>
+                        <li> <a href="https://betaweb.learner.guru/android-application-development.html" tabindex="-1">Android</a> </li>
+                        <li> <a href="https://betaweb.learner.guru/cross-platform-apps-development.html" tabindex="-1">Cross Platform</a> </li>
+                    </ul>
+                    <div class="btn-block rows"> <a href="https://betaweb.learner.guru/mobile-application-development.html" target="_blank" class="transition" tabindex="-1">Read More</a> </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-block col-block-height transition solution_3" style="height: 380px;">
+                    <div class="img-block cart"><i class="homepage_icon ed transition">&nbsp;</i></div>
+                    <div class="content-part">
+                        <h3 class="c-w">Ecommerce Development</h3>
+                        <p class="c-w">We focus maximize revenue using Influence of Price on Demand &amp; demographics benefits using rich eCommerce Experience</p>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

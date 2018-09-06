@@ -1,0 +1,357 @@
+<div class="animated fadeIn">
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+    <p>Here you can add Event types for comprehensive communication and learning platform for your school /
+        college.Event type should be entered in a alphanumeric.For example Meeting Hall, Prayer Hall....Enter the Event
+        type like given format.</p>
+
+
+    <div class="row">
+        <div class="col-md-12 align-right pad-8">
+
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Add Event Venues</strong> Form
+                </div>
+
+                <div class="card-body">
+                    <form [formGroup]="acadamicYearAddForm" (ngSubmit)="onSubmit()">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Event Name :</label>
+
+                                    <div class="col-md-9 input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon-organization"></i></span>
+                                        </div>
+                                        <input type="text" formControlName="EventName" id="EventTxt"
+                                               name="EventTxt"
+                                               class="form-control"
+                                               [ngClass]="{ 'is-invalid': submitted && f.EventName.errors }"
+                                               placeholder="Enter Event Name">
+
+                                        <div *ngIf="submitted && f.EventName.errors" class="invalid-feedback">
+                                            <div *ngIf="f.EventName.errors.required">EventName is required</div>
+                                            <div *ngIf="f.EventName.errors.minlength">EventName must be at least 2
+                                                characters
+                                            </div>
+                                            <div *ngIf="f.EventName.errors.maxlength">EventName must be 30 characters
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label" for="textarea-input">Location :</label>
+
+                                    <div class="col-md-9 input-group mb-3 ">
+                                        <div class="input-group-prepend"><span class="input-group-text"><i
+                                                class="icon-drop"></i></span></div>
+                                        <input type="text" [(ngModel)]="address"
+                                               class="form-control"
+                                               [options]='options'
+                                               (setAddress)="getAddress($event)"
+                                               (FormatAddress)="getFormattedAddress($event)"
+                                               (street_number)='street_number=$event'
+                                               (street)='street=$event'
+                                               (city)='city=$event'
+                                               (state)='state=$event'
+                                               (district)='district=$event'
+                                               (country)='country=$event'
+                                               (postal_code)='postal_code=$event'
+                                               (lat)='lat=$event'
+                                               (lng)='lng=$event'
+                                               (adr_address)='adr_address=$event'
+                                               (name)='name=$event'
+                                               (place_id)='place_id=$event'
+                                               (types)='types=$event'
+                                               (url)='url=$event'
+                                               (utc_offset)='utc_offset=$event'
+                                               (vicinity)='vicinity=$event'
+                                               (photos)='photos=$event'
+                                               (CountryCodes)='CountryCodes=$event'
+                                               id="autocomplete"
+                                               angularGooglePlace/>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row pad_left_15 no_margin_right float_rigt">
+                            <div class="form-group ">
+                                <button type="submit" class="btn px-4 btn-primary mar_right_10"
+                                        tooltip="add acadamic year" placement="bottom"><i
+                                        class="fa fa-dot-circle-o"></i> Submit
+                                </button>
+                                <button type="reset" class="btn px-4 btn-danger"><i class="fa fa-ban"></i> Reset
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-align-justify"></i>Event Venue
+                </div>
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label class="col-md-12 col-form-label ">
+                             <span class="lab">Event Venue
+                                 </span>
+                        </label>
+                    </div>
+
+                    <div class="col-md-12 text-center" style="align:center;vertical-align:middle; ">
+                        <img src="/../assets/images.jpeg" height="150px" width="140px">
+                    </div>
+                    <!--<div class="form-group row">
+                        <label class="col-md-12 col-form-label ">
+                             <span class="lab">A narrow opening in a machine or container into which something can be inserted, for example in a: Mail slot
+                                 </span>
+                        </label>
+                    </div>
+-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                Event List
+            </div>
+            <div class="card-body">
+
+                <!--/.row-->
+
+
+
+                    <span style="float:right;margin-bottom:10px">
+                        <input type="search" [ngStyle]="{ 'background-image': 'url(' + backgroundImage + ')'}"
+                               [(ngModel)]="searchText" placeholder="search text goes here">
+                    </span>
+
+                <table class="table table-responsive-sm table-hover table-outline mb-0">
+                    <thead class="thead-light">
+                    <tr>
+                        <th>S.NO</th>
+                        <th class="text-center"><i class="icon-people"></i></th>
+                        <th>User</th>
+                        <th class="text-center">Country</th>
+                        <th>Attendance</th>
+                        <th>
+                            Activity
+                        </th>
+                        <th>
+
+                            Actions
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="desData!=''">
+                        <td colspan="7" class="txt-align-center">
+                            No User Found
+                        </td>
+
+                    </tr>
+                    <ng-template ngFor let-user [ngForOf]="userGetDataList | filter:searchText" let-name="$implicit"
+                                 let-i="index">
+
+                        <tr>
+                            <td class="text-center">
+                                {{i+1}}
+                            </td>
+                            <td class="text-center">
+                                <div class="avatar">
+                                    <img src="{{user.profileImage}}" class="img-avtar img-avatar-style"
+                                         onError="this.src='../assets/img/avatars/avatar-male.png';"
+                                         alt="{{user.emailId}}">
+                                    <span class="avatar-status badge-success"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div>{{user.fName}} {{user.lName}}</div>
+                                <div class="small text-muted">
+                                    <span>{{user.emailId}}</span><br>
+                                </div>
+                                <div class="small text-muted">
+                                    <span>User Name : {{user.userName}}</span> | User Id :{{user.userId}}<br>
+                                </div>
+                                <div class="small text-muted">
+                                    <span>New</span> | Registered : {{user.dateCreated | date:'dd MMM yyyy'}}
+                                </div>
+                            </td>
+                            <td class="text-center">
+
+                                <i class="flag-icon flag-icon-in h4 mb-0" title="in" id="in"></i>
+
+                                <div class="small text-muted">
+                                    <span>PH : {{user.phone}}</span><br>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="clearfix">
+                                    <div class="float-left">
+                                        <strong>50%</strong>
+                                    </div>
+                                    <div class="float-right">
+                                        <small class="text-muted">Jun 11, 2018 - Jul 10, 2018</small>
+                                    </div>
+                                </div>
+                                <div class="progress progress-xs">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 50%"
+                                         aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="small text-muted">Last login</div>
+                                <strong>10 sec ago</strong>
+                            </td>
+                            <td>
+                                    <span class="badge badge-success"
+                                          (click)="goToEditStaff()">&nbsp;View &nbsp; </span>
+
+                                    <span class="badge badge-danger"
+                                          (click)="goToEditUserNamePopUp()">&nbsp;Edit&nbsp;</span>
+                                <span id="openModalButton" class="badge badge-warning" data-toggle="modal"
+                                      data-target="#warningModal"
+                                      (click)="goToDeleteDrwnDepartmentPopUp(user)">Delete</span>
+
+                            </td>
+                        </tr>
+                    </ng-template>
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+</div>
+
+
+<div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-primary" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Acadamic</h4>
+                <button type="button" class="close" (click)="editModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Acadamic Year Edit</strong> Form
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="acadamicYearAdd" (ngSubmit)="onSubmit()">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-organization"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Enter the Acadamic Year "
+                                       formControlName="acadamicYearAdd" class="form-control"
+                                       [ngClass]="{ 'is-invalid': submitted && f.acadamicYearAdd.errors }">
+
+                                <div *ngIf="submitted && f.acadamicYearAdd.errors" class="invalid-feedback">
+                                    <div *ngIf="f.acadamicYearAdd.errors.required">Acadamic year is required</div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn px-4 btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div bsModal #acdamicModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-warning" role="document" style="background-color: #4dbd74; !important;">
+        <div class="modal-content" style="border-color: #4dbd74; !important;">
+            <div class="modal-header" style="background-color: #4dbd74; !important;">
+                <h4 class="modal-title">Set Acadamic Year</h4>
+                <button type="button" class="close" (click)="acdamicModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label">Acdamic List :</label>
+
+                    <div class="col-md-9 input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-wallet"></i></span>
+                        </div>
+
+                        <select name="drwnDepartment" class="form-control form-control-sm"
+                                (change)="getValueInAcadamicYear($event.target.value)">
+                            <option [ngValue]="null" disabled>Choose Acadaic Year</option>
+                            <option *ngFor="let acadamicyear of acadamicYearList">
+                                {{acadamicyear.academicYear}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="acdamicModal.hide()">No</button>
+                <button type="button" class="btn btn-green " (click)=" goToConFirmSetAcadamicYear()">Set Acdamic Year
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div bsModal #warningModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-warning" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Acadamic Year Delete</h4>
+                <button type="button" class="close" (click)="warningModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{msgInPopup}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="warningModal.hide()">No</button>
+                <button type="button" class="btn btn-warning" (click)=" goToConFirmDelete()">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->

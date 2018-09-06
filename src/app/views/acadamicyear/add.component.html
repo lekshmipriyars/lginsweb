@@ -1,0 +1,304 @@
+<div class="animated fadeIn">
+
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12 align-right pad-8">
+        <span class="badge badge-success hand-cursor pad-10"
+              (click)="goToSetAcadamicYear()">Set Acadmic Year </span>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Acadamic Year Add</strong> Form
+                </div>
+
+                <div class="card-body">
+                    <form [formGroup]="acadamicYearAddForm" (ngSubmit)="onSubmit()">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Start Year :</label>
+
+                                    <div class="col-md-9 input-group mb-3">
+                                        <mat-form-field>
+                                            <input class="form-control" formControlName="acadamicStartDate" matInput
+                                                   [(ngModel)]="acadamicStartDate" [min]="minDate" [max]="maxDate"
+                                                   [matDatepicker]="picker"
+                                                   [ngClass]="{ 'is-invalid': submitted && f.acadamicStartDate.errors }"
+                                                   placeholder="Choose a start year">
+                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker startView="year" [startAt]="acadamicStartDate"
+                                                            [(ngModel)]="acadamicStartDate"></mat-datepicker>
+                                        </mat-form-field>
+                                        <div *ngIf="submitted && f.acadamicStartDate.errors" class="invalid-feedback">
+                                            <div *ngIf="f.acadamicStartDate.errors.required">Acadamic start year is
+                                                required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">End Year :</label>
+
+                                    <div class="col-md-9 input-group mb-3">
+                                        <mat-form-field>
+                                            <input class="form-control" formControlName="acadamicEndDate" matInput
+                                                   [(ngModel)]="acadamicEndDate" [min]="minDate" [max]="maxDate"
+                                                   [matDatepicker]="endpicker"
+                                                   placeholder="Choose a end year"
+                                                   [ngClass]="{ 'is-invalid': submitted && f.acadamicEndDate.errors }">
+                                            <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
+                                            <mat-datepicker #endpicker startView="year" [startAt]="acadamicEndDate"
+                                                            [(ngModel)]="acadamicEndDate"></mat-datepicker>
+                                        </mat-form-field>
+                                        <div *ngIf="submitted && f.acadamicEndDate.errors" class="invalid-feedback">
+                                            <div *ngIf="f.acadamicEndDate.errors.required">Acadamic end year is
+                                                required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Acadmic Year :</label>
+
+                                    <div class="col-md-9 input-group mb-3">
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-organization"></i></span>
+                                            </div>
+                                            <input type="text" placeholder="Enter the Acadamic Year " readonly
+                                                   formControlName="acadamicYearAdd" class="form-control"
+                                                   [(ngModel)]="acadamicYearAdd"
+                                                   [ngClass]="{ 'is-invalid': submitted && f.acadamicYearAdd.errors }">
+
+                                            <div *ngIf="submitted && f.acadamicYearAdd.errors" class="invalid-feedback">
+                                                <div *ngIf="f.acadamicYearAdd.errors.required">Acadamic year is
+                                                    required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row pad_left_15 no_margin_right float_rigt">
+                            <div class="form-group ">
+
+                                <button type="reset" class="btn px-4 btn-danger"><i class="fa fa-ban"></i> Reset
+                                </button>
+                                <button type="submit" class="btn px-4 btn-primary mar_right_10"
+                                        tooltip="add acadamic year" placement="bottom"><i
+                                        class="fa fa-dot-circle-o"></i> Submit
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-align-justify"></i>Acadamic Year All
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped table-sm">
+                        <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Acadamic Year</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <ng-template ngFor let-acadamicyear [ngForOf]="acadamicYearList" let-name="$implicit"
+                                     let-i="index">
+                            <tr>
+                                <td>{{i+1}}</td>
+                                <td> {{acadamicyear.academicYear}}</td>
+                                <td>
+                                    <span class="badge badge-success"
+                                          (click)="goToViewAcadamicYearPopUp(acadamicyear)">&nbsp;View &nbsp; </span>
+                                    <span class="badge badge-danger" (click)="goToEditAcadamicYearPopUp()">&nbsp;Edit&nbsp;</span>
+                                    <span id="openModalButton" class="badge badge-warning" data-toggle="modal"
+                                          data-target="#warningModal"
+                                          (click)="goToDeleteAcadamicYearPopUp(acadamicyear)">Delete</span>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Acadamic</h4>
+                <button type="button" class="close" (click)="editModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Acadamic Year Edit</strong> Form
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="acadamicYearAdd" (ngSubmit)="onSubmit()">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-organization"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Enter the Acadamic Year "
+                                       formControlName="acadamicYearAdd" class="form-control"
+                                       [ngClass]="{ 'is-invalid': submitted && f.acadamicYearAdd.errors }">
+
+                                <div *ngIf="submitted && f.acadamicYearAdd.errors" class="invalid-feedback">
+                                    <div *ngIf="f.acadamicYearAdd.errors.required">Acadamic year is required</div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn px-4 btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div bsModal #acdamicModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-warning" role="document" style="background-color: #4dbd74; !important;">
+        <div class="modal-content" style="border-color: #4dbd74; !important;">
+            <div class="modal-header" style="background-color: #4dbd74; !important;">
+                <h4 class="modal-title">Set Acadamic Year</h4>
+                <button type="button" class="close" (click)="acdamicModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label">Acdamic List :</label>
+
+                    <div class="col-md-9 input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-wallet"></i></span>
+                        </div>
+
+                        <select name="drwnDepartment" class="form-control form-control-sm"
+                                (change)="getValueInAcadamicYear($event.target.value)">
+                            <option [ngValue]="null" disabled>Choose Acadaic Year</option>
+                            <option *ngFor="let acadamicyear of acadamicYearList">
+                                {{acadamicyear.academicYear}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="acdamicModal.hide()">No</button>
+                <button type="button" class="btn btn-green " (click)=" goToConFirmSetAcadamicYear()">Set Acdamic Year
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div bsModal #warningModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-warning" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Acadamic Year Delete</h4>
+                <button type="button" class="close" (click)="warningModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{msgInPopup}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="warningModal.hide()">No</button>
+                <button type="button" class="btn btn-warning" (click)=" goToConFirmDelete()">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div bsModal #viewModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">View AcademicYear</h4>
+                <button type="button" class="close" (click)="viewModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <strong>{{acdamicYearData.academicYear}}</strong>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="col-md-40">
+                            <div class="row">
+
+                                <div class="col-md-12">
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">AcdamicYear</label>
+
+                                        <div class="col-md-9 col-form-label">
+                                            {{acdamicYearData.academicYear}}
+                                        </div>
+                                    </div>
+
+
+                                    <!--istcol-md-6--closingtag-->
+                                </div>
+                                <!--second opening col-md-6-->
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->

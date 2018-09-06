@@ -1,0 +1,585 @@
+<div style="height: 100vh;align:right; text-align: right">
+    <div class="switch-style  d-none d-md-block">
+        <button class="btn btn-primary px-4">Feed Back</button>
+
+    </div>
+
+    <mat-toolbar color="primary" fxLayoutAlign="space-between center">
+
+        <span></span>
+
+        <div fxLayout="row" fxFlexAlign="center" fxLayoutAlign="space-between center" fxFlex="100">
+            <img src="assets/img/brand/BLUE-LINERGURU-FINAL.png"/>
+        </div>
+
+        <div id="topDiv" fxLayout="row" fxShow="true" fxHide.lt-md="true" fxLayout="row"
+             fxLayoutAlign="space-between center">
+
+            <!-- The following menu items will be hidden on both SM and XS screen sizes -->
+
+            <a href="#" mat-button class="home color-white" style="color: white"
+               [ngClass]="{ 'is-page-style': isPage=='Home' }">Home</a>
+
+            <a href="#" mat-button style="color: white" [ngClass]="{ 'is-page-style': isPage=='Features' }">Features</a>
+
+            <a href="#" mat-button [routerLink]="['/aboutus']" style="color: white"
+               [ngClass]="{ 'is-page-style': isPage=='AboutUs' }">About Us</a>
+
+            <a href="#" mat-button [routerLink]="['/contactus']" style="color: white"
+               [ngClass]="{ 'is-page-style': isPage=='Contact' }">Contact Us</a>
+
+            <a href="#" mat-button [routerLink]="['/login']" style="color: white"
+               [ngClass]="{ 'is-page-style': isPage=='SignIn' }"> Sign In</a>
+
+            <a href="#" mat-button [routerLink]="['/register']" style="color: white"
+               [ngClass]="{ 'is-page-style': isPage=='SignUp' }">Sign Up</a>
+        </div>
+
+        <div fxShow="true" fxHide.gt-sm="true">
+
+            <!--   <a href="#" (click)="sidenav.toggle()">Show Side Menu</a>-->
+
+        </div>
+
+    </mat-toolbar>
+
+    <!-- <mat-sidenav-container fxFlexFill class="example-container">
+
+         <mat-sidenav #sidenav fxLayout="column">
+
+             <div fxLayout="column">
+
+                 <a (click)="sidenav.toggle()" href="#" mat-button>Close</a>
+
+                 <a href="#" mat-button>Menu Item 1</a>
+
+                 <a href="#" mat-button>Menu Item 2</a>
+
+                 <a href="#" mat-button>Menu Item 3</a>
+
+                 <a href="#" mat-button>Menu Item 4</a>
+
+                 <a href="#" mat-button>Menu Item 5</a>
+
+                 <a href="#" mat-button>Menu Item 6</a>
+
+             </div>
+
+         </mat-sidenav>
+
+         <mat-sidenav-content fxFlexFill>Main content</mat-sidenav-content>
+
+     </mat-sidenav-container>-->
+
+    <!-- top row-->
+    <mat-grid-list cols="2" rowHeight="2:1">
+        <mat-grid-tile>
+            <mat-grid-list cols="1" rowHeight="1:1" class="pad_100">
+                <h2 class="homeentities-title">
+                    Schools / Colleges - Go Digital with learnerguru </h2>
+                <h4 class="homebanner-subtitle">
+
+                    learnerguru is a comprehensive communication and learning platform for
+                    your school / college.
+                    Our goal is to connect management, students, teachers, and parents
+                    on a single system which comprises our Android, iOS, and Web Apps.
+                    Introduce web and mobile technology in your school / college today!
+                </h4>
+            </mat-grid-list>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <carousel [showIndicators]="showIndicator" [interval]="myInterval" [(activeSlide)]="activeSlideIndex">
+                <slide *ngFor="let slide of slides; let index=index">
+                    <img [src]="slide.image" alt="image slide" style="display: block; width: 100%;">
+                    <!-- <div class="carousel-caption">
+                         <h4>Slide {{index}}</h4>
+                         <p>{{slide.text}}</p>
+                     </div>-->
+                </slide>
+            </carousel>
+        </mat-grid-tile>
+    </mat-grid-list>
+
+
+    <!-- second row-->
+    <mat-grid-list cols="1" rowHeight="1:1" class="bg-color-white">
+        <h2 class="homeentities-title pad_10">
+            Efficiently manage your
+            Students, Courses etc </h2>
+        <h4 class="homeentities-subtitle pad_20">learnerguru package of automation and efficient administration can get
+            extraordinary outcomes with integrated solution for the entire academic and administrative requirement <br>
+            learnerguru bring your educational organization on a level to meet competing challenges of ever changing
+            market and offer you a very cost effective</h4>
+
+    </mat-grid-list>
+
+    <!-- third row-->
+    <div fxLayout="column" class="homeentities-choose-container">
+
+        <mat-grid-list cols="1" rowHeight="1:1" fxLayoutAlign="center center">
+            <h2 hide-sm hide-xs class="homeentities-choose-title bg-color-white homeentities-sub-style">Why you need
+                it!</h2>
+
+        </mat-grid-list>
+
+      <!--  <div id="animation" fxLayout="row">
+            <span fxflex hide-sm hide-xs></span>
+
+            <div class="need-container-container" fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="need-container-box" *ngFor="let functiondata of functionalities">
+                    <i class="material-icons md-48 app-color" fxLayout="row" fxLayoutAlign="center center">{{functiondata.image}}</i>
+
+                    <div class="need-container-content">
+                        <h1 class="need-container-title">{{functiondata.title}}</h1>
+                    </div>
+                </div>
+            </div>
+            <span fxflex hide-sm hide-xs></span>
+        </div>
+        <div hide-sm hide-xs class="need-container-space"></div>
+        -->
+
+
+
+
+        <div class="features-block of-hidden selected fruitful_busines expertis_blok">
+            <div class="container">
+                <div id="portfoliolist">
+                    <div class="portfolio development_iot" data-cat="web-desing" style="display: inline-block;" data-bound="">
+                        <div class="expertise_list iot_vehicle">
+                            <a href="#" target="_blank" class="icon_box "></a>
+                            <h3>Parent Portal</h3>
+                            <p>Vehicle Tracking system using IoT is the technology used for specifying the location of vehicles using specific methods like GPS Navigation of vehicles...</p>
+                        </div>
+                    </div>
+                    <div class="portfolio development_iot" data-cat="web-desing" style="display: inline-block;" data-bound="">
+                        <div class="expertise_list iot_logistics">
+                            <a href="#" target="_blank" class="icon_box "></a>
+                            <h3>Student Portal</h3>
+                            <p>IOT for logistics and assets solutions is a new topic of demand. With its ever-expanding need for smarter supply chain management services.. </p>
+                        </div>
+                    </div>
+                    <div class="portfolio hire_developer" data-cat="web-desing" style="display: inline-block;" data-bound="">
+                        <div class="expertise_list hire_node">
+                            <a href="#" target="_blank" class="icon_box"></a>
+                            <h3>Attendance management</h3>
+                            <p>Hire Node developer at Amar InfoTech is all the time a respectable selection for cost effective and excellence development.</p>
+                        </div>
+                    </div>
+                    <div class="portfolio development_web" data-cat="web-desing" style="display: inline-block;" data-bound="">
+                        <div class="expertise_list cake_php">
+                            <a href="#" target="_blank" class="icon_box "></a>
+                            <h3>Faculty Management</h3>
+                            <p>CakePHP framework is an open source web application framework for producing online web application.</p>
+                        </div>
+                    </div>
+                    <div class="portfolio hire_developer" data-cat="web-desing" style="display: inline-block;" data-bound="">
+                        <div class="expertise_list hire_magento">
+                            <a href="#" target="_blank" class="icon_box "></a>
+                            <h3>Event Calendar</h3>
+                            <p>Hire magento programmer of Amar InfoTech for best coding of text editor and image editor.We can offer you cost effective &amp; profitable solution</p>
+                        </div>
+                    </div>
+                    <div class="portfolio development_web" data-cat="web-desing" style="display: inline-block;" data-bound="">
+                        <div class="expertise_list laravel">
+                            <a href="#" target="_blank" class="icon_box "></a>
+                            <h3>Examination Management</h3>
+                            <p>Laravel is the best PHP framework now a days. It is simple to understand and provide more security and others. </p>
+                        </div>
+                    </div>
+                    <div class="portfolio hire_developer" data-cat="web-desing" style="display: inline-block;" data-bound="">
+                        <div class="expertise_list hire_react">
+                            <a href="#" target="_blank" class="icon_box"></a>
+                            <h3>Reception & Front Office</h3>
+                            <p>Hire React developer at Amar InfoTech is all the time a respectable selection for cost effective and excellence development.</p>
+                        </div>
+                    </div>
+
+                    <div class="portfolio hire_developer" data-cat="web-desing" style="display: inline-block;" data-bound="">
+                        <div class="expertise_list laravel">
+                            <a href="#" target="_blank" class="icon_box"></a>
+                            <h3>Time Table</h3>
+                            <p>Hire Laravel developer at Amar InfoTech is all the time a respectable selection for cost effective and excellence development.</p>
+                        </div>
+                    </div>
+
+                    <div class="portfolio hire_developer" data-cat="web-desing" style="display: inline-block;" data-bound="">
+                        <div class="expertise_list hire_mobile_developer">
+                            <a href="#" target="_blank" class="icon_box "></a>
+                            <h3>Event Management</h3>
+                            <p>Hire Amar InfoTech dedicated Mobile Application Developers with experience of more than 2 years &amp; get cost-effective solutions by separating components.</p>
+                        </div>
+                    </div>
+                    <div class="portfolio development_iot" data-cat="web-desing" style="display: inline-block;" data-bound="">
+                        <div class="expertise_list iot_retail">
+                            <a href="#" target="_blank" class="icon_box "></a>
+                            <h3>Attendance Tracking</h3>
+                            <p>IoT technologies are being depend on by retailers to grab shoppers eyes and grow their sales in the process.  </p>
+                        </div>
+                    </div>
+
+                    <div class="portfolio mamagment_system" data-cat="web-desing" style="display: inline-block;" data-bound="">
+                        <div class="expertise_list edu-portal">
+                            <a href="#" target="_blank" class="icon_box "></a>
+                            <h3>Mobile Support</h3>
+                            <p>E-Learning Software Development can be different types, mainly in form of portal development, offering online courses.ExcelPTP</p>
+                        </div>
+                    </div>
+                    <div class="portfolio development_iot" data-cat="web-desing" style="display: inline-block;" data-bound="">
+                        <div class="expertise_list estimote_beacons_app">
+                            <a href="https://www.amarinfotech.com/estimote-beacons-application-development.html" target="_blank" class="icon_box "></a>
+                            <h3>Student Records</h3>
+                            <p>Amar InfoTech Estimote Beacons app development services make a valuable addition to your business ROI,...</p>
+                        </div>
+                    </div>
+                    <div class="portfolio development_iot" data-cat="web-desing" style="display: inline-block;" data-bound="">
+                        <div class="expertise_list iot_water_management">
+                            <a href="#" target="_blank" class="icon_box "></a>
+                            <h3>Diary</h3>
+                            <p>Smart water solution will assist you to reduce non-revenue water and operate more income from the investments you’ve already made in...</p>
+                        </div>
+                    </div>
+
+                    <div class="portfolio development_iot" data-cat="web-desing" style="display: inline-block;" data-bound="">
+                        <div class="expertise_list iot_smart_museum">
+                            <a href="#" target="_blank" class="icon_box "></a>
+                            <h3>Vocabulary</h3>
+                            <p>Amar Infotech is the best IoT based smart Museum solutions provider company and specialized in Location-based technologies and use devices like Beacons.</p>
+                        </div>
+                    </div>
+                    <div class="portfolio mamagment_system" data-cat="web-desing" style="display: inline-block;" data-bound="">
+                        <div class="expertise_list it_service">
+                            <a href="#" target="_blank" class="icon_box "></a>
+                            <h3>IT Consultancy Service</h3>
+                            <p>IT Consultancy Service we providing A to Z web development services, AI also acts as an IT consulting firm.</p>
+                        </div>
+                    </div>
+                    <div class="portfolio development_iot" data-cat="web-desing" style="display: inline-block;" data-bound="">
+                        <div class="expertise_list ibeacon_application_development">
+                            <a href="#" target="_blank" class="icon_box"></a>
+                            <h3>Palces & Birth Days</h3>
+                            <p> We combine the latest technologies with the most elegant user experiences to deliver the best solutions for iBeacon application development.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+    </div>
+
+    <!-- fourth row-->
+
+    <div flex class="homeentities-container">
+        <div hide-sm hide-xs fxLayout="column">
+            <h2 class="homeentities-title"> Features </h2>
+            <h4 class="homeentities-subtitle"> "Equipping teachers with technology that will automate the boring work
+                will
+                enhance education and make it more powerful. Teachers can spend more quality time on what they are good
+                at i.e teaching." -UNNI KOROTH </h4>
+        </div>
+        <!-- <div id="animation" fxLayout="row">
+             <span fxflex hide-sm hide-xs></span>
+
+             <div class="need-container-container" fxLayout="row" fxLayoutAlign="center center"
+                  [ngStyle]="{'padding-left':'65px','padding-right':'10px'}">
+                 <div class="application-card" *ngFor="let features of functionalitiesFeatures">
+                     <div class="application-content" fxLayout="column" fxLayoutAlign="center center">
+                         <h4 class="homeentities-title-small" [ngStyle]="{'padding-left':'15opx'}">
+                             {{features.title}}</h4>
+                         <h4 class="homeentities-subtitle-txt"> {{features.description}} </h4>
+                     </div>
+                 </div>
+             </div>
+             <span flex hide-sm hide-xs></span>
+
+         </div>-->
+
+        <div class="features-section deliver rows">
+            <div class="col-md-12">
+                <div id="col-manage-block-heights1" class="row">
+                    <div class="col-md-3">
+                        <div class="feature-block col-block-height transition solution_1" style="height: 380px;">
+                            <div class="img-block web"><i class="homepage_icon web transition">&nbsp;</i></div>
+                            <div class="content-part">
+                                <h3 class="c-w">Academics</h3>
+
+                                <p class="c-w">Synchronized study content on all devices. Adaptive Quizzes for
+                                    personlised learning. Engaging video content to help students master their
+                                    concepts.Detailed feedback and analysis for teachers.</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+
+                        <div class="feature-block col-block-height transition active solution_5" style="height: 380px;">
+                            <div class="img-block mobile"><i class="homepage_icon mobW transition">&nbsp;</i></div>
+                            <div class="content-part">
+                                <h3 class="c-w">Assessment </h3>
+
+                                <p class="c-w">Analyse progress and plan better. Create assignments and homework. Create
+                                    tests and analyse marks. Customized quizes and examinations.</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="feature-block col-block-height transition solution_3" style="height: 380px;">
+                            <div class="img-block cart"><i class="homepage_icon appProtoType transition">&nbsp;</i>
+                            </div>
+                            <div class="content-part">
+                                <h3 class="c-w">Administration</h3>
+
+                                <p class="c-w">Synchronized study content on all devices.Adaptive Quizzes for
+                                    personlised learning.Engaging video content to help students master their concepts.
+                                    Detailed feedback and analysis for teachers.</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="feature-block col-block-height transition solution_6 " style="height: 380px;">
+                            <div class="img-block cart"><i class="homepage_icon offshore transition">&nbsp;</i></div>
+                            <div class="content-part">
+                                <h3 class="c-w">Activities</h3>
+
+                                <p class="c-w"> Adaptive Quizzes for personlised learning. Engaging video content to
+                                    help students master their concepts. Detailed feedback and analysis for
+                                    teachers.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <carousel>
+        <slide>
+            <img src="https://betacontent.learnerguru.com/home/testimonial.jpg" alt="first slide" width="498"
+                 height="498" style="display: block; width: 100%;">
+
+            <div class="carousel-caption d-none d-md-block">
+                <div class="container">
+                    <div class="row text-center">
+                        <div class="col-md-8 ml-auto mr-auto">
+                            <div class="section-title">
+                                <h5 class="c-w m0">Our Testimonial</h5>
+
+                                <h2 class="c-w m0">What
+                                    <span>People</span> Say ?
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="pad-left-95">
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="single-testimonial">
+                                <div class="client-comment">
+                                    <div class="text-center" style="border-radius: 50%">
+
+                                        <img src="assets/Students_at_the_University_of_Mary_Lumen_Vitae_University_Center.jpg"
+                                             width="98" height="98" style="border-radius: 50%">
+
+                                    </div>
+                                    <h2 class="text-center ">Daniel Green</h2>
+
+                                    <h3 class="text-center">Owner of Scent Australia , Melbourne</h3>
+
+                                    <p class="text-center"> The service i have received from Amar Infotech is as good as
+                                        anythink i would expect in
+                                        Australia. The service is Exactly as agreed, turn around time is fast and work
+                                        is of
+                                        good Quality. </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </slide>
+        <slide>
+            <img src="https://betacontent.learnerguru.com/home/testimonial.jpg" alt="second slide" width="498"
+                 height="498" style="display: block; width: 100%;">
+
+            <div class="carousel-caption d-none d-md-block">
+                <div class="container">
+                    <div class="row text-center">
+                        <div class="col-md-8 ml-auto mr-auto">
+                            <div class="section-title">
+                                <h5 class="c-w m0">Our Testimonial</h5>
+
+                                <h2 class="c-w m0">What
+                                    <span>People</span> Say ?
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="single-testimonial">
+                            <div class="client-comment">
+                                <div class="text-center ">
+                                    <img src="https://www.amarinfotech.com/wp-content/themes/Amarinfotech/img/1.jpg"
+                                         alt=""
+                                         width="98" height="98" style="border-radius: 50%">
+                                </div>
+                                <h2 class="text-center">Wayne Laagewaard</h2>
+
+                                <h3 class="text-center">Owner Diversity-International , Netherlands</h3>
+
+                                <p class="text-center">I was searching for a reliable partner to service my company
+                                    needs. They have very skilled
+                                    developers, project managers. But also the account managers are a valid asset in the
+                                    process.</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </slide>
+        <slide>
+            <img src="https://betacontent.learnerguru.com/home/testimonial.jpg" alt="third slide" width="498"
+                 height="498" style="display: block; width: 100%;">
+
+            <div class="carousel-caption d-none d-md-block">
+                <div class="container">
+                    <div class="row text-center">
+                        <div class="col-md-8 ml-auto mr-auto">
+                            <div class="section-title">
+                                <h5 class="c-w m0">Our Testimonial</h5>
+
+                                <h2 class="c-w m0">What
+                                    <span>People</span> Say ?
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="single-testimonial">
+                            <div class="client-comment">
+                                <div class="text-center">
+                                    <img src="https://www.amarinfotech.com/wp-content/themes/Amarinfotech/img/3.jpg"
+                                         alt=""
+                                         width="98" height="98" style="border-radius: 50%">
+                                </div>
+                                <h2 class="text-center">Keren Green</h2>
+
+                                <h3 class="text-center">Director of Scent Australia , Melbourne</h3>
+
+                                <p class="text-center">Thank you to the Amar Info Tech staff whom I find are incredibly
+                                    efficient and
+                                    professional. Thanks and keep up the great work!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </slide>
+    </carousel>
+    <!--<div class="ai_testimonial" >
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-8 ml-auto mr-auto">
+                    <div class="section-title">
+                  <h5  class="c-w m0">Our Testimonial</h5>
+
+                        <h2 class="c-w m0">What
+                            <span>People</span> Say ?
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="single-testimonial">
+                        <div class="client-comment">
+                          <div class="text-center"style="border-radius: 50%" >
+
+                               <img src="assets/Students_at_the_University_of_Mary_Lumen_Vitae_University_Center.jpg"  width="98" height="98" style="border-radius: 50%">
+
+                            </div>
+                            <h2 class="text-center ">Daniel Green</h2>
+
+                            <h3 class="text-center">Owner of Scent Australia , Melbourne</h3>
+
+                            <p class="text-center"> The service i have received from Amar Infotech is as good as anythink i would expect in
+                                Australia. The service is Exactly as agreed, turn around time is fast and work is of
+                                good Quality. </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="single-testimonial">
+                        <div class="client-comment">
+                            <div class="text-center ">
+                                <img src="https://www.amarinfotech.com/wp-content/themes/Amarinfotech/img/1.jpg" alt=""
+                                     width="98" height="98" style="border-radius: 50%">
+                            </div>
+                            <h2 class="text-center">Wayne Laagewaard</h2>
+
+                            <h3 class="text-center">Owner Diversity-International , Netherlands</h3>
+
+                            <p class="text-center">I was searching for a reliable partner to service my company needs.  They have very skilled
+                                developers, project managers. But also the account managers are a valid asset in the
+                                process.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="single-testimonial">
+                        <div class="client-comment">
+                            <div class="text-center">
+                                <img src="https://www.amarinfotech.com/wp-content/themes/Amarinfotech/img/3.jpg" alt=""
+                                     width="98" height="98" style="border-radius: 50%">
+                            </div>
+                            <h2 class="text-center">Keren Green</h2>
+
+                            <h3 class="text-center">Director of Scent Australia , Melbourne</h3>
+
+                            <p class="text-center" >Thank you to the Amar Info Tech staff whom I find are incredibly efficient and
+                                professional. Thanks and keep up the great work!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+    <app-footer>
+        <span class="pad-15"><img src="https://betacontent.learnerguru.com/images/app_icon.png" height="30" width="30"
+                                  alt="learner.guru"> Version : {{appversionData}}</span>
+        <span class="ml-auto pad-15">© 2018, learnerguru. All Rights Reserved. </span>
+        <span class="ml-auto pad-15">
+            <a href="#" target="_blank" class="ml-auto pad-right-10">User Policy</a>
+            <a href="#" target="_blank" class="ml-auto pad-right-10 "> PrivacyPolicy </a>
+            <a href="#" target="_blank" class="ml-auto">Terms & Conditions</a>
+        </span>
+    </app-footer>
+
+</div>
+
+
+
+

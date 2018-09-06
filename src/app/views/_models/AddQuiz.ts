@@ -1,0 +1,40 @@
+/**
+ * Created by priya on 09/08/18.
+ */
+export class AddQuiz {
+    question:string;
+    questionImageUrl:string;
+    choiceA:string;
+    choiceB:string;
+    choiceC:string;
+    choiceD:string;
+    choiceE:string;
+    choiceAImageUrl:string;
+    choiceBImageUrl:string;
+    choiceCImageUrl:string;
+    choiceDImageUrl:string;
+    choiceEImageUrl:string;
+    answerImageUrl:string;
+    answer:string;
+    userId:number;
+    verified:number;
+    editedBy:number;
+    verifiedBy:number;
+    deleted:number;
+    imported:number;
+    questionTypeId:number;
+    statusId:number;
+    explanation:string;
+    explanationImage:string;
+    direction:string;
+    directionImage:string;
+    instituteId:number;
+    subjectId:number;
+    courseId:number;
+    chapterId:number;
+    departmentId:number;
+    subjectTag:string;
+    chapterTag:string;
+    courseTag:string;
+    usageType:number;
+}

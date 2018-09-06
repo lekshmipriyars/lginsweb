@@ -1,14 +1,78 @@
+<!--
+* CoreUI - Free Angular Admin Template
+* @version v2.0.0-beta.0
+* @link https://coreui.io/angular/
+* Copyright (c) 2018 creativeLabs Łukasz Holeczek
+* Licensed under MIT (https://coreui.io/license)
+-->
 <!doctype html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8">
-  <title>Lginsweb</title>
   <base href="/">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Institute Learner guru">
+  <meta name="author" content="agaram">
+  <meta name="keyword" content="Bootstrap,Admin,Template,Free,Angular,Dashboard,Typescript">
+  <link rel="icon" href="https://betacontent.learnerguru.com/images/app_icon.png" type="image/png"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="assets/css/toastr.css" rel="stylesheet">
+  <script src="https://cdn.ckeditor.com/4.7.1/standard-all/ckeditor.js"></script>
+	<title>Inslearnerguru.institute </title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
-<body>
-  <app-root></app-root>
+<script>
+
+  function isNumberKey(evt)
+  {
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+      return false;
+
+    return true;
+  }
+
+
+  function onlyAlphabetsAndSpace(e, t) {
+    try {
+      if (window.event) {
+        var charCode = window.event.keyCode;
+      }
+      else if (e) {
+        var charCode = e.which;
+      }
+      else { return true; }
+      if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123)||(charCode==32))
+        return true;
+      else
+        return false;
+    }
+    catch (err) {
+
+    }
+  }
+</script>
+
+<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2f80osCpAV7vATmkEN7KoNAyzRRcmrBY&libraries=places&language=en"></script>-->
+<script  type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyC2f80osCpAV7vATmkEN7KoNAyzRRcmrBY"></script>
+
+
+<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+		tex2jax: {
+		    inlineMath: [['$','$'], ['\\(','\\)']],
+		    processEscapes: true
+		    }
+	});
+</script>
+
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?...">
+</script>
+
+<body class="app">
+  <!-- App Loading... -->
 </body>
 </html>

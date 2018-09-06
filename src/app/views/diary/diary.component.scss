@@ -1,0 +1,179 @@
+.first{
+  background-color: white;
+height: 150px;
+  width: 300px;
+}
+.second{
+  background-color:lightgrey;
+  height: 150px;
+  width: 970px;
+
+}
+.third{
+  height:250px;
+  width:970px;
+  background-color: white;
+}
+.fourth{
+  height:170px;
+  width:450px;
+  background-color:white;
+
+}
+.form-check-label
+{
+  padding-right:10px;
+}
+.img-div {
+  padding: 13px;
+  border: 1px solid #333;
+  height: 180px;
+}
+
+.chat-menu-messaging {
+  height: 400px;
+  overflow: scroll;
+  background-color:#ccc;
+}
+
+.chat-avatar {
+  height: 37px;
+  width: 40px;
+  -moz-border-radius: 40px;
+  border-radius: 40px;
+  padding-top: 6px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+  -webkit-box-flex: 0;
+  -webkit-flex: none;
+  flex: none;
+  margin-right: 16px
+}
+
+.chat-name {
+  font-weight: 500;
+  font-size: 16px;
+  padding: 0;
+  margin: 0px;
+  margin-top: 12px;
+  letter-spacing: -1px;
+  line-height: 1.14286;
+  color: #414141;
+}
+
+.chat-message {
+  font-weight: normal;
+  font-size: 16px;
+  font-style: italic;
+  padding: 0;
+  margin: 0px;
+  margin-top: 12px;
+  letter-spacing: -1px;
+  line-height: 1.14286;
+  color: #414141;
+}
+
+.chat-person-type {
+  color: #01329C;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+
+/*to do */
+.messages {
+  padding: 20px;
+}
+
+.messages ul {
+  padding: 0px;
+  list-style-type: none;
+}
+
+.messages ul li {
+  height: auto;
+  margin-bottom: 10px;
+  clear: both;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: 51px;
+  margin-top: -38px;
+}
+
+.messages ul li span {
+  display: inline-block;
+  max-width: 200px;
+  background-color: white;
+  padding: 15px;
+  border-radius: 4px;
+  position: relative;
+
+}
+
+.messages ul li span.left {
+  float: left;
+}
+
+.messages ul li span.left:after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  left: -8.5px;
+  top: 7px;
+  height: 0px;
+  width: 0px;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid white;
+}
+
+.messages ul li span.left:before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  left: -9px;
+  top: 7px;
+  height: 0px;
+  width: 0px;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+
+}
+
+.messages ul li span.right:after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  right: -8px;
+  top: 6px;
+  height: 0px;
+  width: 0px;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid white;
+}
+
+.messages ul li span.right:before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  right: -9px;
+  top: 6px;
+  height: 0px;
+  width: 0px;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+
+}
+
+.messages ul li span.right {
+  float: right;
+  background-color: white;
+  padding: 15px;
+
+}
+
+.clear {
+  clear: both;
+}

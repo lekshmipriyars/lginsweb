@@ -1,0 +1,106 @@
+.first{
+  height:9px;
+  width:12px;
+  background-color: green;
+  align:center;
+  padding:0px 3px 0px 5px  ;
+
+
+}
+.second{
+  padding-right:25px ;
+}
+.one{
+  padding-left:10px;
+
+}
+.tit
+{
+  text-align: center;
+  align:center;
+
+}
+.i1{
+  padding-left:5px;
+}
+.lab{
+  padding-left:15px ;
+}
+.f11{
+  padding-top:5px ;
+padding-right:70px;
+  align:center;
+vertical-align:middle; }
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  padding: 8px 5px 0px 15px;
+  background-color: white;
+}
+.h12{
+  text-align: center;
+  align:center;
+}
+.b1{
+  margin-right:20px;
+}
+.im11{
+  margin-left:38px;
+}
+
+
+.demo-grid-list {
+  width: 1100px;
+
+  .mat-card {
+    margin: 16px 0;
+  }
+
+  p {
+    margin: 16px;
+  }
+
+  .demo-basic-list .mat-grid-tile {
+    background: rgba(0, 0, 0, 0.32);
+  }
+
+  img {
+    width: 350px;
+  }
+}
+
+
+ .mat-card img{
+  object-fit: cover; /*this makes de image in src fit to the size of specified below*/  /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+
+}
+
+.example-card {
+  max-width: 400px;
+}
+
+.example-header-image {
+  background-size: cover;
+}
+
+.e_name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 0 7px;
+  margin-top: -14px;
+  font-size: 16px!important;
+  font-weight: 500!important;
+  letter-spacing: 0;
+  color: #444!important;
+}

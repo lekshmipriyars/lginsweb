@@ -1,0 +1,273 @@
+<div style="height: 100vh;align:right; text-align: right">
+
+
+    <mat-toolbar color="primary" fxLayoutAlign="space-between center">
+
+        <div fxLayout="row" fxFlexAlign="center" fxLayoutAlign="space-between center" fxFlex="100">
+            <img src="assets/img/brand/BLUE-LINERGURU-FINAL.png"/>
+        </div>
+
+        <div id="topDiv" fxLayout="row" fxShow="true" fxHide.lt-md="true" fxLayout="row"
+             fxLayoutAlign="space-between center">
+
+            <!-- The following menu items will be hidden on both SM and XS screen sizes -->
+
+            <a href="#" mat-button class="home color-white" style="color: white" [ngClass]="{ 'is-page-style': isPage=='Home' }">Home</a>
+
+            <a href="#" mat-button style="color: white" [ngClass]="{ 'is-page-style': isPage=='Features' }">Features</a>
+
+            <a href="#" mat-button [routerLink]="['/aboutus']" style="color: white" [ngClass]="{ 'is-page-style': isPage=='AboutUs' }">About Us</a>
+
+            <a href="#" mat-button [routerLink]="['/contactus']" style="color: white"    [ngClass]="{ 'is-page-style': isPage=='Contact' }">Contact Us</a>
+
+            <a href="#" mat-button [routerLink]="['/login']" style="color: white" [ngClass]="{ 'is-page-style': isPage=='SignIn' }">  Sign In</a>
+
+            <a href="#" mat-button [routerLink]="['/register']" style="color: white" [ngClass]="{ 'is-page-style': isPage=='SignUp' }">Sign Up</a>
+
+        </div>
+
+        <div fxShow="true" fxHide.gt-sm="true">
+
+            <!--   <a href="#" (click)="sidenav.toggle()">Show Side Menu</a>-->
+
+        </div>
+
+    </mat-toolbar>
+
+    <div class="col_main ai_contact">
+
+        <div class="container cForm">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="new_contact">
+                        <div class="inner_contact">
+                            <div class="form_heding">
+                                <div class="img_box">
+                                    <img src="https://betacontent.learnerguru.com/home/contact_info_icon.png"
+                                         alt="Contact Info">
+                                </div>
+                                <h5>Your Contact Information</h5>
+
+
+                            </div>
+                            <form style="float:left" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+                                <div class="row">
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon-user"></i></span>
+                                        </div>
+                                        <input type="text" formControlName="cName" class="form-control"
+                                               [ngClass]="{ 'is-invalid': submitted && f.cName.errors }"
+                                               class="form-control" placeholder="Name">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">@</span>
+                                        </div>
+                                        <input type="email" formControlName="cEmail" class="form-control"
+                                               [ngClass]="{ 'is-invalid': submitted && f.cEmail.errors }"
+                                               class="form-control" placeholder="Email">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon-speech"></i></span>
+                                        </div>
+                                    <textarea id="textarea-input" formControlName="cMessage" id="cMessageTxt"
+                                              name="cMessageTxt"
+                                              class="form-control"
+                                              rows="6"
+                                              [ngClass]="{ 'is-invalid': submitted && f.cMessage.errors }"
+                                              placeholder=" Requirement Specifications"></textarea>
+
+                                    </div>
+                                </div>
+                                <div class="submit_box">
+                                    <div class="img_box">
+                                        <img src="https://betacontent.learnerguru.com/home/loc_icon.png" alt="">
+                                    </div>
+                                    <p>Simply complete the form. Don't worry - we won't share your details with any
+                                        other third party. We hate spam as much as you do! </p>
+
+                                    <div class="form-group">
+                                        <button class="btn btn-primary px-4" type="submit">Submit</button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-7" style="text-align: left">
+                    <div class="address_detail">
+
+                        <div id="mail_success" style="background-color: antiquewhite;" *ngIf="isValidContact">
+                            <div style="padding:19px;line-height:23px;font-size:16px;float:left;color:#fff;background-color:#187da0;margin-top: 10px;  text-align: left;width: 100%;">
+                                Thank you for your Inquiry!<br> Our representative will come back to you in 24 Hours
+                                with desired solutions for you.<br> In terms of any Inconvenience or urgency you can
+                                contact us @<br> Phone No: (+91) 7010023423<br> Email: support@learnerguru.com<br></div>
+                        </div>
+
+                        <div class="new_head_on">
+                            <span><i class="fa fa-stop" aria-hidden="true"></i></span>
+
+                            <h2>Head Office</h2>
+                        </div>
+                        <div class="address_box">
+                            <div class="img_box">
+                                <img src="https://betacontent.learnerguru.com/home/india_flag_icon.png"
+                                     alt="indian flag">
+                            </div>
+                            <div class="right_content">
+                                <h5>Learner.Guru</h5>
+                                <span>A division of Microedifylabs Pvt Ltd</span>
+
+                                <p>
+                                    Vasanthapuram Extn, <br>
+                                    Vaidekhi Street,Unaimancheri Village, <br>
+                                    Kolapakkam, <br>
+                                    Chennai - 600048 <br>
+                                    TamilNadu - India
+                                </p>
+                            </div>
+                        </div>
+                        <div class="address_box">
+                            <div class="img_box">
+                                <img src="https://betacontent.learnerguru.com/home/tel_icon.png" alt="indian flag">
+                            </div>
+                            <div class="right_content">
+                                <h5>Contact Details</h5>
+
+                                <p>
+                                    (+91) 7010023423<br>
+                                    Business : <a href="mailto:support@learner.guru">support@learnerguru.com</a><br>
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+
+<!--
+<div class="bg"></div>
+<div class="bg2"></div>
+<div class="container-box">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4">
+                    <h1>Contact Us</h1>
+                </div>
+                <div class="col-md-8">
+                    <div style="border: 1px solid #ccc;margin-top:23px"></div>
+                </div>
+            </div>
+
+
+            <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-user"></i></span>
+                    </div>
+                    <input type="text" formControlName="cName" class="form-control"
+                           [ngClass]="{ 'is-invalid': submitted && f.cName.errors }"
+                           class="form-control" placeholder="Name">
+
+                    <div *ngIf="submitted && f.cName.errors" class="invalid-feedback">
+                        <div *ngIf="f.cName.errors.required">UserName is required</div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">@</span>
+                    </div>
+                    <input type="text" formControlName="cEmail" class="form-control"
+                           [ngClass]="{ 'is-invalid': submitted && f.cEmail.errors }"
+                           class="form-control" placeholder="Email">
+
+                    <div *ngIf="submitted && f.cEmail.errors" class="invalid-feedback">
+                        <div *ngIf="f.cEmail.errors.required">Email is required</div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-speech"></i></span>
+                        </div>
+                                    <textarea id="textarea-input" formControlName="cMessage" id="cMessageTxt" name="cMessageTxt"
+                                              class="form-control"
+                                              rows="6"
+                                              [ngClass]="{ 'is-invalid': submitted && f.cMessage.errors }"
+                                              placeholder="Enter Message"></textarea>
+                        <div *ngIf="submitted && f.cMessage.errors" class="invalid-feedback">
+                            <div *ngIf="f.departmentDescription.errors.required">Description is required</div>
+                            <div *ngIf="f.departmentDescription.errors.minlength">Description must be at least 5 characters</div>
+                            <div *ngIf="f.departmentDescription.errors.maxlength">Description must be at least 100 characters</div>
+                        </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-12">
+                        <div class="form-group">
+                            <button class="btn btn-primary px-4">Submit</button>
+                        </div>
+                    </div>
+
+                    <div class="head-office"><h4>Head Office</h4><span>Learner.Guru</span>
+
+                        <div class="textcap">Vasanthapuram Extn .<br>Vaidekhi Street,Unaimancheri Village .<br>Kolapakkam
+                            .<br>Chennai,Tamil Nadu,India .<br>Email Id: support@eventova.com<br>Mobile:+91-7010023423
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <ul>
+                <li>
+                    <img src="assets/acadamics.jpeg" width="50px">
+                <span style="margin-left:-50px">
+                    <strong>Acadamics</strong>
+                     <p>Synchronized study content on all devices. Adaptive Quizzes for personlised learning. Engaging
+                         video content to help students master their concepts.Detailed feedback and analysis for
+                         teachers.</p>
+                </span>
+                </li>
+                <li>
+                    <img src="assets/assessment.jpg" width="50px">
+                <span style="margin-left:-50px">
+                    <strong>Assessment</strong>
+                     <p>Analyse progress and plan better. Create assignments and homework. Create tests and analyse
+                         marks. Customized quizes and examinations.</p>
+                </span>
+
+                </li>
+                <li>
+                    <img src="assets/administration.jpeg" width="50px">
+                <span style="margin-left:-50px">
+                    <strong>Administration</strong>
+                     <p>Synchronized study content on all devices.Adaptive Quizzes for personlised learning.Engaging
+                         video content to help students master their concepts. Detailed feedback and analysis for
+                         teachers.</p>
+                </span>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+-->
+

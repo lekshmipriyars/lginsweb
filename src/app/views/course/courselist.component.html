@@ -1,0 +1,373 @@
+<div class="animated fadeIn">
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label">Department</label>
+                    <div class="col-md-9 input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-wallet"></i></span>
+                        </div>
+
+                        <select [(ngModel)]="selectedDepartmentId" name="drwnDepartment" class="form-control form-control-sm"
+                                (change)="getValueInDepartment($event.target.value)">
+                            <option [ngValue]="null" disabled>Choose Department</option>
+                            <option *ngFor="let department of departmentList" [value]="department.departmentId">
+                                {{ department.name }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <b> Course List </b>
+            </div>
+            <div class="card-body">
+                <div style="margin: auto; max-width: 1000px; margin-bottom: 50px;" >
+                    <data-table id="search-grid"
+                                headerTitle="Course List"
+                                [pagination_limit]="true"
+                                [items]="items"
+                                [itemCount]="itemCount"
+                                (reload)="reloadItems($event)"
+                                (rowClick)="rowClick($event)"
+                                (rowDoubleClick)="rowDoubleClick($event)"
+                                [rowTooltip]="rowTooltip">
+                        <data-table-column
+                                [property]="'name'"
+                                [header]="'Name'"
+                                [sortable]="true"
+                                [resizable]="true"
+                                width="150px"
+                                [searchable]="true">
+                        </data-table-column>
+
+                        <data-table-column
+                                property="courseImage"
+                                header="Image"
+                                [searchable]="false"
+                                width="100px">
+                            <ng-template #dataTableCell let-item="item">
+                                <img src="{{item.courseImage}}" class="img-avatar-style no-border"
+                                     onError="this.src='../assets/img/no_image.png';"/>
+                            </ng-template>
+                        </data-table-column>
+                        <data-table-column
+                                [property]="'description'"
+                                [header]="'Description'"
+                                width="150px"
+                                [visible]="true">
+                        </data-table-column>
+                        <data-table-column
+                                [property]="'active'"
+                                [header]="'Actions'"
+                                [width]="150"
+                                [resizable]="true"
+                                [searchable]="false">
+                            <ng-template #dataTableHeader let-item="item">
+                                <span style="color: rgb(232, 0, 0)">Actions</span>
+                            </ng-template>
+                            <ng-template #dataTableCell let-item="item">
+                                <span class="badge badge-danger" (click)="goToEditNamePopUp(item)">&nbsp;Edit&nbsp;</span>
+                                <span id="openModalButton" class="badge badge-warning" data-toggle="modal"
+                                      data-target="#warningModal"
+                                      (click)="goToDeleteCoursePopUp(item)">Delete</span>
+
+                            </ng-template>
+                        </data-table-column>
+                    </data-table>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+        <form [formGroup]="editCourseForm" (ngSubmit)="onEditSubmit()" class="form-horizontal"
+              class="form-horizontal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Course list</h4>
+                    <button type="button" class="close" (click)="editModal.hide()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Course Edit</strong> Form
+                        </div>
+                        <div class="card-body">
+                            <div class="col-md-40">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 col-form-label">Name</label>
+
+                                            <div class="col-md-9 input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="icon-notebook"></i></span>
+                                                </div> <input type="text" OnlyNumber="true" formControlName="editCourseName"
+                                                              id="coruseNameTxt" name="coruseNameTxt"
+                                                              class="form-control"
+                                                              [ngModel]="editCourseData.name"
+                                                              [ngClass]="{ 'is-invalid': editSubmitted && f.editCourseName.errors }"
+                                                              placeholder="Enter course name">
+                                              
+                                                <div *ngIf="editSubmitted && f.editCourseName.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.editCourseName.errors.required">CourseName is required
+                                                    </div>
+                                                    <div *ngIf="f.editCourseName.errors.minlength">CourseName must be at
+                                                        least 3 characters
+                                                    </div>
+                                                    <div *ngIf="f.editCourseName.errors.maxlength">CourseName must be 30
+                                                        characters
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-3  col-form-label"
+                                                   for="textarea-input">Description</label>
+
+                                            <div class="col-md-9 input-group mb-3 ">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="icon-speech"></i></span>
+                                                </div>
+                                    <textarea id="textarea-input" formControlName="editCourseDescription"
+                                              id="descriptionTxt" name="descriptionsTxt"
+                                              class="form-control"
+                                              [ngModel]="editCourseData.description"
+                                              rows="6"
+                                              [ngClass]="{ 'is-invalid': editSubmitted && f.editCourseDescription.errors }"
+                                              placeholder="Enter Course description"></textarea>
+
+                                                <div *ngIf="editSubmitted && f.editCourseDescription.errors"
+                                                     class="invalid-feedback">
+                                                    <div *ngIf="f.editCourseDescription.errors.required">Description is
+                                                        required
+                                                    </div>
+                                                    <div *ngIf="f.editCourseDescription.errors.minlength">Description must
+                                                        be at least 5 characters
+                                                    </div>
+                                                    <div *ngIf="f.editCourseDescription.errors.maxlength">Description must
+                                                        be at least 100 characters
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!--istcol-md-6--closingtag-->
+                                    </div>
+                                    <!--second opening col-md-6-->
+
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-12 text-center ">
+                                                <img [src]="editCourseData.courseImage"  [ngModel]="editCourseData.courseImage" height="120px" width="120px">
+                                            </div>
+                                            <!--<div class="col-md-4 text-center img-div">
+                                                <img [src]="url" height="120px" width="120px">
+
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group row">
+                                                    <label class="col-md-4 col-form-label">Name :</label>
+
+                                                    <div class="col-md-8 input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i
+                                                                    class="icon-doc"></i></span>
+                                                        </div>
+                                                        <input type="text" formControlName="chosenFileName"
+                                                               name="fileNameTxt" id="fileNameTxt"
+                                                               [(ngModel)]="chosenFileName"
+                                                               class="form-control"
+                                                               [ngClass]="{ 'is-invalid': submitted && f.chosenFileName.errors }"
+                                                               class="form-control"
+                                                               placeholder="File Name">
+
+                                                        <div *ngIf="submitted && f.chosenFileName.errors"
+                                                             class="invalid-feedback">
+                                                            <div *ngIf="f.chosenFileName.errors.required">File Name is
+                                                                required
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group row">
+                                                    <label class="col-md-4 col-form-label">Type :</label>
+
+                                                    <div class="col-md-8 input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i
+                                                                    class="icon-docs"></i></span>
+                                                        </div>
+                                                        <input type="text" formControlName="chosenFileType"
+                                                               [(ngModel)]="chosenFileType"
+                                                               name="fileTypeTxt" id="fileTypeTxt"
+                                                               class="form-control"
+                                                               [ngClass]="{ 'is-invalid': submitted && f.chosenFileType.errors }"
+                                                               class="form-control"
+                                                               placeholder="File Type">
+
+                                                        <div *ngIf="submitted && f.chosenFileType.errors"
+                                                             class="invalid-feedback">
+                                                            <div *ngIf="f.chosenFileType.errors.required">File Type is
+                                                                required
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-md-4 col-form-label">Size :</label>
+
+                                                    <div class="col-md-8 input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i
+                                                                    class="icon-drawer"></i></span>
+                                                        </div>
+                                                        <input type="text" formControlName="chosenFileSize"
+                                                               name="fileSizeTxt" id="fileSizeTxt"
+                                                               [(ngModel)]="chosenFileSize"
+                                                               class="form-control"
+                                                               [ngClass]="{ 'is-invalid': submitted && f.chosenFileSize.errors }"
+                                                               class="form-control"
+                                                               placeholder="File Size">
+
+                                                        <div *ngIf="submitted && f.chosenFileSize.errors"
+                                                             class="invalid-feedback">
+                                                            <div *ngIf="f.chosenFileSize.errors.required">File Size is
+                                                                required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <label class="btn btn-default">
+                                                <input type="file" accept="image/*" (change)="selectFile($event)">
+                                            </label>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn px-4 btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                    <button type="button" class="btn btn-primary" (click)="onEditSubmit()">Save changes</button>
+                </div>
+
+            </div>
+            <!-- /.modal-content -->
+        </form>
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div bsModal #warningModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-warning" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Course</h4>
+                <button type="button" class="close" (click)="warningModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{msgInPopup}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="warningModal.hide()">No</button>
+                <button type="button" class="btn btn-warning" (click)=" goToConFirmCourseDelete()">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div bsModal #viewModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">View Course</h4>
+                <button type="button" class="close" (click)="viewModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <strong>{{course.name}}</strong>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="col-md-40">
+                            <div class="row">
+
+                                <div class="col-md-12">
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">Name</label>
+
+                                        <div class="col-md-9 col-form-label">
+                                            {{course.name}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" *ngIf="course.description!=null">
+                                        <label class="col-md-3  col-form-label"
+                                               for="textarea-input">Description</label>
+
+                                        <div class="col-md-9 col-form-label ">
+                                            {{course.description}}
+                                        </div>
+                                    </div>
+
+
+                                    <!--istcol-md-6--closingtag-->
+                                </div>
+                                <!--second opening col-md-6-->
+
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <img [src]="url" onError="this.src='../assets/img/no_image.png';"
+                                                 height="120px" width="120px">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+

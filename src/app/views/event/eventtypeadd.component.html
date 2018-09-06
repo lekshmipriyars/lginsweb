@@ -1,0 +1,155 @@
+<div class="animated fadeIn">
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+    <div class="row">
+        <p> Here you can add Event Types for comprehensive communication and learning platform for your school / college.
+            Event Types should be entered in a characters.For example Daily Test, Weekly Test....Enter the Event Type like
+            given format.</p>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Event Type Add</strong> Form
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="eventTypeForm" (ngSubmit)="onSubmit()">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="icon-organization"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Enter the Event Type "
+                                   formControlName="eventType"
+                                   class="form-control" [ngClass]="{ 'is-invalid': submitted && f.eventType.errors }">
+
+                            <div *ngIf="submitted && f.eventType.errors" class="invalid-feedback">
+                                <div *ngIf="f.eventType.errors.required">Event Type is required</div>
+                                <div *ngIf="f.eventType.errors.minlength">Event Type must be at least 3 characters</div>
+                            </div>
+                            <div class="pad_top_10" [ngClass]="{ 'invalid-feedback': submitted && f.eventType.errors }">
+                                <br/>
+                                Enter the Subject Types like given format. For example Practical, Theory... .
+                            </div>
+                        </div>
+
+                        <div class="row pad_left_15 no_margin_right float_rigt">
+                            <div class="form-group ">
+                                <button type="submit" class="btn px-4 btn-primary mar_right_10"><i
+                                        class="fa fa-dot-circle-o"></i> Submit
+                                </button>
+                                <button type="reset" class="btn px-4 btn-danger"><i class="fa fa-ban"></i> Reset
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-align-justify"></i>Event Type All
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped table-sm">
+                        <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Event Type</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let eventType of eventTypeList ; index as i; ">
+                            <td> {{i+1}}</td>
+                            <td> {{eventType.eventType}}</td>
+                            <td>
+                                <span class="badge badge-danger"
+                                      (click)="goToEditEventTypePopUp()">&nbsp;Edit&nbsp;</span>
+                                <span id="openModalButton" class="badge badge-warning" data-toggle="modal"
+                                      data-target="#warningModal"
+                                      (click)="goToDeleteEventTypePopUp(eventType)">Delete</span>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Event Type</h4>
+                <button type="button" class="close" (click)="editModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Event Type  Edit</strong> Form
+                    </div>
+                    <div class="card-body">
+                        <form  [formGroup]="examTypeForm" (ngSubmit)="onSubmit()">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-organization"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Enter the Event Type "
+                                       formControlName="eventType"
+                                       class="form-control" [ngClass]="{ 'is-invalid': submitted && f.eventType.errors }">
+
+                                <div *ngIf="submitted && f.eventType.errors" class="invalid-feedback">
+                                    <div *ngIf="f.eventType.errors.required">Event Type is required</div>
+                                    <div *ngIf="f.eventType.errors.minlength">Event Type must be at least 3 characters</div>
+                                </div>
+                                <div class="pad_top_10" [ngClass]="{ 'invalid-feedback': submitted && f.eventType.errors }">
+                                    <br/>
+                                    Enter the Event Types like given format. For example Public Event,Private Event... .
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn px-4 btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div bsModal #warningModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-warning" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Event Type Add Delete</h4>
+                <button type="button" class="close" (click)="warningModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{msgInPopup}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="warningModal.hide()">No</button>
+                <button type="button" class="btn btn-warning" (click)=" goToConFirmDelete()">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->

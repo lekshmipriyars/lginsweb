@@ -1,0 +1,332 @@
+<div class="animated fadeIn">
+    <p>A division of a large organization such as a government, university, or business, dealing with a specific area of
+        activity.Specialized functional area within an organization or a division, such as accounting, marketing,
+        planning. Generally every department has its own manager and chain of command. </p>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <b> Edit Staff</b>
+
+            </div>
+            <div class="card-body">
+                <form [formGroup]="editStaffForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">First Name :</label>
+
+                                <div class="col-md-9 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-user"></i></span>
+                                    </div>
+                                    <input type="text" OnlyNumber="true" formControlName="fName"
+                                           id="fnameTxt" name="fnameTxt"
+                                           class="form-control"
+                                           [ngModel]="editStaffData.fName"
+                                           [ngClass]="{ 'is-invalid': submitted && f.fName.errors }"
+                                           placeholder="Enter course name">
+                                    <div *ngIf="submitted && f.fName.errors" class="invalid-feedback">
+                                        <div *ngIf="f.fName.errors.required">Staff Name is required</div>
+                                        <div *ngIf="f.fName.errors.minlength">Staff Name must be at least 2
+                                            characters
+                                        </div>
+                                        <div *ngIf="f.fName.errors.maxlength">Staff Name must be 30 characters</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Last Name :</label>
+
+                                <div class="col-md-9 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-user"></i></span>
+                                    </div>
+                                    <input type="text"  formControlName="stLastName" id="stLastNameTxt"
+                                           name="stLastNameTxt"
+                                           class="form-control"
+                                           [value]="stLastName"
+                                           (input)="stLastName=$event.target.value"
+                                           placeholder="Enter Last Name">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Qualification :</label>
+
+                                <div class="col-md-9 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-layers"></i></span>
+                                    </div>
+                                    <input type="text" formControlName="staffQualification" id="qualificationTxt"
+                                           name="qualificationTxt"
+                                           [ngModel]="editStaffData.qualification"
+                                           class="form-control"
+                                           [ngClass]="{ 'is-invalid': submitted && f.staffQualification.errors }"
+                                           placeholder="Enter Qualification">
+
+                                    <div *ngIf="submitted && f.staffQualification.errors" class="invalid-feedback">
+                                        <div *ngIf="f.staffQualification.errors.required">Qualification is required
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3  col-form-label" for="textarea-input">Address :</label>
+
+                                <div class="col-md-9 input-group mb-3 ">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-speech"></i></span>
+                                    </div>
+                                    <textarea id="textarea-input"
+                                              formControlName="staffAddress" id="addressTxt"
+                                              name="addressTxt"
+                                              class="form-control"
+                                              [ngModel]="editStaffData.address"
+                                              rows="6"
+                                              maxlength="50"
+                                              [ngClass]="{ 'is-invalid': submitted && f.staffAddress.errors }"
+                                              placeholder="Enter Address"></textarea>
+
+
+                                    <div *ngIf="submitted && f.staffAddress.errors" class="invalid-feedback">
+                                        <div *ngIf="f.staffAddress.errors.required">Address is required</div>
+                                        <div *ngIf="f.staffAddress.errors.minlength">Address must be at least 5
+                                            characters
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Email :</label>
+
+                                <div class="col-md-9 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">@</span>
+                                    </div>
+                                    <input type="email" formControlName="staffEmailId"
+                                           name="staffEmaildIdTxt" id="staffEmaildIdTxt"
+                                           class="form-control"
+                                           [ngModel]="editStaffData.emailId"
+                                           [ngClass]="{ 'is-invalid': submitted && f.staffEmailId.errors }"
+                                           placeholder="Enter Staff Email">
+
+                                    <div *ngIf="submitted && f.staffEmailId.errors" class="invalid-feedback">
+                                        <div class="alert alert-danger"
+                                             [hidden]="staffForm.controls.email.untouched || staffForm.controls.email.valid">
+                                            A valid email address is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Contact No :</label>
+                                <div class="col-md-9 input-group mb-3">
+                                    <input type="text"
+                                           style="width:394px"
+                                           [ngModel]="editStaffData.phone"
+                                           [value]="staffContactPhone"
+                                           (input)="staffContactPhone=$event.target.value"
+                                           name="staffContactPhone" id="staffContactPhone"
+                                           ng2TelInput
+                                           [ng2TelInputOptions]="{initialCountry: initialCountry}"
+                                           (hasError)="hasError($event)"
+                                           (ng2TelOutput)="getNumber($event)"
+                                           (intlTelInputObject)="telInputObject($event)"
+                                           (countryChange)="onCountryChange($event)"
+                                           class="form-control"
+                                           onkeypress="return isNumberKey(event)"
+                                           placeholder=" Enter the staff contact no">
+                                </div>
+                            </div>
+                            <div class="form-group row"><label class="col-md-3 col-form-label">Gender : </label>
+                                <div class="col-md-9 col-form-label">
+
+                                        <mat-radio-button [checked]="maleSelect"
+                                                          [(ngModel)]="chosenGender"
+                                                           [value]="1"
+                                                          (click)="getValue(1)" >Male
+                                        </mat-radio-button>
+                                    <mat-radio-button [checked]="femaleSelect"
+                                                      [(ngModel)]="chosenGender"
+                                                      [value]="2"
+                                                      (click)="getValue(2)" >Fe Male
+                                    </mat-radio-button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!---second-col-md-6-->
+                        <div class="col-md-6">
+                           <!-- <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Select Department</label>
+
+                                <div class="col-md-6 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-wallet"></i></span>
+                                    </div>
+
+                                    <select name="drwnDepartment" class="form-control form-control-sm"
+                                            (change)="getValueInDepartment($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Department</option>
+                                        <option *ngFor="let department of departmentList">
+                                            {{ department.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Martial status :</label>
+
+                                <div class="col-md-6 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-present"></i></span>
+                                    </div>
+                                    <select name="profile" class="form-control form-control-sm"
+                                            (change)="getValueInMartialStatus($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Martial status</option>
+                                        <option *ngFor="let martialval of martialDatas">
+                                            {{ martialval.name }}
+                                        </option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Select designation :</label>
+
+                                <div class="col-md-6 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-badge"></i></span>
+                                    </div>
+                                    <select name="drwnDesignaion" class="form-control form-control-sm"
+                                            (change)="getValueInDesignation($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Designation</option>
+                                        <option *ngFor="let designation of designationList">
+                                            {{ designation.designation }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label" [ngClass]="{ 'txt-eror':selectedItems.length==0 }">Staff permission :</label>
+                                <div class="col-md-8 input-group mb-3">
+                                    <ng-multiselect-dropdown
+                                            [placeholder]="'Choose Permission'"
+                                            [data]="dropdownList"
+                                            formControlName="skills"
+                                            [(ngModel)]="selectedItems"
+                                            [settings]="dropdownSettings"
+                                            (onSelect)="onItemSelect($event)"
+                                            (onDeSelect)="OnItemDeSelect($event)"
+                                            (onSelectAll)="onSelectAll($event)"
+                                            (onDeSelectAll)="onDeSelectAll($event)">
+                                    </ng-multiselect-dropdown>
+
+                                </div>
+                            </div>
+-->
+
+                            <div class="row">
+
+                                <div class="col-md-4 text-center img-div">
+                                    <img [src]="editStaffData.profileImage" height="150px" width="150px">
+                                </div>
+                               <!-- <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label">File Name :</label>
+
+                                        <div class="col-md-8 input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-doc"></i></span>
+                                            </div>
+                                            <input type="text" formControlName="chosenFileName"
+                                                   name="fileNameTxt" id="fileNameTxt"
+                                                   [(ngModel)]="chosenFileName"
+                                                   class="form-control"
+                                                   [ngClass]="{ 'is-invalid': submitted && f.chosenFileName.errors }"
+                                                   class="form-control"
+                                                   placeholder="File Name">
+
+                                            <div *ngIf="submitted && f.chosenFileName.errors" class="invalid-feedback">
+                                                <div *ngIf="f.chosenFileName.errors.required">File Name is required
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label">File Type :</label>
+
+                                        <div class="col-md-8 input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-docs"></i></span>
+                                            </div>
+                                            <input type="text" formControlName="chosenFileType"
+                                                   [(ngModel)]="chosenFileType"
+                                                   name="fileTypeTxt" id="fileTypeTxt"
+                                                   class="form-control"
+                                                   [ngClass]="{ 'is-invalid': submitted && f.chosenFileType.errors }"
+                                                   class="form-control"
+                                                   placeholder="File Type">
+
+                                            <div *ngIf="submitted && f.chosenFileType.errors" class="invalid-feedback">
+                                                <div *ngIf="f.chosenFileType.errors.required">File Type is required
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label">File Size :</label>
+
+                                        <div class="col-md-8 input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-drawer"></i></span>
+                                            </div>
+                                            <input type="text" formControlName="chosenFileSize"
+                                                   name="fileSizeTxt" id="fileSizeTxt"
+                                                   [(ngModel)]="chosenFileSize"
+                                                   class="form-control"
+                                                   [ngClass]="{ 'is-invalid': submitted && f.chosenFileSize.errors }"
+                                                   class="form-control"
+                                                   placeholder="File Size">
+
+                                            <div *ngIf="submitted && f.chosenFileSize.errors" class="invalid-feedback">
+                                                <div *ngIf="f.chosenFileSize.errors.required">File Size is required
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                            </div>
+                           <!-- <div class="row">
+                                <label class="btn btn-default">
+                                    <input type="file" accept=".png, .jpg, .jpeg" (change)="selectFile($event)">
+                                </label>
+
+                            </div>-->
+                        </div>
+                    </div>
+
+                    <div class="row float_rigt">
+                        <div class="form-group pad_right_5">
+                            <button type="reset" class="btn btn-danger px-4" (click)="goToReset()">Reset</button>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary px-4">Add Staff</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>

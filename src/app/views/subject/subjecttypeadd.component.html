@@ -1,0 +1,162 @@
+<div class="animated fadeIn">
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+    <div class="row">
+
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Subject Type Add</strong> Form
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="subjectTypeForm" (ngSubmit)="onSubmit()">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="icon-organization"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Enter the Subject Type "
+                                   formControlName="subjectType"
+                                   onkeypress="return onlyAlphabetsAndSpace(event,this);"
+                                   class="form-control" [ngClass]="{ 'is-invalid': submitted && f.subjectType.errors }">
+
+                            <div *ngIf="submitted && f.subjectType.errors" class="invalid-feedback">
+                                <div *ngIf="f.subjectType.errors.required">Subject Type is required</div>
+                                <div *ngIf="f.subjectType.errors.minlength">Subject Type must be at least 3 characters
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="pad_top_10"
+                             [ngClass]="{ 'invalid-feedback': submitted && f.subjectType.errors }">
+                            Enter the Subject Types like given format. For example Practical, Theory... .
+                        </div>
+                        <div class="row pad_left_15 no_margin_right float_rigt">
+                            <div class="form-group ">
+                                <button type="submit" class="btn px-4 btn-primary mar_right_10"><i
+                                        class="fa fa-dot-circle-o"></i> Submit
+                                </button>
+                                <button type="reset" class="btn px-4 btn-danger"><i class="fa fa-ban"></i> Reset
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-align-justify"></i>Subject Type All
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped table-sm">
+                        <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Subject Type</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <ng-template ngFor let-subjectType [ngForOf]="subjectTypeList" let-name="$implicit"
+                                     let-i="index">
+                            <tr>
+                                <td> {{i+1}}</td>
+                                <td> {{subjectType.subjectType}}</td>
+                                <td>
+                                    <span class="badge badge-danger"
+                                      (click)="goToEditSubjectTypePopUp(subjectType)">&nbsp;Edit&nbsp;</span>
+                                    <span id="openModalButton" class="badge badge-warning" data-toggle="modal"
+                                      data-target="#warningModal" (click)="goToDeleteSubjectTypePopUp(subjectType)">Delete</span>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-primary" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Subject Type</h4>
+                <button type="button" class="close" (click)="editModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Edit Subject Type - {{getSubjectTypeData.subjectType}}</strong>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="editSubjectTypeForm" (ngSubmit)="onEditSubmit()">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-organization"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Enter the Subject Type "
+                                       formControlName="editSubjectType"
+                                       onkeypress="return onlyAlphabetsAndSpace(event,this);"
+                                       [ngModel]="getSubjectTypeData.subjectType"
+                                       class="form-control"
+                                       [ngClass]="{ 'is-invalid': editSubmitted && e.editSubjectType.errors }">
+
+                                <div *ngIf="editSubmitted && e.editSubjectType.errors" class="invalid-feedback">
+                                    <div *ngIf="e.editSubjectType.errors.required">Subject Type is required</div>
+                                    <div *ngIf="e.editSubjectType.errors.minlength">Subject Type must be at least 3
+                                        characters
+                                    </div>
+                                </div>
+                                <div class="pad_top_10"
+                                     [ngClass]="{ 'invalid-feedback': submitted && e.editSubjectType.errors }">
+                                    Enter the Subject Types like given format. For example Practical, Theory... .
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn px-4 btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                <button type="submit" class="btn btn-primary" (click)="onEditSubmit()">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div bsModal #warningModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-warning" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Subject Type Delete</h4>
+                <button type="button" class="close" (click)="warningModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{msgInPopup}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="warningModal.hide()">No</button>
+                <button type="button" class="btn btn-warning" (click)=" goToConFirmDelete()">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->

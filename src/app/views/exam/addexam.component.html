@@ -1,0 +1,219 @@
+<div class="animated fadeIn">
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+    <div class="row">
+
+        <p>A division of a large organization such as a government, university, or business, dealing with a specific
+            area of activity.Specialized functional area within an organization or a division, such as accounting,
+            marketing, planning. Generally every course has its own manager and chain of command.
+
+        </p>
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Add Exam </strong> Form
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="examForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+                        <div class="col-md-6" style="float:left">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>Choose Department / Course/Subject/ExamType</strong>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">Department</label>
+
+                                        <div class="col-md-9 input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-wallet"></i></span>
+                                            </div>
+                                            <select name="drwnDepartment" class="form-control form-control-sm"
+                                                    (change)="getValueInDepartment($event.target.value)">
+                                                <option [ngValue]="null" disabled>Choose Department</option>
+                                                <option *ngFor="let department of departmentList">
+                                                    {{ department.name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">Select Course</label>
+
+                                        <div class="col-md-9 input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-badge"></i></span>
+                                            </div>
+
+                                            <select name="drwnCourse" class="form-control form-control-sm"
+                                                    (change)="getValueInCourse($event.target.value)">
+                                                <option [ngValue]="null" disabled>Choose Course</option>
+                                                <option *ngFor="let course of courseList">
+                                                    {{ course.name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label"> Subject :</label>
+
+                                        <div class="col-md-9 input-group mb-3 ">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-note"></i></span>
+                                            </div>
+
+                                            <select name="drwnCourse" class="form-control form-control-sm"
+                                                    (change)="getValueInSubject($event.target.value)">
+                                                <option [ngValue]="null" disabled>Choose Subject</option>
+                                                <option *ngFor="let subject of subjectList">
+                                                    {{ subject.name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label"> Exam Type :</label>
+
+                                        <div class="col-md-9 input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-magic-wand"></i></span>
+                                            </div>
+                                            <select name="drwnCourse" class="form-control form-control-sm"
+                                                    (change)="getValueInExamType($event.target.value)">
+                                                <option [ngValue]="null" disabled>Choose Exam Type</option>
+                                                <option *ngFor="let examtype of examTypeList">
+                                                    {{ examtype.examType }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6" style="float:right">
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>Exam Date/Marks</strong> Form
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label"> Passing Marks</label>
+
+                                        <div class="col-md-9 input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-note"></i></span>
+                                            </div>
+                                            <input type="text" OnlyNumber="true" formControlName="passingMarks"
+                                                   id="passingTxt" name="passingTxt"
+                                                   class="form-control"
+                                                   readonly="true"
+                                                   [(ngModel)]="passingMarks"
+                                                   [ngClass]="{ 'is-invalid': submitted && f.totalMarks.errors }"
+                                                   placeholder="Enter Passing Marks">
+
+                                            <div *ngIf="submitted && f.passingMarks.errors" class="invalid-feedback">
+                                                <div *ngIf="f.passingMarks.errors.required">Passing Marks is required
+                                                </div>
+                                                <div *ngIf="f.passingMarks.errors.minlength">Passing Marks must be at
+                                                    least 1 digits
+                                                </div>
+                                                <div *ngIf="f.passingMarks.errors.maxlength">Passing Marks must be 3
+                                                    digits
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">Total Marks :</label>
+
+                                        <div class="col-md-9 input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-pencil"></i></span>
+                                            </div>
+                                            <input type="text" OnlyNumber="true" formControlName="totalMarks"
+                                                   id="totalTxt" name="totalTxt"
+                                                   [(ngModel)]="totalMarks"
+                                                   class="form-control"
+                                                   readonly="true"
+                                                   [ngClass]="{ 'is-invalid': submitted && f.totalMarks.errors }"
+                                                   placeholder="Enter Total Marks">
+
+                                            <div *ngIf="submitted && f.passingMarks.errors" class="invalid-feedback">
+                                                <div *ngIf="f.totalMarks.errors.required">TotalMarks is required</div>
+                                                <div *ngIf="f.totalMarks.errors.minlength">TotalMarks must be at least 1
+                                                    digits
+                                                </div>
+                                                <div *ngIf="f.totalMarks.errors.maxlength">TotalMarks must be maximum 3
+                                                    digits
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">Exam Start Date/Time : </label>
+
+                                        <div class="col-md-9 input-group mb-3">
+                                            <div class="input-group-prepend ">
+                                                        <span class="input-group-text"><i
+                                                                class="fa fa-clock-o fa-lg"></i></span>
+                                            </div>
+
+                                            <input class="form-control" formControlName="examStartDateTime"
+                                                   [min]="min" [max]="max"
+                                                   [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"
+                                                   [(ngModel)]="examStartDateTime"
+                                                   [ngClass]="{ 'is-invalid': submitted && f.examStartDateTime.errors }"
+                                                   placeholder="Exam Start time">
+                                            <owl-date-time  #dt1></owl-date-time>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">Exam End Date/Time : </label>
+
+                                        <div class="col-md-9 input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i
+                                                                class="fa fa-clock-o fa-lg"></i></span>
+                                            </div>
+
+                                            <input class="form-control" formControlName="examEndDateTime"
+                                                   [min]="min" [max]="max"
+                                                   [(ngModel)]="examEndDateTime"
+                                                   [ngClass]="{ 'is-invalid': submitted && f.examEndDateTime.errors }"
+                                                   [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"
+                                                   placeholder="Exam End time">
+                                            <owl-date-time  #dt2></owl-date-time>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row float_rigt pad_right_30">
+                            <div class="form-group pad_right_5">
+                                <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset
+                                </button>
+                            </div>
+                            <div class="form-group ">
+                                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i>
+                                    Add Exam
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

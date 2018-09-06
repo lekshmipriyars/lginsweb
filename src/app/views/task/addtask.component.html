@@ -1,0 +1,198 @@
+<div class="animated fadeIn">
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+    <div class="row">
+
+        <p>A division of a large organization such as a government, university, or business, dealing with a specific
+            area of activity.Specialized functional area within an organization or a division, such as accounting,
+            marketing, planning. Generally every course has its own manager and chain of command.
+
+        </p>
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Add Task </strong> Form
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+                        <div class="col-md-6" style="float:left">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>Choose Department / Course</strong>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label class=" col-md-3 col-form-label" for="inline-radios">Choose :</label>
+
+                                        <div class="col-md-9 col-form-label">
+                                            <div class="form-check form-check-inline mr-1" id="inline-radios" *ngFor="let type of chooseTypesDatas">
+                                                <input class="form-check-input" type="radio" name="inline-radios"
+                                                       id="inlineRadio1" value={{type.name}}  (click)="getChooseTypeValue(type)">
+                                                <label class="form-check-label" for="inlineRadio1">{{type.name}}</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row" *ngIf="isDepartment">
+                                        <label class="col-md-3 col-form-label">Department</label>
+
+                                        <div class="col-md-9 input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-wallet"></i></span>
+                                            </div>
+                                            <select name="drwnDepartment" class="form-control form-control-sm"
+                                                    (change)="getValueInDepartment($event.target.value)">
+                                                <option [ngValue]="null" disabled>Choose Department</option>
+                                                <option *ngFor="let department of departmentList">
+                                                    {{ department.name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" *ngIf="isCourse">
+                                        <label class="col-md-3 col-form-label">Select Course</label>
+
+                                        <div class="col-md-9 input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-badge"></i></span>
+                                            </div>
+
+                                            <select name="drwnCourse" class="form-control form-control-sm"
+                                                    (change)="getValueInCourse($event.target.value)">
+                                                <option [ngValue]="null" disabled>Choose Course</option>
+                                                <option *ngFor="let course of courseList">
+                                                    {{ course.name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <ckeditor
+                                                [(ngModel)]="ckeditorContent"
+                                                [config]="ckeConfig"
+                                                [readonly]="false"
+                                                (editorChange)="onEditorChange($event)"
+                                                debounce="500">
+                                        </ckeditor>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6" style="float:right">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>Choose Image</strong> Form
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4 text-center img-div">
+                                            <img [src]="url" height="150px" width="150px">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group row">
+                                                <label class="col-md-4 col-form-label">File Name :</label>
+
+                                                <div class="col-md-8 input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="icon-doc"></i></span>
+                                                    </div>
+                                                    <input type="text" formControlName="chosenFileName"
+                                                           name="fileNameTxt" id="fileNameTxt"
+                                                           [(ngModel)]="chosenFileName"
+                                                           class="form-control"
+                                                           [ngClass]="{ 'is-invalid': submitted && f.chosenFileName.errors }"
+                                                           class="form-control"
+                                                           placeholder="File Name">
+
+                                                    <div *ngIf="submitted && f.chosenFileName.errors"
+                                                         class="invalid-feedback">
+                                                        <div *ngIf="f.chosenFileName.errors.required">File Name is
+                                                            required
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-md-4 col-form-label">File Type :</label>
+
+                                                <div class="col-md-8 input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="icon-docs"></i></span>
+                                                    </div>
+                                                    <input type="text" formControlName="chosenFileType"
+                                                           [(ngModel)]="chosenFileType"
+                                                           name="fileTypeTxt" id="fileTypeTxt"
+                                                           class="form-control"
+                                                           [ngClass]="{ 'is-invalid': submitted && f.chosenFileType.errors }"
+                                                           class="form-control"
+                                                           placeholder="File Type">
+
+                                                    <div *ngIf="submitted && f.chosenFileType.errors"
+                                                         class="invalid-feedback">
+                                                        <div *ngIf="f.chosenFileType.errors.required">File Type is
+                                                            required
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-4 col-form-label">File Size :</label>
+
+                                                <div class="col-md-8 input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i
+                                                                class="icon-drawer"></i></span>
+                                                    </div>
+                                                    <input type="text" formControlName="chosenFileSize"
+                                                           name="fileSizeTxt" id="fileSizeTxt"
+                                                           [(ngModel)]="chosenFileSize"
+                                                           class="form-control"
+                                                           [ngClass]="{ 'is-invalid': submitted && f.chosenFileSize.errors }"
+                                                           class="form-control"
+                                                           placeholder="File Size">
+
+                                                    <div *ngIf="submitted && f.chosenFileSize.errors"
+                                                         class="invalid-feedback">
+                                                        <div *ngIf="f.chosenFileSize.errors.required">File Size is
+                                                            required
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="btn btn-default">
+                                            <input type="file" accept="image/*" (change)="selectFile($event)">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row float_rigt pad_right_30">
+                            <div class="form-group pad_right_5">
+                                <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset
+                                </button>
+                            </div>
+                            <div class="form-group ">
+                                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i>
+                                    Add Task
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

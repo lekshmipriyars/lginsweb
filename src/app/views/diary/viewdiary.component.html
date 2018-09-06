@@ -1,0 +1,262 @@
+<div class="animated fadeIn">
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <strong>View Diary </strong> Form
+                </div>
+                <ng4-loading-spinner> </ng4-loading-spinner>
+                <div class="card-body">
+                    <form [formGroup]="viewDiaryForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+                        <div class="col-md-6" style="float:left">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="avatar">
+                                        <img src="{{userData.profileImage}}" class="img-avtar img-avatar-style"
+                                             onError="this.src='../assets/img/avatars/avatar-male.png';"
+                                             alt="{{userData.emailId}}">
+                                        <span class="avatar-status badge-success"></span>
+
+
+                                    </div>
+                                    {{userData.displayName}}
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-responsive-sm table-hover table-outline mb-0">
+                                        <tr *ngFor="let diary of diaryList " style="cursor:pointer" [ngStyle]="diary.diaryId==selectedDiaryId?{'background-color':'#9ff2d3'}:''" (click)="clickedPerson(diary)">
+                                            <td class="txt-align-center">
+
+                                                <div class="avatar">
+                                                    <img src="{{diary.fromUserEntity.profileImage}}"
+                                                         class="img-avtar img-avatar-style"
+                                                         onError="this.src='../assets/img/avatars/avatar-male.png';"
+                                                         alt="{{diary.fromUserEntity.emailId}}">
+                                                    <span [ngStyle]="getStyleBackground(diary)" class="avatar-status badge-success"></span>
+                                                </div>
+                                                <div>
+                                                    {{diary.fromUserEntity.userName}}
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                            <div> {{diary.message}}</div>
+                                        </td>
+                                            <td>
+                                                <div> {{diary.messageTime}}</div>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6" style="float:right">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>Send Message </strong> Form
+                                </div>
+                                <div class="card-body">
+                                    <div class="row" class="chat-menu-messaging">
+                                        <div id="animation" class="messages">
+                                            <!-- left array-->
+                                            <ul>
+                                                <img onError="this.src='../assets/img/avatars/avatar-male.png';"
+                                                     src="{{getMessagesFromSenderData.leftArray.fromUserEntity.profileImage}}"
+                                                     class="chat-avatar">
+                                                <li ng-if="getMessagesFromSenderData.leftArray.message!=null">
+                                                    <span class="left">{{getMessagesFromSenderData.leftArray.message}}</span>
+                                                </li>
+                                                <li style="padding-top:20px">
+                                                    <img ng-if="getMessagesFromSenderData.leftArray.content!==null && getMessagesFromSenderData.leftArray.contentType==1"
+                                                         src="{{getMessagesFromSenderData.leftArray.content}}" height="130"
+                                                         width="130">
+                                                    <!-- for pdf selection-->
+                                                    <div ng-if="getMessagesFromSenderData.leftArray.content!==null && getMessagesFromSenderData.leftArray.contentType==3">
+                                                        <a href={{getMessagesFromSenderData.leftArray.content}} target="_blank">{{getMessagesFromSenderData.leftArray.content}}</a>
+                                                    </div>
+
+                                                    <!-- for pdf selection-->
+                                                    <div ng-if="getMessagesFromSenderData.leftArray.content!==null && getMessagesFromSenderData.leftArray.contentType==4">
+                                                        <a href={{getMessagesFromSenderData.leftArray.content}}>{{getMessagesFromSenderData.leftArray.content}}</a>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </li>
+
+                                            </ul>
+                                            <!--end of left array-->
+
+
+                                            <!--  Right Array -->
+                                            <ul  *ngFor="let message of getMessagesFromSenderData.rightArray">
+
+                                                <div class="chat-avatar"
+                                                     ng-if="message.toUserEntity.profileImage==null && message.replyMessage!=null && message.replyMessage!=''"
+                                                     ng-style=setGroupIconColor($index+1)>
+                                                    <span  *ngIf="message.toUserEntity.fName !==null ">{{message.toUserEntity.fName.substr(0,2)|uppercase}}</span>
+                                                    <span  *ngIf="message.toUserEntity.fName == null || message.toUserEntity.lName == null">{{message.toUserEntity.userName.substr(0,2)|uppercase}}</span>
+                                                </div>
+                                                <img style="margin-left: 579px;"
+                                                     ng-if="message.toUserEntity.profileImage!=null && message.replyMessage!=null && message.replyMessage!=''"
+                                                     onError="this.src='../assets/img/avatars/avatar-male.png';"
+                                                     src="{{message.toUserEntity.profileImage}}" class="chat-avatar">
+                                                <li  ng-if="message.replyMessage!=null && message.replyMessage!=''">
+                                                    <span class="right" style=" margin-right:44px;">{{message.replyMessage}}</span>
+
+                                                    <div class="clear"></div>
+                                                </li>
+
+                                                <li style="padding-top: 40px;float: right;">
+
+
+                                                    <img  ng-if="message.replyContent!=null && message.replyContentType==1"
+                                                         src="{{message.replyContent}}" height="130"
+                                                         width="130">
+                                                    <!-- for pdf selection-->
+                                                    <div class="reply-right-div"
+                                                         ng-if="message.replyContent!=null && message.replyContentType==3">
+                                                        <a href={{message.replyContent}}
+                                                           target="_blank">{{message.replyContent}}</a>
+                                                    </div>
+                                                    <!-- for word selection-->
+                                                    <div class="reply-right-div"
+                                                         ng-if="message.replyContent!=null && message.replyContentType==4">
+                                                        <a href={{message.replyContent}}>{{message.replyContent}}</a>
+                                                    </div>
+                                                </li>
+
+                                            </ul>
+                                            <div class="clear"></div>
+                                            <!--end of right array-->
+
+                                        </div>
+
+                                        </div>
+
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <ckeditor
+                                                    [(ngModel)]="ckeditorContent"
+                                                    [config]="ckeConfig"
+                                                    [readonly]="false"
+                                                    (editorChange)="onEditorChange($event)"
+                                                    debounce="500">
+                                            </ckeditor>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-4 text-center img-div">
+                                            <img [src]="url" height="150px" width="150px">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group row">
+                                                <label class="col-md-4 col-form-label">File Name :</label>
+
+                                                <div class="col-md-8 input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="icon-doc"></i></span>
+                                                    </div>
+                                                    <input type="text" formControlName="chosenFileName"
+                                                           name="fileNameTxt" id="fileNameTxt"
+                                                           [(ngModel)]="chosenFileName"
+                                                           class="form-control"
+                                                           [ngClass]="{ 'is-invalid': submitted && f.chosenFileName.errors }"
+                                                           class="form-control"
+                                                           placeholder="File Name">
+
+                                                    <div *ngIf="submitted && f.chosenFileName.errors"
+                                                         class="invalid-feedback">
+                                                        <div *ngIf="f.chosenFileName.errors.required">File Name is
+                                                            required
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-md-4 col-form-label">File Type :</label>
+
+                                                <div class="col-md-8 input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="icon-docs"></i></span>
+                                                    </div>
+                                                    <input type="text" formControlName="chosenFileType"
+                                                           [(ngModel)]="chosenFileType"
+                                                           name="fileTypeTxt" id="fileTypeTxt"
+                                                           class="form-control"
+                                                           [ngClass]="{ 'is-invalid': submitted && f.chosenFileType.errors }"
+                                                           class="form-control"
+                                                           placeholder="File Type">
+
+                                                    <div *ngIf="submitted && f.chosenFileType.errors"
+                                                         class="invalid-feedback">
+                                                        <div *ngIf="f.chosenFileType.errors.required">File Type is
+                                                            required
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-4 col-form-label">File Size :</label>
+
+                                                <div class="col-md-8 input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i
+                                                                class="icon-drawer"></i></span>
+                                                    </div>
+                                                    <input type="text" formControlName="chosenFileSize"
+                                                           name="fileSizeTxt" id="fileSizeTxt"
+                                                           [(ngModel)]="chosenFileSize"
+                                                           class="form-control"
+                                                           [ngClass]="{ 'is-invalid': submitted && f.chosenFileSize.errors }"
+                                                           class="form-control"
+                                                           placeholder="File Size">
+
+                                                    <div *ngIf="submitted && f.chosenFileSize.errors"
+                                                         class="invalid-feedback">
+                                                        <div *ngIf="f.chosenFileSize.errors.required">File Size is
+                                                            required
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="btn btn-default">
+                                            <input type="file" accept="image/*" (change)="selectFile($event)">
+                                        </label>
+
+                                        <div class="row float_rigt pad_right_30">
+                                            <div class="form-group pad_right_5">
+                                                <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset
+                                                </button>
+                                            </div>
+                                            <div class="form-group ">
+                                                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i>
+                                                    Send Message
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

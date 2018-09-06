@@ -1,0 +1,14 @@
+[
+  {
+    "key": "AKIAI5KZAGLNOWYJPOZA",
+    "secret": "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",
+    "bucket": "www.learnerguru.in",
+    "region": "ap-southeast-1"
+  },
+  {
+    "key": "AKIAI5KZAGLNOWYJPOZA",
+    "secret": "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",
+    "bucket": "www.learnerguru.com",
+    "region": "ap-southeast-1"
+  }
+]

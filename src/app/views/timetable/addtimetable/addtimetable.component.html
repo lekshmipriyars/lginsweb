@@ -1,0 +1,152 @@
+<div class="animated fadeIn">
+  <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+    <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+  </div>
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+<strong>Add Timetable</strong>Form
+      </div>
+      <div class="card-body">
+        <form [formGroup]="timetableForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+        <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Department</label>
+
+            <div class="col-md-9 input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="icon-wallet"></i></span>
+              </div>
+              <select name="drwnDepartment" class="form-control form-control-sm"
+                      (change)="getValueInDepartment($event.target.value)">
+                <option [ngValue]="null" disabled>Choose Department</option>
+                <option *ngFor="let department of departmentList">
+                  {{ department.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Select Course</label>
+
+            <div class="col-md-9 input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="icon-badge"></i></span>
+              </div>
+
+              <select name="drwnCourse" class="form-control form-control-sm"
+                      (change)="getValueInCourse($event.target.value)">
+                <option [ngValue]="null" disabled>Choose Course</option>
+                <option *ngFor="let course of courseList">
+                  {{ course.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label"> Subject :</label>
+
+            <div class="col-md-9 input-group mb-3 ">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="icon-note"></i></span>
+              </div>
+
+              <select name="drwnCourse" class="form-control form-control-sm"
+                      (change)="getValueInSubject($event.target.value)">
+                <option [ngValue]="null" disabled>Choose Subject</option>
+                <option *ngFor="let subject of subjectList">
+                  {{ subject.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label"> Semester :</label>
+
+            <div class="col-md-9 input-group mb-3 ">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="icon-note"></i></span>
+              </div>
+
+              <select name="drwnCourse" class="form-control form-control-sm"
+                      (change)="getValueInSubjectType($event.target.value)">
+                <option [ngValue]="null" disabled>Choose Semester</option>
+                <option *ngFor="let subject of subjectTypeList">
+                  {{ subject.subjectType }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label"> Day Order :</label>
+
+            <div class="col-md-9 input-group mb-3 ">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="icon-note"></i></span>
+              </div>
+
+              <select name="drwnCourse" class="form-control form-control-sm"
+                      (change)="getValueInSubjectType($event.target.value)">
+                <option [ngValue]="null" disabled>Choose Day order</option>
+                <option *ngFor="let subject of subjectTypeList">
+                  {{ subject.subjectType }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label"> Slot :</label>
+
+            <div class="col-md-9 input-group mb-3 ">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="icon-note"></i></span>
+              </div>
+
+              <select name="drwnCourse" class="form-control form-control-sm"
+                      (change)="getValueInSubjectType($event.target.value)">
+                <option [ngValue]="null" disabled>Choose Slot</option>
+                <option *ngFor="let subject of subjectTypeList">
+                  {{ subject.subjectType }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Staff :</label>
+
+            <div class="col-md-9 input-group mb-3 ">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="icon-note"></i></span>
+              </div>
+
+              <select name="drwnCourse" class="form-control form-control-sm"
+                      (change)="getValueInSubjectType($event.target.value)">
+                <option [ngValue]="null" disabled>Choose Staff</option>
+                <option *ngFor="let subject of subjectTypeList">
+                  {{ subject.subjectType }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+
+
+        </div>
+        </div>
+          <div class="row float_rigt">
+            <div class="form-group pad_right_5">
+              <button type="reset"  class="btn btn-danger px-4" (click)="goToReset()">Reset</button>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary px-4">Add Timetable</button>
+            </div>
+          </div>
+</form>
+      </div>
+    </div>
+  </div>
+</div>

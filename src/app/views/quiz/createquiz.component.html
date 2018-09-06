@@ -1,0 +1,1109 @@
+<div class="animated fadeIn">
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Department / Course / Subject / Chapter / Question Type
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Department</label>
+
+                                <div class="col-md-9 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-wallet"></i></span>
+                                    </div>
+                                    <select name="drwnDepartment" class="form-control form-control-sm"
+                                            (change)="getValueInDepartment($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Department</option>
+                                        <option *ngFor="let department of departmentList">
+                                            {{ department.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Select Course</label>
+
+                                <div class="col-md-9 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-badge"></i></span>
+                                    </div>
+
+                                    <select name="drwnCourse" class="form-control form-control-sm"
+                                            (change)="getValueInCourse($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Course</option>
+                                        <option *ngFor="let course of courseList">
+                                            {{ course.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Question Type :</label>
+
+                                <div class="col-md-9">
+                                    <select [ngModel]="statusQuestionType.name" name="drwnDepartment"
+                                            class="form-control form-control-sm"
+                                            (change)="getValueInQuestionType($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Question Type</option>
+                                        <option *ngFor="let qType of questionTypes" [value]=" qType.name">
+                                            {{ qType.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label"> Subject :</label>
+
+                                <div class="col-md-9 input-group mb-3 ">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-note"></i></span>
+                                    </div>
+
+                                    <select name="drwnCourse" class="form-control form-control-sm"
+                                            (change)="getValueInSubject($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Subject</option>
+                                        <option *ngFor="let subject of subjectList">
+                                            {{ subject.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label"> Chapter :</label>
+
+                                <div class="col-md-9 input-group mb-3 ">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-note"></i></span>
+                                    </div>
+
+                                    <select name="drwnCourse" class="form-control form-control-sm"
+                                            (change)="getValueInChapter($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Chapter</option>
+                                        <option *ngFor="let chapter of chapterList">
+                                            {{ chapter.chapterTitle }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label"> Question Model :</label>
+                                <div class="col-md-9 input-group mb-3 ">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-note"></i></span>
+                                    </div>
+
+                                    <select name="drwnCourse" class="form-control form-control-sm"
+                                            (change)="getValueInQuestionModel($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Model</option>
+                                        <option *ngFor="let qModel of questionModel" [value]="qModel.id">
+                                            {{ qModel.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--- closing1st col-md-6-->
+        </div>
+
+
+    </div>
+    <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                Question Add
+            </div>
+            <div class="card-body">
+                <div *ngIf="!isValidQuizCreate">
+                    <div  class="txt-align-center">
+                    To Add Questions Please Choose Department / Course / Subject / Chapter
+                    </div>
+                </div>
+
+                <div>
+                <!-- <mat-vertical-stepper #stepper [hidden]="!showMultipleChoiceImage">
+                     <mat-step [stepControl]="mcqQuestionForm" label="Step 1">
+                         <form [formGroup]="mcqImagequestionForm">
+                             <ng-template matStepLabel>Question</ng-template>
+                             <div class="row">
+                                 <div class="col-md-12">
+                                     <div class="form-group ">
+                                         <label class="col-md-12 col-form-label">Question <sup
+                                                 [ngClass]="{ 'txt-error': mcqQuestionFormSubmitted && f.mcqImagequestion.errors }">*</sup>
+                                         </label>
+
+                                         <div class="col-md-12 input-group mb-3">
+                                             <ckeditor
+                                                     formControlName="mcqImagequestion"
+                                                     [(ngModel)]="mcqImagequestion"
+                                                     [config]="ckeConfig"
+                                                     [readonly]="false"
+                                                     [ngClass]="{ 'is-invalid': mcqQuestionFormSubmitted && f.mcqImagequestion.errors }"
+                                                     debounce="500">
+                                             </ckeditor>
+                                             <div *ngIf="mcqQuestionFormSubmitted && f.mcqImagequestion.errors"
+                                                  class="col-md-12 col-form-label txt-error">
+                                                 <div *ngIf="f.mcqImagequestion.errors.required">Question is required
+                                                 </div>
+
+                                             </div>
+
+                                         </div>
+                                         <div class="form-group row">
+                                             <div class="col-md-12 ">
+                                                 <img [src]="questionUrl" height="140px" width="140px">
+                                             </div>
+                                             <label class="btn btn-default">
+                                                 <input type="file" accept="image/*"
+                                                        (change)=" selectQFile($event)">
+                                             </label>
+                                         </div>
+
+                                     </div>
+                                 </div>
+                             </div>
+
+                             <div class="row float_rigt">
+                                 <div class="form-group pad_right_5">
+                                     <button type="submit" class="btn btn-primary px-4" mat-button
+                                             (click)="goForward(f,stepper)">Next
+                                     </button>
+                                 </div>
+                             </div>
+                         </form>
+                     </mat-step>
+                     <mat-step [stepControl]="mcqImagechoiceAForm" label="Chocie A">
+                         <div class="form-group row">
+                             <div class="form-group row">
+                                 <div class="col-md-12 col-form-label">
+                                     <mat-radio-button (click)="getChoiceValue('qChoiceA')"
+                                                       [disabled]="qChoiceA==''&&(choiceAImageFileName==undefined||choiceAImageFileName==null)">
+                                         Choice A
+                                         <sup [ngClass]="{ 'txt-error': choiceAFormSubmitted && a.qChoiceA.errors }">*</sup>
+                                     </mat-radio-button>
+                                 </div>
+                                 <div class="col-md-12 input-group mb-3 ">
+                                     <div class="col-md-12">
+                                         <div class="row">
+                                             <div class="col-md-4 text-center img-div">
+                                                 <img [src]="url" height="150px" width="150px">
+                                             </div>
+                                             <div class="col-md-8">
+                                                 <div class="form-group row">
+                                                     <label class="col-md-4 col-form-label align-right">File Name :</label>
+
+                                                     <div class="col-md-8 input-group mb-3">
+                                                         <div class="input-group-prepend">
+                                                             <span class="input-group-text"><i
+                                                                     class="icon-doc"></i></span>
+                                                         </div>
+                                                         <input type="text" formControlName="chosenFileName"
+                                                                name="fileNameTxt" id="fileNameTxt"
+                                                                [(ngModel)]="chosenFileName"
+                                                                readonly="true"
+                                                                class="form-control"
+                                                                [ngClass]="{ 'is-invalid': submitted && f.chosenFileName.errors }"
+                                                                class="form-control"
+                                                                placeholder="File Name">
+
+                                                         <div *ngIf="submitted && f.chosenFileName.errors"
+                                                              class="invalid-feedback">
+                                                             <div *ngIf="f.chosenFileName.errors.required">File Name
+                                                                 is required
+                                                             </div>
+
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                                 <div class="form-group row">
+                                                     <label class="col-md-4 col-form-label align-right">File Type :</label>
+
+                                                     <div class="col-md-8 input-group mb-3">
+                                                         <div class="input-group-prepend">
+                                                             <span class="input-group-text"><i
+                                                                     class="icon-docs"></i></span>
+                                                         </div>
+                                                         <input type="text" formControlName="chosenFileType"
+                                                                [(ngModel)]="chosenFileType"
+                                                                name="fileTypeTxt" id="fileTypeTxt"
+                                                                class="form-control"
+                                                                readonly="true"
+                                                                [ngClass]="{ 'is-invalid': submitted && f.chosenFileType.errors }"
+                                                                class="form-control"
+                                                                placeholder="File Type">
+
+                                                         <div *ngIf="submitted && f.chosenFileType.errors"
+                                                              class="invalid-feedback">
+                                                             <div *ngIf="f.chosenFileType.errors.required">File Type
+                                                                 is required
+                                                             </div>
+
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                                 <div class="form-group row">
+                                                     <label class="col-md-4 col-form-label align-right">File Size :</label>
+
+                                                     <div class="col-md-8 input-group mb-3">
+                                                         <div class="input-group-prepend">
+                                                                 <span class="input-group-text"><i
+                                                                         class="icon-drawer"></i></span>
+                                                         </div>
+                                                         <input type="text" formControlName="chosenFileSize"
+                                                                name="fileSizeTxt" id="fileSizeTxt"
+                                                                [(ngModel)]="chosenFileSize"
+                                                                readonly="true"
+                                                                class="form-control"
+                                                                [ngClass]="{ 'is-invalid': submitted && f.chosenFileSize.errors }"
+                                                                class="form-control"
+                                                                placeholder="File Size">
+
+                                                         <div *ngIf="submitted && f.chosenFileSize.errors"
+                                                              class="invalid-feedback">
+                                                             <div *ngIf="f.chosenFileSize.errors.required">File Size
+                                                                 is required
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-12">
+                                         <label class="btn btn-default">
+                                             <input type="file" accept="image/*" (change)="selectFile($event)">
+                                         </label>
+
+                                     </div>
+                                 </div>
+
+                             </div>
+                         </div>
+                     </mat-step>
+
+                     <mat-step [stepControl]="mcqImagechoiceBForm" label="Choice B">
+                         <div class="form-group row">
+                             <div class="form-group row">
+                                 <div class="col-md-12 col-form-label">
+                                     <mat-radio-button (click)="getChoiceValue('qChoiceA')"
+                                                       [disabled]="qChoiceA==''&&(choiceAImageFileName==undefined||choiceAImageFileName==null)">
+                                         Choice A
+                                         <sup [ngClass]="{ 'txt-error': choiceAFormSubmitted && a.qChoiceA.errors }">*</sup>
+                                     </mat-radio-button>
+                                 </div>
+                                 <div class="col-md-12 input-group mb-3 ">
+                                     <div class="col-md-12">
+                                         <div class="row">
+                                             <div class="col-md-4 text-center img-div">
+                                                 <img [src]="url" height="150px" width="150px">
+                                             </div>
+                                             <div class="col-md-8">
+                                                 <div class="form-group row">
+                                                     <label class="col-md-4 col-form-label align-right">File Name :</label>
+
+                                                     <div class="col-md-8 input-group mb-3">
+                                                         <div class="input-group-prepend">
+                                                             <span class="input-group-text"><i
+                                                                     class="icon-doc"></i></span>
+                                                         </div>
+                                                         <input type="text" formControlName="chosenFileName"
+                                                                name="fileNameTxt" id="fileNameTxt"
+                                                                [(ngModel)]="chosenFileName"
+                                                                readonly="true"
+                                                                class="form-control"
+                                                                [ngClass]="{ 'is-invalid': submitted && f.chosenFileName.errors }"
+                                                                class="form-control"
+                                                                placeholder="File Name">
+
+                                                         <div *ngIf="submitted && f.chosenFileName.errors"
+                                                              class="invalid-feedback">
+                                                             <div *ngIf="f.chosenFileName.errors.required">File Name
+                                                                 is required
+                                                             </div>
+
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                                 <div class="form-group row">
+                                                     <label class="col-md-4 col-form-label align-right">File Type :</label>
+
+                                                     <div class="col-md-8 input-group mb-3">
+                                                         <div class="input-group-prepend">
+                                                             <span class="input-group-text"><i
+                                                                     class="icon-docs"></i></span>
+                                                         </div>
+                                                         <input type="text" formControlName="chosenFileType"
+                                                                [(ngModel)]="chosenFileType"
+                                                                name="fileTypeTxt" id="fileTypeTxt"
+                                                                class="form-control"
+                                                                readonly="true"
+                                                                [ngClass]="{ 'is-invalid': submitted && f.chosenFileType.errors }"
+                                                                class="form-control"
+                                                                placeholder="File Type">
+
+                                                         <div *ngIf="submitted && f.chosenFileType.errors"
+                                                              class="invalid-feedback">
+                                                             <div *ngIf="f.chosenFileType.errors.required">File Type
+                                                                 is required
+                                                             </div>
+
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                                 <div class="form-group row">
+                                                     <label class="col-md-4 col-form-label align-right">File Size :</label>
+
+                                                     <div class="col-md-8 input-group mb-3">
+                                                         <div class="input-group-prepend">
+                                                                 <span class="input-group-text"><i
+                                                                         class="icon-drawer"></i></span>
+                                                         </div>
+                                                         <input type="text" formControlName="chosenFileSize"
+                                                                name="fileSizeTxt" id="fileSizeTxt"
+                                                                [(ngModel)]="chosenFileSize"
+                                                                readonly="true"
+                                                                class="form-control"
+                                                                [ngClass]="{ 'is-invalid': submitted && f.chosenFileSize.errors }"
+                                                                class="form-control"
+                                                                placeholder="File Size">
+
+                                                         <div *ngIf="submitted && f.chosenFileSize.errors"
+                                                              class="invalid-feedback">
+                                                             <div *ngIf="f.chosenFileSize.errors.required">File Size
+                                                                 is required
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-12">
+                                         <label class="btn btn-default">
+                                             <input type="file" accept="image/*" (change)="selectFile($event)">
+                                         </label>
+
+                                     </div>
+                                 </div>
+
+                             </div>
+                         </div>
+                     </mat-step>
+                     <mat-step [stepControl]="mcqImagechoiceCForm" label="Choice C">
+                         <div class="form-group row">
+                             <div class="form-group row">
+                                 <div class="col-md-12 col-form-label">
+                                     <mat-radio-button (click)="getChoiceValue('qChoiceA')"
+                                                       [disabled]="qChoiceA==''&&(choiceAImageFileName==undefined||choiceAImageFileName==null)">
+                                         Choice A
+                                         <sup [ngClass]="{ 'txt-error': choiceAFormSubmitted && a.qChoiceA.errors }">*</sup>
+                                     </mat-radio-button>
+                                 </div>
+                                 <div class="col-md-12 input-group mb-3 ">
+                                     <div class="col-md-12">
+                                         <div class="row">
+                                             <div class="col-md-4 text-center img-div">
+                                                 <img [src]="url" height="150px" width="150px">
+                                             </div>
+                                             <div class="col-md-8">
+                                                 <div class="form-group row">
+                                                     <label class="col-md-4 col-form-label align-right">File Name :</label>
+
+                                                     <div class="col-md-8 input-group mb-3">
+                                                         <div class="input-group-prepend">
+                                                             <span class="input-group-text"><i
+                                                                     class="icon-doc"></i></span>
+                                                         </div>
+                                                         <input type="text" formControlName="chosenFileName"
+                                                                name="fileNameTxt" id="fileNameTxt"
+                                                                [(ngModel)]="chosenFileName"
+                                                                readonly="true"
+                                                                class="form-control"
+                                                                [ngClass]="{ 'is-invalid': submitted && f.chosenFileName.errors }"
+                                                                class="form-control"
+                                                                placeholder="File Name">
+
+                                                         <div *ngIf="submitted && f.chosenFileName.errors"
+                                                              class="invalid-feedback">
+                                                             <div *ngIf="f.chosenFileName.errors.required">File Name
+                                                                 is required
+                                                             </div>
+
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                                 <div class="form-group row">
+                                                     <label class="col-md-4 col-form-label align-right">File Type :</label>
+
+                                                     <div class="col-md-8 input-group mb-3">
+                                                         <div class="input-group-prepend">
+                                                             <span class="input-group-text"><i
+                                                                     class="icon-docs"></i></span>
+                                                         </div>
+                                                         <input type="text" formControlName="chosenFileType"
+                                                                [(ngModel)]="chosenFileType"
+                                                                name="fileTypeTxt" id="fileTypeTxt"
+                                                                class="form-control"
+                                                                readonly="true"
+                                                                [ngClass]="{ 'is-invalid': submitted && f.chosenFileType.errors }"
+                                                                class="form-control"
+                                                                placeholder="File Type">
+
+                                                         <div *ngIf="submitted && f.chosenFileType.errors"
+                                                              class="invalid-feedback">
+                                                             <div *ngIf="f.chosenFileType.errors.required">File Type
+                                                                 is required
+                                                             </div>
+
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                                 <div class="form-group row">
+                                                     <label class="col-md-4 col-form-label align-right">File Size :</label>
+
+                                                     <div class="col-md-8 input-group mb-3">
+                                                         <div class="input-group-prepend">
+                                                                 <span class="input-group-text"><i
+                                                                         class="icon-drawer"></i></span>
+                                                         </div>
+                                                         <input type="text" formControlName="chosenFileSize"
+                                                                name="fileSizeTxt" id="fileSizeTxt"
+                                                                [(ngModel)]="chosenFileSize"
+                                                                readonly="true"
+                                                                class="form-control"
+                                                                [ngClass]="{ 'is-invalid': submitted && f.chosenFileSize.errors }"
+                                                                class="form-control"
+                                                                placeholder="File Size">
+
+                                                         <div *ngIf="submitted && f.chosenFileSize.errors"
+                                                              class="invalid-feedback">
+                                                             <div *ngIf="f.chosenFileSize.errors.required">File Size
+                                                                 is required
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-12">
+                                         <label class="btn btn-default">
+                                             <input type="file" accept="image/*" (change)="selectFile($event)">
+                                         </label>
+
+                                     </div>
+                                 </div>
+
+                             </div>
+                         </div>
+                     </mat-step>
+                     <mat-step [stepControl]="mcqImagechoiceDForm" label="Choice D">
+                         <div class="form-group row">
+                             <div class="form-group row">
+                                 <div class="col-md-12 col-form-label">
+                                     <mat-radio-button (click)="getChoiceValue('qChoiceA')"
+                                                       [disabled]="qChoiceA==''&&(choiceAImageFileName==undefined||choiceAImageFileName==null)">
+                                         Choice A
+                                         <sup [ngClass]="{ 'txt-error': choiceAFormSubmitted && a.qChoiceA.errors }">*</sup>
+                                     </mat-radio-button>
+                                 </div>
+                                 <div class="col-md-12 input-group mb-3 ">
+                                     <div class="col-md-12">
+                                         <div class="row">
+                                             <div class="col-md-4 text-center img-div">
+                                                 <img [src]="url" height="150px" width="150px">
+                                             </div>
+                                             <div class="col-md-8">
+                                                 <div class="form-group row">
+                                                     <label class="col-md-4 col-form-label align-right">File Name :</label>
+
+                                                     <div class="col-md-8 input-group mb-3">
+                                                         <div class="input-group-prepend">
+                                                             <span class="input-group-text"><i
+                                                                     class="icon-doc"></i></span>
+                                                         </div>
+                                                         <input type="text" formControlName="chosenFileName"
+                                                                name="fileNameTxt" id="fileNameTxt"
+                                                                [(ngModel)]="chosenFileName"
+                                                                readonly="true"
+                                                                class="form-control"
+                                                                [ngClass]="{ 'is-invalid': submitted && f.chosenFileName.errors }"
+                                                                class="form-control"
+                                                                placeholder="File Name">
+
+                                                         <div *ngIf="submitted && f.chosenFileName.errors"
+                                                              class="invalid-feedback">
+                                                             <div *ngIf="f.chosenFileName.errors.required">File Name
+                                                                 is required
+                                                             </div>
+
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                                 <div class="form-group row">
+                                                     <label class="col-md-4 col-form-label align-right">File Type :</label>
+
+                                                     <div class="col-md-8 input-group mb-3">
+                                                         <div class="input-group-prepend">
+                                                             <span class="input-group-text"><i
+                                                                     class="icon-docs"></i></span>
+                                                         </div>
+                                                         <input type="text" formControlName="chosenFileType"
+                                                                [(ngModel)]="chosenFileType"
+                                                                name="fileTypeTxt" id="fileTypeTxt"
+                                                                class="form-control"
+                                                                readonly="true"
+                                                                [ngClass]="{ 'is-invalid': submitted && f.chosenFileType.errors }"
+                                                                class="form-control"
+                                                                placeholder="File Type">
+
+                                                         <div *ngIf="submitted && f.chosenFileType.errors"
+                                                              class="invalid-feedback">
+                                                             <div *ngIf="f.chosenFileType.errors.required">File Type
+                                                                 is required
+                                                             </div>
+
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                                 <div class="form-group row">
+                                                     <label class="col-md-4 col-form-label align-right">File Size :</label>
+
+                                                     <div class="col-md-8 input-group mb-3">
+                                                         <div class="input-group-prepend">
+                                                                 <span class="input-group-text"><i
+                                                                         class="icon-drawer"></i></span>
+                                                         </div>
+                                                         <input type="text" formControlName="chosenFileSize"
+                                                                name="fileSizeTxt" id="fileSizeTxt"
+                                                                [(ngModel)]="chosenFileSize"
+                                                                readonly="true"
+                                                                class="form-control"
+                                                                [ngClass]="{ 'is-invalid': submitted && f.chosenFileSize.errors }"
+                                                                class="form-control"
+                                                                placeholder="File Size">
+
+                                                         <div *ngIf="submitted && f.chosenFileSize.errors"
+                                                              class="invalid-feedback">
+                                                             <div *ngIf="f.chosenFileSize.errors.required">File Size
+                                                                 is required
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-12">
+                                         <label class="btn btn-default">
+                                             <input type="file" accept="image/*" (change)="selectFile($event)">
+                                         </label>
+
+                                     </div>
+                                 </div>
+
+                             </div>
+                         </div>
+                     </mat-step>
+                     <mat-step [stepControl]="mcqImagechoiceEForm" label="Chocie E">
+                         <div class="form-group row">
+                             <div class="form-group row">
+                                 <div class="col-md-12 col-form-label">
+                                     <mat-radio-button (click)="getChoiceValue('qChoiceA')"
+                                                       [disabled]="qChoiceA==''&&(choiceAImageFileName==undefined||choiceAImageFileName==null)">
+                                         Choice A
+                                         <sup [ngClass]="{ 'txt-error': choiceAFormSubmitted && a.qChoiceA.errors }">*</sup>
+                                     </mat-radio-button>
+                                 </div>
+                                 <div class="col-md-12 input-group mb-3 ">
+                                     <div class="col-md-12">
+                                         <div class="row">
+                                             <div class="col-md-4 text-center img-div">
+                                                 <img [src]="url" height="150px" width="150px">
+                                             </div>
+                                             <div class="col-md-8">
+                                                 <div class="form-group row">
+                                                     <label class="col-md-4 col-form-label align-right">File Name :</label>
+
+                                                     <div class="col-md-8 input-group mb-3">
+                                                         <div class="input-group-prepend">
+                                                             <span class="input-group-text"><i
+                                                                     class="icon-doc"></i></span>
+                                                         </div>
+                                                         <input type="text" formControlName="chosenFileName"
+                                                                name="fileNameTxt" id="fileNameTxt"
+                                                                [(ngModel)]="chosenFileName"
+                                                                readonly="true"
+                                                                class="form-control"
+                                                                [ngClass]="{ 'is-invalid': submitted && f.chosenFileName.errors }"
+                                                                class="form-control"
+                                                                placeholder="File Name">
+
+                                                         <div *ngIf="submitted && f.chosenFileName.errors"
+                                                              class="invalid-feedback">
+                                                             <div *ngIf="f.chosenFileName.errors.required">File Name
+                                                                 is required
+                                                             </div>
+
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                                 <div class="form-group row">
+                                                     <label class="col-md-4 col-form-label align-right">File Type :</label>
+
+                                                     <div class="col-md-8 input-group mb-3">
+                                                         <div class="input-group-prepend">
+                                                             <span class="input-group-text"><i
+                                                                     class="icon-docs"></i></span>
+                                                         </div>
+                                                         <input type="text" formControlName="chosenFileType"
+                                                                [(ngModel)]="chosenFileType"
+                                                                name="fileTypeTxt" id="fileTypeTxt"
+                                                                class="form-control"
+                                                                readonly="true"
+                                                                [ngClass]="{ 'is-invalid': submitted && f.chosenFileType.errors }"
+                                                                class="form-control"
+                                                                placeholder="File Type">
+
+                                                         <div *ngIf="submitted && f.chosenFileType.errors"
+                                                              class="invalid-feedback">
+                                                             <div *ngIf="f.chosenFileType.errors.required">File Type
+                                                                 is required
+                                                             </div>
+
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                                 <div class="form-group row">
+                                                     <label class="col-md-4 col-form-label align-right">File Size :</label>
+
+                                                     <div class="col-md-8 input-group mb-3">
+                                                         <div class="input-group-prepend">
+                                                                 <span class="input-group-text"><i
+                                                                         class="icon-drawer"></i></span>
+                                                         </div>
+                                                         <input type="text" formControlName="chosenFileSize"
+                                                                name="fileSizeTxt" id="fileSizeTxt"
+                                                                [(ngModel)]="chosenFileSize"
+                                                                readonly="true"
+                                                                class="form-control"
+                                                                [ngClass]="{ 'is-invalid': submitted && f.chosenFileSize.errors }"
+                                                                class="form-control"
+                                                                placeholder="File Size">
+
+                                                         <div *ngIf="submitted && f.chosenFileSize.errors"
+                                                              class="invalid-feedback">
+                                                             <div *ngIf="f.chosenFileSize.errors.required">File Size
+                                                                 is required
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-12">
+                                         <label class="btn btn-default">
+                                             <input type="file" accept="image/*" (change)="selectFile($event)">
+                                         </label>
+
+                                     </div>
+                                 </div>
+
+                             </div>
+                         </div>
+                     </mat-step>
+
+                 </mat-vertical-stepper>-->
+
+
+                <mat-horizontal-stepper #stepper [hidden]="!showMultipleChoice&&!isValidChoose">
+                    <mat-step [stepControl]="questionForm" label="Step 1">
+                        <form [formGroup]="questionForm">
+                            <ng-template matStepLabel>Question</ng-template>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="form-group ">
+                                                <label class="col-md-12 col-form-label">Question <sup
+                                                        [ngClass]="{ 'txt-error': questionFormSubmitted && f.qQuestion.errors }">*</sup>
+                                                </label>
+
+                                                <div class="col-md-12 input-group mb-3">
+                                                    <ckeditor
+                                                            formControlName="qQuestion"
+                                                            [(ngModel)]="qQuestion"
+                                                            [config]="ckeConfig"
+                                                            [readonly]="false"
+                                                            [ngClass]="{ 'is-invalid': questionFormSubmitted && f.qQuestion.errors }"
+                                                            debounce="500">
+                                                    </ckeditor>
+                                                    <div *ngIf="questionFormSubmitted && f.qQuestion.errors"
+                                                         class="col-md-12 col-form-label txt-error">
+                                                        <div *ngIf="f.qQuestion.errors.required">Question is required
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-md-12 ">
+                                                        <img [src]="questionUrl" height="140px" width="140px">
+                                                    </div>
+                                                    <label class="btn btn-default">
+                                                        <input type="file" accept="image/*"
+                                                               (change)=" selectQFile($event)">
+                                                    </label>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row float_rigt">
+                                <div class="form-group pad_right_5">
+                                    <button type="submit" class="btn btn-primary px-4" mat-button
+                                            (click)="goForward(f,stepper)">Next
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="choiceAGroup" label="A">
+                        <form [formGroup]="choiceAForm">
+                            <ng-template matStepLabel>A</ng-template>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="form-group row">
+                                                <div class="col-md-12 col-form-label">
+                                                    <mat-radio-button (click)="getChoiceValue('qChoiceA')"
+                                                                      [disabled]="qChoiceA==''&&(choiceAImageFileName==undefined||choiceAImageFileName==null)">
+                                                        Choice A
+                                                        <sup [ngClass]="{ 'txt-error': choiceAFormSubmitted && a.qChoiceA.errors }">*</sup>
+                                                    </mat-radio-button>
+                                                </div>
+                                                <div class="col-md-12 input-group mb-3 ">
+                                                    <ckeditor
+                                                            formControlName="qChoiceA"
+                                                            [(ngModel)]="qChoiceA"
+                                                            [config]="ckeConfig"
+                                                            [readonly]="false"
+                                                            [ngClass]="{ 'is-invalid': choiceAFormSubmitted && a.qChoiceA.errors }"
+                                                            debounce="500">
+                                                    </ckeditor>
+                                                    <div *ngIf="choiceAFormSubmitted && a.qChoiceA.errors"
+                                                         class="invalid-feedback">
+                                                        <div *ngIf="a.qChoiceA.errors.required">Choice A is
+                                                            required
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group row" [hidden]="!showMultipleChoiceImage">
+                                                    <div class="col-md-12 ">
+                                                        <img [src]="ansAUrl" height="140px" width="140px">
+                                                    </div>
+                                                    <label class="btn btn-default">
+                                                        <input type="file" accept="image/*"
+                                                               (change)="selectAnsAFile($event)">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row float_rigt">
+
+                                <div class="form-group pad_right_5">
+                                    <button type="button" class="btn btn-danger px-4 b1 " mat-button
+                                            (click)="goBack(stepper)">
+                                        Previous
+                                    </button>
+                                    <button type="submit" class="btn btn-primary px-4" mat-button
+                                            (click)="goForward(f,stepper)">Next
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-step>
+
+                    <mat-step [stepControl]="choiceBGroup" label="B">
+                        <form [formGroup]="choiceBForm">
+                            <ng-template matStepLabel>B</ng-template>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="form-group row">
+                                                <div class="col-md-12 col-form-label">
+                                                    <mat-radio-button (click)="getChoiceValue('qChoiceB')"
+                                                                      [disabled]="qChoiceB==''&&(choiceBImageFileName==undefined||choiceBImageFileName==null)">
+                                                        Choice B
+                                                        <sup [ngClass]="{ 'txt-error': choiceBFormSubmitted && b.qChoiceB.errors }">*</sup>
+                                                    </mat-radio-button>
+                                                </div>
+                                                <div class="col-md-12 input-group mb-3 ">
+                                                    <ckeditor
+                                                            formControlName="qChoiceB"
+                                                            [(ngModel)]="qChoiceB"
+                                                            [config]="ckeConfig"
+                                                            [readonly]="false"
+                                                            [ngClass]="{ 'is-invalid': choiceBFormSubmitted && b.qChoiceB.errors }"
+                                                            debounce="500">
+                                                    </ckeditor>
+                                                    <div *ngIf="choiceBFormSubmitted && b.qChoiceB.errors"
+                                                         class="invalid-feedback">
+                                                        <div *ngIf="b.qChoiceB.errors.required">Choice B is
+                                                            required
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row float_rigt">
+                                <div class="form-group pad_right_5">
+                                    <button type="button" class="btn btn-danger px-4 b1 " mat-button
+                                            (click)="goBack(stepper)">
+                                        Previous
+                                    </button>
+                                    <button type="submit" class="btn btn-primary px-4" mat-button
+                                            (click)="goForward(f,stepper)">Next
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="choiceCGroup" label="C">
+                        <form [formGroup]="choiceCForm">
+                            <ng-template matStepLabel>C</ng-template>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="form-group row">
+                                                <div class="col-md-12 col-form-label">
+                                                    <mat-radio-button (click)="getChoiceValue('qChoiceC')"
+                                                                      [disabled]="qChoiceC==''&&(choiceCImageFileName==undefined||choiceCImageFileName==null)">
+                                                        Choice C
+                                                        <sup [ngClass]="{ 'txt-error': choiceCFormSubmitted && c.qChoiceC.errors }">*</sup>
+                                                    </mat-radio-button>
+                                                </div>
+                                                <div class="col-md-12 input-group mb-3 ">
+                                                    <ckeditor
+                                                            formControlName="qChoiceC"
+                                                            [(ngModel)]="qChoiceC"
+                                                            [config]="ckeConfig"
+                                                            [readonly]="false"
+                                                            [ngClass]="{ 'is-invalid': choiceCFormSubmitted && c.qChoiceC.errors }"
+                                                            debounce="500">
+                                                    </ckeditor>
+                                                    <div *ngIf="choiceCFormSubmitted && c.qChoiceC.errors"
+                                                         class="invalid-feedback">
+                                                        <div *ngIf="c.qChoiceC.errors.required">Choice C is
+                                                            required
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row float_rigt">
+                                <div class="form-group pad_right_5">
+                                    <button type="button" class="btn btn-danger px-4 b1 " mat-button
+                                            (click)="goBack(stepper)">
+                                        Previous
+                                    </button>
+                                    <button type="submit" class="btn btn-primary px-4" mat-button
+                                            (click)="goForward(f,stepper)">Next
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="choiceDGroup" label="D">
+                        <form [formGroup]="choiceDForm">
+                            <ng-template matStepLabel>D</ng-template>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="form-group row">
+                                                <div class="col-md-12 col-form-label">
+                                                    <mat-radio-button (click)="getChoiceValue('qChoiceD')"
+                                                                      [disabled]="qChoiceD==''&&(choiceDImageFileName==undefined||choiceDImageFileName==null)">
+                                                        Choice D
+                                                        <sup [ngClass]="{ 'txt-error': choiceDFormSubmitted && d.qChoiceD.errors }">*</sup>
+                                                    </mat-radio-button>
+                                                </div>
+                                                <div class="col-md-12 input-group mb-3 ">
+                                                    <ckeditor
+                                                            formControlName="qChoiceD"
+                                                            [(ngModel)]="qChoiceD"
+                                                            [config]="ckeConfig"
+                                                            [readonly]="false"
+                                                            [ngClass]="{ 'is-invalid': choiceDFormSubmitted && d.qChoiceD.errors }"
+                                                            debounce="500">
+                                                    </ckeditor>
+                                                    <div *ngIf="choiceDFormSubmitted && d.qChoiceD.errors"
+                                                         class="invalid-feedback">
+                                                        <div *ngIf="a.qChoiceD.errors.required">Choice D is
+                                                            required
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row float_rigt">
+                                <div class="form-group pad_right_5">
+                                    <button type="button" class="btn btn-danger px-4 b1 " mat-button
+                                            (click)="goBack(stepper)">
+                                        Previous
+                                    </button>
+                                    <button type="submit" class="btn btn-primary px-4" mat-button
+                                            (click)="goForward(f,stepper)">Next
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="choiceEGroup" label="E">
+                        <ng-template matStepLabel>E</ng-template>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-group row">
+                                            <div class="col-md-12 col-form-label">
+                                                <mat-radio-button (click)="getChoiceValue('qChoiceE')"
+                                                                  [disabled]="qChoiceE==''&&(choiceEImageFileName==undefined||choiceEImageFileName==null)">
+                                                    Choice E
+                                                </mat-radio-button>
+                                            </div>
+                                            <div class="col-md-12 input-group mb-3 ">
+                                                <ckeditor
+                                                        formControlName="qChoiceE"
+                                                        [(ngModel)]="qChoiceE"
+                                                        [value]="qChoiceE"
+                                                        (editorChange)="onChoiceEEditorChange($event)"
+                                                        (change)="onChoiceEChange($event)"
+                                                        [config]="ckeConfig"
+                                                        [readonly]="false"
+
+                                                        debounce="500">
+                                                </ckeditor>
+
+                                            </div>
+                                            <div class="form-group row" [hidden]="!showMultipleChoiceImage">
+                                                <div class="col-md-12 ">
+                                                    <img [src]="ansEUrl" height="140px" width="140px">
+                                                </div>
+                                                <label class="btn btn-default">
+                                                    <input type="file" accept="image/*"
+                                                           (change)="selectAnsEFile($event)">
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row float_rigt">
+                            <div class="form-group pad_right_5">
+                                <button type="button" class="btn btn-danger px-4 b1 " mat-button
+                                        (click)="goBack(stepper)">
+                                    Previous
+                                </button>
+                                <button type="submit" class="btn btn-primary px-4" mat-button
+                                        (click)="goForward(f,stepper)">Next
+                                </button>
+                            </div>
+                        </div>
+
+                    </mat-step>
+
+                    <mat-step [stepControl]="explanationGroup" label="Explanation">
+
+                        <ng-template matStepLabel>Answer Explanation</ng-template>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-group row">
+                                            <div class="col-md-12 input-group mb-3 ">
+                                                <ckeditor
+                                                        formControlName="qChoiceExplanation"
+                                                        [(ngModel)]="qChoiceExplanation"
+                                                        [value]="qChoiceExplanation"
+                                                        (editorChange)="onChoiceEEditorChange($event)"
+                                                        (change)="onExplanationChange($event)"
+                                                        [config]="ckeConfig"
+                                                        [readonly]="false"
+                                                        debounce="500">
+                                                </ckeditor>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row float_rigt">
+
+                            <div class="form-group pad_right_5">
+                                <button type="button" class="btn btn-danger px-4 b1" mat-button
+                                        (click)="goBack(stepper)">
+                                    Previous
+                                </button>
+                                <button type="submit" class="btn btn-primary px-4" mat-button
+                                        (click)="goForward(f,stepper)">Submit
+                                </button>
+                            </div>
+                        </div>
+
+                    </mat-step>
+                </mat-horizontal-stepper>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+        </div>
+
+</div>

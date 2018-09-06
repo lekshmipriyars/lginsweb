@@ -1,0 +1,54 @@
+
+.add-img-stle {
+  padding: 10px 36px;
+}
+
+.img-div {
+  padding: 13px;
+  border: 1px solid #333;
+  height: 180px;
+}
+table tr td .badge
+{
+  padding:7px;
+  margin: 3px 3px ;
+  color:white;
+}
+
+input[type=search] {
+  border: solid 1px #ccc;
+  padding: 5px 10px 5px 32px;
+  width: 150px;
+  border-radius: 10em;
+  transition: all .5s;
+}
+input[type=search]:focus {
+  width: 230px;
+  outline:none;
+  background-color: #fff;
+  border-color: #66CC75;
+  -webkit-box-shadow: 0 0 5px rgba(109,207,246,.5);
+  -moz-box-shadow: 0 0 5px rgba(109,207,246,.5);
+  box-shadow: 0 0 5px rgba(109,207,246,.5);
+}
+
+
+
+.example-container {
+  padding: 1rem;
+}
+
+.example-wrapper {
+  margin-bottom: 3rem;
+}
+
+.example-input-wrapper {
+  display: block;
+  width: 200px;
+  margin-bottom: 1.5rem;
+}
+.img{
+  align:center;
+  padding-bottom:20px ;
+  vertical-align: middle;
+}

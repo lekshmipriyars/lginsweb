@@ -1,0 +1,423 @@
+<div class="animated fadeIn">
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+    <div class="col-md-12">
+        <div class="card">
+
+            <div class="card-header">
+                <b>Edit Vocabulary</b>
+                <div class="row float_rigt">
+                    <button type="submit" class="btn btn-primary px-4" (click)="goToViewAllList()">Vocabulary List</button>
+                </div>
+
+            </div>
+            <div class="card-body">
+                <form [formGroup]="vocabularyForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Department</label>
+
+                                <div class="col-md-9 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-wallet"></i></span>
+                                    </div>
+                                    <select name="drwnDepartment" class="form-control form-control-sm"
+                                            (change)="getValueInDepartment($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Department</option>
+                                        <option *ngFor="let department of departmentList">
+                                            {{ department.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Select Course</label>
+
+                                <div class="col-md-9 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-badge"></i></span>
+                                    </div>
+
+                                    <select name="drwnCourse" class="form-control form-control-sm"
+                                            (change)="getValueInCourse($event.target.value)">
+                                        <option [ngValue]="null" disabled>Choose Course</option>
+                                        <option *ngFor="let course of courseList">
+                                            {{ course.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Videourl :</label>
+                                <div class="col-md-9 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-layers"></i></span>
+                                    </div>
+                                    <input type="text" id="NameTxt" name="NameTxt"
+                                           class="form-control"
+                                           placeholder="Enter Video Url">
+
+                                </div>
+                            </div>
+
+
+
+                            <!--istcol-md-6--closingtag-->
+                        </div>
+                        <!--second opening col-md-6-->
+
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Name :</label>
+                                <div class="col-md-9 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-layers"></i></span>
+                                    </div>
+                                    <input type="text" formControlName="vocabularyName" id="NameTxt" name="NameTxt"
+                                           class="form-control"
+                                           [ngClass]="{ 'is-invalid': submitted && f.vocabularyName.errors }"
+                                           placeholder="Enter vocabulary Name">
+                                    <div *ngIf="submitted && f.vocabularyName.errors" class="invalid-feedback">
+                                        <div *ngIf="f.vocabularyName.errors.required">vocabulary Name is required</div>
+                                        <div *ngIf="f.vocabularyName.errors.minlength">vocabulary Name must be at least 3 characters</div>
+                                        <div *ngIf="f.vocabularyName.errors.maxlength">vocabulary Name must be at least 100 characters</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Type :</label>
+                                <div class="col-md-9 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-layers"></i></span>
+                                    </div>
+                                    <input type="text" formControlName="vocabularyType" id="NameTxt" name="NameTxt"
+                                           class="form-control"
+                                           [ngClass]="{ 'is-invalid': submitted && f.vocabularyType.errors }"
+                                           placeholder="Enter vocabulary Type">
+                                    <div *ngIf="submitted && f.vocabularyName.errors" class="invalid-feedback">
+                                        <div *ngIf="f.vocabularyType.errors.required">vocabulary Type is required</div>
+                                        <div *ngIf="f.vocabularyType.errors.minlength">vocabulary Type must be at least 3 characters</div>
+                                        <div *ngIf="f.vocabularyType.errors.maxlength">vocabulary Type must be at least 100 characters</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Publish Date :</label>
+
+                                <div class="col-md-9 input-group mb-3">
+                                    <div class="input-group-prepend ">
+                                                        <span class="input-group-text"><i
+                                                                class="fa fa-clock-o fa-lg"></i></span>
+                                    </div>
+
+                                    <input class="form-control" formControlName="publishDate"
+                                           [min]="min" [max]="max"
+                                           [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"
+                                           [(ngModel)]="publishDate"
+                                           [ngClass]="{ 'is-invalid': submitted && f.publishDate.errors }"
+                                           placeholder="Choose publish date">
+                                    <owl-date-time  #dt1></owl-date-time>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class=" col-md-12">
+                        <div class="card">
+                            <div class=" card-body">
+                                <div class="row">
+                                    <div class=" col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-md-4 col-form-label"> For <strong>Image</strong>
+                                                only</label>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4 text-center img-div">
+                                                <img [src]="imageUrl" height="150px" width="150px">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group row">
+                                                    <label class="col-md-4 col-form-label">File Name :</label>
+
+                                                    <div class="col-md-8 input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i
+                                                                    class="icon-doc"></i></span>
+                                                        </div>
+                                                        <input type="text"
+                                                               name="fileNameTxt" id="fileNameTxt"
+                                                               [value]="chosenFileName"
+                                                               (input)="chosenFileName=$event.target.value"
+                                                               class="form-control"
+                                                               class="form-control"
+                                                               placeholder="File Name">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-md-4 col-form-label">File Type :</label>
+
+                                                    <div class="col-md-8 input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i
+                                                                    class="icon-docs"></i></span>
+                                                        </div>
+                                                        <input type="text"
+                                                               [value]="chosenFileType"
+                                                               (input)="chosenFileType=$event.target.value"
+                                                               name="fileTypeTxt" id="fileTypeTxt"
+                                                               class="form-control"
+                                                               class="form-control"
+                                                               placeholder="File Type">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-md-4 col-form-label">File Size :</label>
+
+                                                    <div class="col-md-8 input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i
+                                                                    class="icon-drawer"></i></span>
+                                                        </div>
+                                                        <input type="text"
+                                                               name="fileSizeTxt" id="fileSizeTxt"
+                                                               [value]="chosenFileSize"
+                                                               (input)="chosenFileSize=$event.target.value"
+                                                               class="form-control"
+                                                               class="form-control"
+                                                               placeholder="File Size">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="btn btn-default">
+                                                <input type="file" accept=".png, .jpg, .jpeg"
+                                                       (change)="selectFile($event)">
+                                            </label>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-md-4 col-form-label"> For <strong>Video</strong>only</label>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-md-4 text-center img-div">
+                                                <div>{{addVocabulary.videoUrl}}</div>
+                                                <!-- <video controls>
+                                                     <source src="{{uploadService.uploadFileName}}"
+                                                             type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"'/>
+                                                 </video>-->
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group row">
+                                                    <label class="col-md-4 col-form-label">File Name :</label>
+
+                                                    <div class="col-md-8 input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i
+                                                                    class="icon-doc"></i></span>
+                                                        </div>
+                                                        <input type="text"
+                                                               name="videoFileNameTxt" id="videpFileNameTxt"
+                                                               [value]="chosenVideoFileName"
+                                                               (input)="chosenVideoFileName=$event.target.value"
+                                                               class="form-control"
+                                                               class="form-control"
+                                                               placeholder="File Name">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-md-4 col-form-label">File Type :</label>
+
+                                                    <div class="col-md-8 input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i
+                                                                    class="icon-docs"></i></span>
+                                                        </div>
+                                                        <input type="text"
+                                                               name="chosenVideofileTypeTxt" id="chosenVideofileTypeTxt"
+                                                               [value]="chosenVideoFileType"
+                                                               (input)="chosenVideoFileType=$event.target.value"
+                                                               class="form-control"
+                                                               class="form-control"
+                                                               placeholder="File Type">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-md-4 col-form-label">File Size :</label>
+
+                                                    <div class="col-md-8 input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i
+                                                                    class="icon-drawer"></i></span>
+                                                        </div>
+                                                        <input type="text"
+                                                               name="videoFileSizeTxt" id="videoFileSizeTxt"
+                                                               class="form-control"
+                                                               [value]="chosenVideoFileSize"
+                                                               (input)="chosenVideoFileSize=$event.target.value"
+                                                               class="form-control"
+                                                               placeholder="File Size">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="btn btn-default">
+                                                <input type="file" accept=".mp3,.mp4"
+                                                       (change)="selectVideoFile($event)">
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+                    <div class="row pad-20">
+                        <div class="form-group row">
+                            <label class="col-md-12 col-form-label">Synonyms <sup
+                                    [ngClass]="{ 'txt-error': submitted && f.synonyms.errors }">*</sup>
+                            </label>
+                            <div class="col-md-12 input-group mb-3">
+                                <ckeditor
+                                        formControlName="synonyms"
+                                        [(ngModel)]="synonyms"
+                                        [config]="ckeConfig"
+                                        [readonly]="false"
+                                        [ngClass]="{ 'is-invalid': submitted && f.synonyms.errors }"
+                                        debounce="500">
+                                </ckeditor>
+                                <div *ngIf="submitted && f.synonyms.errors"
+                                     class="col-md-12 col-form-label txt-error">
+                                    <div *ngIf="f.synonyms.errors.required">Synonyms is required
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-12 col-form-label">Antonyms <sup
+                                    [ngClass]="{ 'txt-error': submitted && f.antonyms.errors }">*</sup>
+                            </label>
+                            <div class="col-md-12 input-group mb-3">
+                                <ckeditor
+                                        formControlName="antonyms"
+                                        [(ngModel)]="antonyms"
+                                        [config]="ckeConfig"
+                                        [readonly]="false"
+                                        [ngClass]="{ 'is-invalid': submitted && f.antonyms.errors }"
+                                        debounce="500">
+                                </ckeditor>
+                                <div *ngIf="submitted && f.antonyms.errors"
+                                     class="col-md-12 col-form-label txt-error">
+                                    <div *ngIf="f.antonyms.errors.required">Antonyms is required
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-12 col-form-label">Orgin <sup
+                                    [ngClass]="{ 'txt-error': submitted && f.orgin.errors }">*</sup>
+                            </label>
+                            <div class="col-md-12 input-group mb-3">
+                                <ckeditor
+                                        formControlName="orgin"
+                                        [(ngModel)]="orgin"
+                                        [config]="ckeConfig"
+                                        [readonly]="false"
+                                        [ngClass]="{ 'is-invalid': submitted && f.orgin.errors }"
+                                        debounce="500">
+                                </ckeditor>
+                                <div *ngIf="submitted && f.orgin.errors"
+                                     class="col-md-12 col-form-label txt-error">
+                                    <div *ngIf="f.orgin.errors.required">Orgin is required
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-md-12 col-form-label">Usage In Sentence <sup
+                                    [ngClass]="{ 'txt-error': submitted && f.usageInSentence.errors }">*</sup>
+                            </label>
+                            <div class="col-md-12 input-group mb-3">
+                                <ckeditor
+                                        formControlName="usageInSentence"
+                                        [(ngModel)]="usageInSentence"
+                                        [config]="ckeConfig"
+                                        [readonly]="false"
+                                        [ngClass]="{ 'is-invalid': submitted && f.usageInSentence.errors }"
+                                        debounce="500">
+                                </ckeditor>
+                                <div *ngIf="submitted && f.usageInSentence.errors"
+                                     class="col-md-12 col-form-label txt-error">
+                                    <div *ngIf="f.usageInSentence.errors.required">Usage in sentence  required
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div class="row float_rigt">
+                        <div class="form-group pad_right_5">
+                            <button type="reset"  class="btn btn-danger px-4" (click)="goToReset()">Reset</button>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary px-4" (click)=goToAddVocabulary()>Add Vocabulary</button>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--last div-->
+</div>
+<div  class="col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <!-- <ckeditor
+                       formControlName="vocabulary"
+                       [config]="ckeConfig"
+                       [readonly]="false"
+                       [ngClass]="{ 'is-invalid': vocalbularyFormSubmitted }"
+                       debounce="500">
+               </ckeditor>-->
+        </div>
+    </div>
+</div>

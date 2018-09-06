@@ -1,0 +1,175 @@
+<div class="animated fadeIn">
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+  <p>A division of a large organization such as a government, university, or business, dealing with a specific area of
+    activity.Specialized functional area within an organization or a division, such as accounting, marketing,
+    planning. Generally every department has its own manager and chain of command. </p>
+
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <b> Add Course</b>
+
+      </div>
+      <div class="card-body">
+        <form  [formGroup]="courseForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">Department :</label>
+                <div class="col-md-9 input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-wallet"></i></span>
+                  </div>
+
+                  <select   name="drwnDepartment"  class="form-control form-control-sm" (change)="getValueInDepartment($event.target.value)">
+                    <option [ngValue]="null" disabled>Choose Department</option>
+                    <option  *ngFor="let department of departmentList">
+                      {{ department.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">Name :</label>
+                <div class="col-md-9 input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-notebook"></i></span>
+                  </div>
+                  <input type="text" OnlyNumber="true" formControlName="courseName" id="coruseNameTxt" name="coruseNameTxt"
+                         class="form-control"
+                         pattern="[a-zA-Z][a-zA-Z ]+"
+                         [ngClass]="{ 'is-invalid': submitted && f.courseName.errors }"
+                         placeholder="Enter course name">
+                  <div *ngIf="submitted && f.courseName.errors" class="invalid-feedback">
+                    <div *ngIf="f.courseName.errors.required">CourseName is required</div>
+                    <div *ngIf="f.courseName.errors.minlength">CourseName must be at least 3 characters</div>
+                    <div *ngIf="f.courseName.errors.maxlength">CourseName must be 100 characters</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-3  col-form-label" for="textarea-input">Description :</label>
+
+                <div class="col-md-9 input-group mb-3 ">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-speech"></i></span>
+                  </div>
+                                    <textarea id="textarea-input" formControlName="courseDescription" id="descriptionTxt" name="descriptionsTxt"
+                                              class="form-control"
+                                              rows="6"
+                                              [ngClass]="{ 'is-invalid': submitted && f.courseDescription.errors }"
+                                              placeholder="Enter Course description"></textarea>
+                  <div *ngIf="submitted && f.courseDescription.errors" class="invalid-feedback">
+                    <div *ngIf="f.courseDescription.errors.required">Description is required</div>
+                    <div *ngIf="f.courseDescription.errors.minlength">Description must be at least 5 characters</div>
+                    <div *ngIf="f.courseDescription.errors.maxlength">Description must be at least 500 characters</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!---second-col-md-6-->
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-4 text-center img-div">
+                  <img [src]="url" height="150px" width="150px">
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group row">
+                    <label class="col-md-4 col-form-label">File Name :</label>
+                    <div class="col-md-8 input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-doc"></i></span>
+                      </div>
+                      <input type="text" formControlName="chosenFileName"
+                             name="fileNameTxt" id="fileNameTxt"
+                             [(ngModel)]="chosenFileName"
+                             readonly="true"
+                             class="form-control"
+                             [ngClass]="{ 'is-invalid': submitted && f.chosenFileName.errors }"
+                             class="form-control"
+                             placeholder="File Name">
+                      <div *ngIf="submitted && f.chosenFileName.errors" class="invalid-feedback">
+                        <div *ngIf="f.chosenFileName.errors.required">File Name is required</div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-md-4 col-form-label">File Type :</label>
+
+                    <div class="col-md-8 input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-docs"></i></span>
+                      </div>
+                      <input type="text" formControlName="chosenFileType"
+                             [(ngModel)]="chosenFileType"
+                             name="fileTypeTxt" id="fileTypeTxt"
+                             readonly="true"
+                             class="form-control"
+                             [ngClass]="{ 'is-invalid': submitted && f.chosenFileType.errors }"
+                             class="form-control"
+                             placeholder="File Type">
+
+                      <div *ngIf="submitted && f.chosenFileType.errors" class="invalid-feedback">
+                        <div *ngIf="f.chosenFileType.errors.required">File Type is required</div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-md-4 col-form-label">File Size :</label>
+
+                    <div class="col-md-8 input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-drawer"></i></span>
+                      </div>
+                      <input type="text" formControlName="chosenFileSize"
+                             name="fileSizeTxt" id="fileSizeTxt"
+                             [(ngModel)]="chosenFileSize"
+                             class="form-control"
+                             readonly="true"
+                             [ngClass]="{ 'is-invalid': submitted && f.chosenFileSize.errors }"
+                             class="form-control"
+                             placeholder="File Size">
+
+                      <div *ngIf="submitted && f.chosenFileSize.errors" class="invalid-feedback">
+                        <div *ngIf="f.chosenFileSize.errors.required">File Size is required</div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <label class="btn btn-default">
+                  <input type="file" accept=".png, .jpg, .jpeg" (change)="selectFile($event)">
+                </label>
+
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="row float_rigt">
+            <div class="form-group pad_right_5">
+              <button type="reset"  class="btn btn-danger px-4" (click)="goToReset()">Reset</button>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary px-4">Add Course</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+</div>

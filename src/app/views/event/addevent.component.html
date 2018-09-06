@@ -1,0 +1,614 @@
+<div class="animated fadeIn">
+    <div class="alert alert-success" type="warning" *ngIf="!(isConnected | async)">
+        <strong>Oops!.. Please connect to the Internet to enable page functionality</strong>
+    </div>
+    <p>A division of a large organization such as a government, university, or business,
+    dealing with a specific area of activity.Specialized functional area within an organization or a division, such as
+    accounting, marketing, planning. Generally every department has its own manager and chain of command. </p>
+
+    <div class=" col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <mat-horizontal-stepper #stepper>
+                    <mat-step [stepControl]="firstFormGroup" label="Step 1">
+                        <form [formGroup]="firstFormGroup">
+                            <ng-template matStepLabel>Event Details</ng-template>
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="form-group row"><label
+                                                    class="col-md-3 col-form-label">Name:</label>
+
+                                                <div class="col-md-9 input-group mb-3">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i
+                                                            class="icon-star"></i></span></div>
+                                                    <input type="text" formControlName="eventName" id="EventTxt"
+                                                           name="EventTxt"
+                                                           [ngModel]="eventName"
+                                                           class="form-control"
+                                                           [ngClass]="{ 'is-invalid': firstFormsubmitted && f.eventName.errors }"
+                                                           placeholder="Enter Event Name">
+
+                                                    <div *ngIf="firstFormsubmitted && f.eventName.errors"
+                                                         class="invalid-feedback">
+                                                        <div *ngIf="f.eventName.errors.required">Event Name is required
+                                                        </div>
+                                                        <div *ngIf="f.eventName.errors.minlength">Event Name must be at
+                                                            least 5
+                                                            characters
+                                                        </div>
+                                                        <div *ngIf="f.eventName.errors.maxlength">Event Name must be 30
+                                                            characters
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label" for="textarea-input"
+                                                       [ngClass]="{ 'txt-error': firstFormsubmitted && f.eventDescription.errors }">Description
+                                                    :</label>
+
+                                                <div class="col-md-9 input-group mb-3 ">
+                                                    <ckeditor
+                                                            formControlName="eventDescription"
+                                                            [(ngModel)]="eventDescription"
+                                                            [config]="ckeConfig"
+                                                            [readonly]="false"
+                                                            [ngClass]="{ 'is-invalid': firstFormsubmitted && f.eventDescription.errors }"
+                                                            debounce="500">
+                                                    </ckeditor>
+                                                    <div *ngIf="firstFormsubmitted && f.eventDescription.errors"
+                                                         class="invalid-feedback">
+                                                        <div *ngIf="f.eventDescription.errors.required">Description is
+                                                            required
+                                                        </div>
+                                                        <div *ngIf="f.eventDescription.errors.minlength">Description
+                                                            must be at
+                                                            least 5 characters
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                       <!--     <div class="form-group row">
+                                                <label class="col-md-3 col-form-label" for="textarea-input">Location
+                                                    :</label>
+
+                                                <div class="col-md-9 input-group mb-3 ">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i
+                                                            class="icon-drop"></i></span></div>
+                                                    <input type="text" [(ngModel)]="address"
+                                                           class="form-control"
+                                                           [ngClass]="{ 'is-invalid': firstFormsubmitted && f.address.errors }"
+                                                           [options]='options'
+                                                           (setAddress)="getAddress($event)"
+                                                           (FormatAddress)="getFormattedAddress($event)"
+                                                           (street_number)='street_number=$event'
+                                                           (street)='street=$event'
+                                                           (city)='city=$event'
+                                                           (state)='state=$event'
+                                                           (district)='district=$event'
+                                                           (country)='country=$event'
+                                                           (postal_code)='postal_code=$event'
+                                                           (lat)='lat=$event'
+                                                           (lng)='lng=$event'
+                                                           (adr_address)='adr_address=$event'
+                                                           (name)='name=$event'
+                                                           (place_id)='place_id=$event'
+                                                           (types)='types=$event'
+                                                           (url)='url=$event'
+                                                           (utc_offset)='utc_offset=$event'
+                                                           (vicinity)='vicinity=$event'
+                                                           (photos)='photos=$event'
+                                                           (CountryCodes)='CountryCodes=$event'
+                                                           id="autocomplete"
+                                                           angularGooglePlace/>
+
+                                                </div>
+                                            </div>-->
+
+                                            <div class="form-group row"><label class="col-md-3 col-form-label"
+                                                                               [ngClass]="{ 'txt-eror': firstFormsubmitted && f.options.errors }">Choose
+                                                Type : </label>
+
+                                                <div class="col-md-9 col-form-label">
+                                                    <mat-radio-group formControlName="options" [(ngModel)]="options"
+                                                                     (change)="getValueInEventShowType(options)">
+                                                        <mat-radio-button *ngFor="let eventShowType of eventShowTypes"
+                                                                          [value]="eventShowType.id"> {{
+                                                            eventShowType.name }}
+                                                        </mat-radio-button>
+                                                    </mat-radio-group>
+                                                </div>
+                                            </div>
+
+                                            <span *ngIf="selectedEventShowType!=null">
+                                            <div class="form-group row" *ngIf="selectedEventShowType.id==2">
+                                                <label class="col-md-3 col-form-label">
+                                                    Department :</label>
+
+                                                <div class="col-md-9 input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i
+                                                                class="icon-wallet"></i></span>
+                                                    </div>
+
+                                                    <select name="drwnDepartment" class="form-control form-control-sm"
+                                                            (change)="getValueInDepartment($event.target.value)">
+                                                        <option [ngValue]="null" disabled>Choose Department</option>
+                                                        <option *ngFor="let department of departmentList">
+                                                            {{ department.name }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                              </span>
+
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label">Event Type :</label>
+
+                                                <div class="col-md-9">
+                                                    <select name="drwnDepartment" class="form-control form-control-sm"
+                                                            (change)="getValueInEventType($event.target.value)">
+                                                        <option [ngValue]="null" disabled>Choose Event Type</option>
+                                                        <option *ngFor="let eventType of eventTypeList">
+                                                            {{ eventType.eventType }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="card">
+                                        <div class="card-body ">
+                                            <div class="col-md-4 text-center">
+                                                <img [src]="url" height="150px" width="150px">
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-12 col-form-label "  *ngIf="firstFormGroup.value.eventName!=undefined">
+                                                    <span class="lab">Name : {{firstFormGroup.value.eventName}}</span>
+                                                </label>
+                                                <label class="col-md-12 col-form-label "
+                                                       *ngIf="selectedEventShowType!=null">
+                                                    <span class="lab">Type : {{selectedEventShowType.name}}</span><br>
+                                                    <span class="lab"  *ngIf="selectedEventShowType.id==2">
+                                                        <span  *ngIf="selectedDepartmentData!=null">
+                                                        Department : {{selectedDepartmentData.name}}
+                                                        </span>
+                                                    </span>
+
+
+                                                </label>
+                                                <label class="col-md-12 col-form-label "
+                                                       *ngIf="selectedEventTypeData!=null">
+                                                    <span class="lab">Event Type : {{selectedEventTypeData.eventType}}</span></label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row float_rigt">
+                                <div class="form-group pad_right_5">
+                                    <button type="submit" class="btn btn-danger px-4" mat-button
+                                            (click)="goForward(f,stepper)">Next
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="secondFormGroup" label="Step 2">
+                        <form [formGroup]="secondFormGroup" (ngSubmit)="onSecondSubmit(f,stepper)">
+                            <ng-template matStepLabel>Event Dates</ng-template>
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label">Event Start Date/Time : </label>
+
+                                                <div class="col-md-9 input-group mb-3">
+                                                    <div class="input-group-prepend ">
+                                                        <span class="input-group-text  img"><i
+                                                                class="fa fa-clock-o fa-lg"></i></span>
+                                                    </div>
+
+                                                    <input class="form-control" formControlName="eventStartDateTime"
+                                                           [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"
+                                                           [(ngModel)]="eventStartTime"
+                                                           [ngClass]="{ 'is-invalid': submitted && f.eventStartTime.errors }"
+                                                           placeholder="Event Start Date/Time">
+                                                    <owl-date-time  #dt1></owl-date-time>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label">Event End Date/Time : </label>
+
+                                                <div class="col-md-9 input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text img"><i
+                                                                class="fa fa-clock-o fa-lg"></i></span>
+                                                    </div>
+
+                                                    <input class="form-control" formControlName="eventEndDateTime"
+                                                           [(ngModel)]="eventEndTime"
+                                                           [ngClass]="{ 'is-invalid': submitted && f.eventEndTime.errors }"
+                                                           [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"
+                                                           placeholder="Event End Date/Time">
+                                                    <owl-date-time  #dt2></owl-date-time>
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="card">
+                                        <div class="card-body ">
+                                            <div class="col-md-4 text-center">
+                                                <img [src]="url" height="150px" width="150px">
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-12 col-form-label "  *ngIf="firstFormGroup.value.eventName!=undefined">
+                                                    <span class="lab">Name : {{firstFormGroup.value.eventName}}</span>
+                                                </label>
+                                                <label class="col-md-12 col-form-label "
+                                                       *ngIf="selectedEventShowType!=null">
+                                                    <span class="lab">Type : {{selectedEventShowType.name}}</span><br>
+                                                    <span class="lab"  *ngIf="selectedEventShowType.id==2">
+                                                        <span  *ngIf="selectedDepartmentData!=null">
+                                                        Department : {{selectedDepartmentData.name}}
+                                                        </span>
+                                                    </span>
+
+
+                                                </label>
+                                                <label class="col-md-12 col-form-label "
+                                                       *ngIf="selectedEventTypeData!=null">
+                                                    <span class="lab">Event Type : {{selectedEventTypeData.eventType}}</span></label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="row float_rigt">
+                                <div class="form-group pad_right_5 ">
+                                    <button type="button" class="btn btn-danger px-4 b1 " mat-button
+                                            (click)="goBack(stepper)">
+                                        Previous Step
+                                    </button>
+                                    <button type="submit" class="btn btn-primary px-4" mat-button
+                                            (click)="goForward(f,stepper)">
+                                        NextStep
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-step>
+
+                    <mat-step [stepControl]="thirdFormGroup" label="Step 3">
+                        <form [formGroup]="thirdFormGroup">
+                            <ng-template matStepLabel>Event Banner</ng-template>
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4 text-center img-div">
+                                                    <img [src]="url" height="150px" width="150px">
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="form-group row">
+                                                        <label class="col-md-4 col-form-label">File Name :</label>
+
+                                                        <div class="col-md-8 input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text"><i class="icon-doc"></i></span>
+                                                            </div>
+                                                            <input type="text" formControlName="chosenFileName"
+                                                                   name="fileNameTxt" id="fileNameTxt"
+                                                                   [(ngModel)]="chosenFileName"
+                                                                   class="form-control"
+                                                                   [ngClass]="{ 'is-invalid': submitted && f.chosenFileName.errors }"
+                                                                   class="form-control"
+                                                                   placeholder="File Name">
+
+                                                            <div *ngIf="submitted && f.chosenFileName.errors"
+                                                                 class="invalid-feedback">
+                                                                <div *ngIf="f.chosenFileName.errors.required">File Name
+                                                                    is required
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-4 col-form-label">File Type :</label>
+
+                                                        <div class="col-md-8 input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text"><i class="icon-docs"></i></span>
+                                                            </div>
+                                                            <input type="text" formControlName="chosenFileType"
+                                                                   [(ngModel)]="chosenFileType"
+                                                                   name="fileTypeTxt" id="fileTypeTxt"
+                                                                   class="form-control"
+                                                                   [ngClass]="{ 'is-invalid': submitted && f.chosenFileType.errors }"
+                                                                   class="form-control"
+                                                                   placeholder="File Type">
+
+                                                            <div *ngIf="submitted && f.chosenFileType.errors"
+                                                                 class="invalid-feedback">
+                                                                <div *ngIf="f.chosenFileType.errors.required">File Type
+                                                                    is required
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-4 col-form-label">File Size :</label>
+
+                                                        <div class="col-md-8 input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text"><i
+                                                                        class="icon-drawer"></i></span>
+                                                            </div>
+                                                            <input type="text" formControlName="chosenFileSize"
+                                                                   name="fileSizeTxt" id="fileSizeTxt"
+                                                                   [(ngModel)]="chosenFileSize"
+                                                                   class="form-control"
+                                                                   [ngClass]="{ 'is-invalid': submitted && f.chosenFileSize.errors }"
+                                                                   class="form-control"
+                                                                   placeholder="File Size">
+
+                                                            <div *ngIf="submitted && f.chosenFileSize.errors"
+                                                                 class="invalid-feedback">
+                                                                <div *ngIf="f.chosenFileSize.errors.required">File Size
+                                                                    is required
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+                                            <div class="row">
+                                                <label class="btn btn-default">
+                                                    <input type="file" accept="image/*" (change)="selectFile($event)">
+                                                </label>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="card">
+                                        <div class="card-body ">
+                                            <div class="col-md-4 text-center">
+                                                <img [src]="url" height="150px" width="150px">
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-12 col-form-label "  *ngIf="firstFormGroup.value.eventName!=undefined">
+                                                    <span class="lab">Name : {{firstFormGroup.value.eventName}}</span>
+                                                </label>
+                                                <label class="col-md-12 col-form-label "
+                                                       *ngIf="selectedEventShowType!=null">
+                                                    <span class="lab">Type : {{selectedEventShowType.name}}</span><br>
+                                                    <span class="lab"  *ngIf="selectedEventShowType.id==2">
+                                                        <span  *ngIf="selectedDepartmentData!=null">
+                                                        Department : {{selectedDepartmentData.name}}
+                                                        </span>
+                                                    </span>
+
+
+                                                </label>
+                                                <label class="col-md-12 col-form-label "
+                                                       *ngIf="selectedEventTypeData!=null">
+                                                    <span class="lab">Event Type : {{selectedEventTypeData.eventType}}</span></label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row float_rigt">
+                                <div class="form-group pad_right_5">
+                                    <button type="button" class="btn btn-danger px-4 b1 " mat-button
+                                            (click)="goBack(stepper)">
+                                        Previous Step
+                                    </button>
+                                    <button type="button" class="btn btn-primary px-4" mat-button
+                                            (click)="goForward(f,stepper)">
+                                        NextStep
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="fourthFormGroup" label="Step 4">
+                        <form [formGroup]="fourthFormGroup">
+
+                            <ng-template matStepLabel>Done</ng-template>
+
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="card">
+                                        <div class="card-body">
+
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label">First Name :</label>
+
+                                                <div class="col-md-9 input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="icon-user"></i></span>
+                                                    </div>
+                                                    <input type="text" formControlName="contactFName" id="stTxt"
+                                                           name="stTxt"
+                                                           class="form-control"
+                                                           [ngClass]="{ 'is-invalid': submitted && f.contactFName.errors }"
+                                                           placeholder="Enter First Name">
+
+                                                    <div *ngIf="submitted && f.contactFName.errors" class="invalid-feedback">
+                                                        <div *ngIf="f.contactFName.errors.required">Name is required</div>
+                                                        <div *ngIf="f.contactFName.errors.minlength">Name must be at least 2
+                                                            characters
+                                                        </div>
+                                                        <div *ngIf="f.contactFName.errors.maxlength">Name must be 30 characters</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label">Last Name :</label>
+
+                                                <div class="col-md-9 input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="icon-user"></i></span>
+                                                    </div>
+                                                    <input type="text"   id="contactLNameTxt"
+                                                           name="contactLNameTxt"
+                                                           class="form-control"
+                                                           [value]="contactLName"
+                                                           (input)="contactLName=$event.target.value"
+                                                           placeholder="Enter Last Name">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-md-3  col-form-label" for="textarea-input">Address
+                                                    :</label>
+
+                                                <div class="col-md-9 input-group mb-3 ">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i
+                                                                class="icon-speech"></i></span>
+                                                    </div>
+                                    <textarea id="textarea-input" formControlName="stAddress" id="addressTxt"
+                                              name="addressTxt"
+                                              class="form-control"
+                                              rows="6"
+                                              [ngClass]="{ 'is-invalid': submitted && f.stAddress.errors }"
+                                              placeholder="Enter Address"></textarea>
+
+                                                    <div *ngIf="submitted && f.stAddress.errors"
+                                                         class="invalid-feedback">
+                                                        <div *ngIf="f.stAddress.errors.required">Address is required
+                                                        </div>
+                                                        <div *ngIf="f.stAddress.errors.minlength">Address must be at
+                                                            least 5
+                                                            characters
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label">Contact No :</label>
+
+                                                <div class="col-md-9 input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="icon-phone"></i></span>
+                                                    </div>
+                                                    <input type="text" formControlName="stContactPhone"
+                                                           name="stphoneTxt" id="stphoneTxt"
+                                                           class="form-control"
+                                                           [ngClass]="{ 'is-invalid': submitted && f.stContactPhone.errors }"
+                                                           class="form-control"
+                                                           placeholder=" Enter the  Contact No"
+                                                           onkeypress="return isNumberKey(event)">
+
+                                                    <div *ngIf="submitted && f.stContactPhone.errors"
+                                                         class="invalid-feedback">
+                                                        <div *ngIf="f.stContactPhone.errors.required">Contact Phone is
+                                                            required
+                                                        </div>
+                                                        <div *ngIf="f.stContactPhone.errors.minlength">Contact Phone
+                                                            must be at least
+                                                            10 characters
+                                                        </div>
+                                                        <div *ngIf="f.stContactPhone.errors.maxlength">Contact Phone
+                                                            must be at least
+                                                            15 characters
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="card">
+                                        <div class="card-body ">
+                                            <div class="col-md-4 text-center">
+                                                <img [src]="url" height="150px" width="150px">
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-12 col-form-label "  *ngIf="firstFormGroup.value.eventName!=undefined">
+                                                    <span class="lab">Name : {{firstFormGroup.value.eventName}}</span>
+                                                </label>
+                                                <label class="col-md-12 col-form-label "
+                                                       *ngIf="selectedEventShowType!=null">
+                                                    <span class="lab">Type : {{selectedEventShowType.name}}</span><br>
+                                                    <span class="lab"  *ngIf="selectedEventShowType.id==2">
+                                                        <span  *ngIf="selectedDepartmentData!=null">
+                                                        Department : {{selectedDepartmentData.name}}
+                                                        </span>
+                                                    </span>
+
+
+                                                </label>
+                                                <label class="col-md-12 col-form-label "
+                                                       *ngIf="selectedEventTypeData!=null">
+                                                    <span class="lab">Event Type : {{selectedEventTypeData.eventType}}</span></label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row float_rigt">
+                                <div class="form-group pad_right_5">
+                                    <button type="button" class="btn btn-danger px-4 b1" mat-button
+                                            (click)="resetStepper(stepper)">
+                                        Reset
+                                    </button>
+                                    <button type="button" class="btn btn-primary px-4" mat-button
+                                            (click)="goForward(f,stepper)">
+                                        Finish
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </mat-step>
+                </mat-horizontal-stepper>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
