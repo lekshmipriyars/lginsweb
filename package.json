@@ -28,6 +28,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-devkit/schematics": "^11.0.2",
     "@angular/animations": "^6.1.10",
     "@angular/cdk": "^6.4.7",
     "@angular/common": "^6.1.10",
@@ -52,6 +53,7 @@
     "aws-sdk": "^2.799.0",
     "browser-sync": "^2.26.13",
     "chart.js": "^2.9.4",
+    "cli-update": "^3.2.7",
     "core-js": "^2.6.12",
     "crypto-js": "^3.3.0",
     "flag-icon-css": "^3.5.0",
